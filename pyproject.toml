@@ -1,0 +1,8 @@
+[project]
+name = "model-explorer-tosa-flatbuffer"
+version = "0.0.1"
+
+dependencies = [
+  "ai-edge-model-explorer",
+  "flatbuffers",
+]
