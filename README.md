@@ -1,4 +1,24 @@
-Model Explorer TOSA Flatbuffer
+# Model Explorer TOSA Flatbuffer
+
+A model explorer TOSA Flatbuffer plugin
+
+## Getting Started
+
+```
+pip install -e .
+```
+
+Set PYTHONPATH:
+
+```
+PYTHONPATH="{absolute_path_to}/model-explorer-tosa-flatbuffer/src/model_explorer_tosa_flatbuffer
+```
+
+Run:
+
+```
+model-explorer --extensions=model_explorer_tosa_flatbuffer
+```
 
 ## Generating Flatbuffer Objects
 
