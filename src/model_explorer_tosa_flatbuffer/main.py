@@ -17,4 +17,3 @@ class TosaFlatbufferAdapter(Adapter):
         graph_collection = parser.parse()
 
         return {"graphs": graph_collection.graphs}
-

@@ -1,6 +1,6 @@
-from typing import Any, Optional, List, Dict
+from typing import Any, List, Dict
+from types import ModuleType
 from model_explorer import graph_builder as gb
-from tosa_1_0 import TosaBasicBlock, Op
 
 
 def read_file(file_path: str) -> bytes:
@@ -14,40 +14,28 @@ def operator_id(namespace: str, index: int) -> str:
     return f"{namespace}/op{index}"
 
 
-def op_name(op_val: int) -> str:
-    for name in dir(Op):
-        if getattr(Op, name) == op_val:
+def enum_name(enum_int: int, enum: Any) -> str:
+    for name in dir(enum):
+        if getattr(enum, name) == enum_int:
             return name
-    return f"UNKNOWN({op_val})"
+    return f"UNKNOWN({enum_int})"
 
 
-def find_tensor_in_block(block: TosaBasicBlock, tensor_name: str) -> Optional[Any]:
-    """Find a tensor by name in a TosaBasicBlock."""
-    tensor_bytes = (
-        tensor_name.encode("utf-8") if isinstance(tensor_name, str) else tensor_name
-    )
-
-    for i in range(block.TensorsLength()):
-        tensor = block.Tensors(i)
-        if not tensor:
-            continue
-
-        name = tensor.Name()
-        if name and name == tensor_bytes:
-            return tensor
-
-    return None
-
-
-def dict_to_key_value_list(attr_map: Dict[str, Any]) -> List[gb.KeyValue]:
+def dict_to_key_value_list(
+    dict: Dict[str, Any], tosa_module: ModuleType
+) -> List[gb.KeyValue]:
     """Convert a dictionary to a list of key-value pairs."""
     result = []
-    for k, v in attr_map.items():
-        if isinstance(v, list):
-            v_str = "[" + ", ".join(str(x) for x in v) + "]"
+    for key, value in dict.items():
+        enum_type_name = field_to_enum_map.get(key)
+        if enum_type_name and hasattr(tosa_module, enum_type_name):
+            enum_type = getattr(tosa_module, enum_type_name)
+            v_str = enum_name(value, enum_type)
+        elif isinstance(value, bytes):
+            v_str = safe_decode(value)
         else:
-            v_str = str(v)
-        result.append(gb.KeyValue(key=k, value=v_str))
+            v_str = str(value)
+        result.append(gb.KeyValue(key=key, value=v_str))
     return result
 
 
@@ -59,3 +47,11 @@ def safe_decode(value, default=""):
         return value.decode("utf-8", errors="replace")
     return str(value)
 
+
+field_to_enum_map = {
+    "type": "DType",
+    "accType": "DType",
+    "accumDtype": "DType",
+    "mode": "ResizeMode",
+    "nanMode": "NanPropagationMode",
+}
