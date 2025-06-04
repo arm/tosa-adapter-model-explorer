@@ -1,4 +1,4 @@
-from typing import Any, List, Dict
+from typing import Any, List, Dict, Iterable
 from types import ModuleType
 from model_explorer import graph_builder as gb
 
@@ -46,8 +46,12 @@ def dict_to_key_value_list(
         if enum_type_name and hasattr(tosa_module, enum_type_name):
             enum_type = getattr(tosa_module, enum_type_name)
             v_str = enum_name(value, enum_type)
+        elif isinstance(value, str):
+            v_str = value
         elif isinstance(value, bytes):
             v_str = safe_decode(value)
+        elif isinstance(value, Iterable):
+            v_str = f"[{', '.join(str(v) for v in value)}]"
         else:
             v_str = str(value)
         result.append(gb.KeyValue(key=key, value=v_str))

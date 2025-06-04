@@ -220,10 +220,6 @@ class TosaParser:
             output_map[safe_decode(input)] = self.input_node_id
 
         for idx, op in enumerate(block.operators):
-            name = enum_name(op.op, self.tosa_module.Op)
-            if name == "CONST":
-                continue
-
             for output in op.outputs:
                 output_map[safe_decode(output)] = operator_id(namespace, idx)
 
@@ -310,12 +306,9 @@ class TosaParser:
         """
         nodes: List[gb.GraphNode] = []
         for idx, op in enumerate(block.operators):
-            op_name = enum_name(op.op, self.tosa_module.Op)
-            if op_name == "CONST":
-                continue
             node = gb.GraphNode(
                 id=operator_id(graph_id, idx),
-                label=op_name,
+                label=enum_name(op.op, self.tosa_module.Op),
                 namespace=graph_id,
                 incomingEdges=self._add_incoming_edges(op, producer_map),
                 attrs=dict_to_key_value_list(
