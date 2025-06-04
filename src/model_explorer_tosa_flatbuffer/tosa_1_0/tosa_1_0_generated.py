@@ -12,19 +12,17 @@ np = import_numpy()
 class DType(object):
     UNKNOWN = 0
     BOOL = 1
-    UINT8 = 2
-    INT4 = 3
-    INT8 = 4
-    INT16 = 5
-    INT32 = 6
-    INT48 = 7
-    FP32 = 8
-    UINT16 = 9
-    FP16 = 10
-    BF16 = 11
-    SHAPE = 12
-    FP8E4M3 = 13
-    FP8E5M2 = 14
+    INT4 = 2
+    INT8 = 3
+    INT16 = 4
+    INT32 = 5
+    INT48 = 6
+    FP32 = 7
+    FP16 = 8
+    BF16 = 9
+    SHAPE = 10
+    FP8E4M3 = 11
+    FP8E5M2 = 12
 
 
 class ResizeMode(object):
@@ -39,6 +37,13 @@ class NanPropagationMode(object):
     IGNORE = 2
 
 
+class RoundingMode(object):
+    UNKNOWN = 0
+    SINGLE_ROUND = 1
+    INEXACT_ROUND = 2
+    DOUBLE_ROUND = 3
+
+
 class Op(object):
     UNKNOWN = 0
     ARGMAX = 1
@@ -46,346 +51,375 @@ class Op(object):
     CONV2D = 3
     CONV3D = 4
     DEPTHWISE_CONV2D = 5
-    FULLY_CONNECTED = 6
+    FFT2D = 6
     MATMUL = 7
     MAX_POOL2D = 8
-    TRANSPOSE_CONV2D = 9
-    CLAMP = 10
-    RESERVED = 11
-    SIGMOID = 12
-    TANH = 13
-    ADD = 14
-    ARITHMETIC_RIGHT_SHIFT = 15
-    BITWISE_AND = 16
-    BITWISE_OR = 17
-    BITWISE_XOR = 18
-    INTDIV = 19
-    LOGICAL_AND = 20
-    LOGICAL_LEFT_SHIFT = 21
-    LOGICAL_RIGHT_SHIFT = 22
-    LOGICAL_OR = 23
-    LOGICAL_XOR = 24
-    MAXIMUM = 25
-    MINIMUM = 26
-    MUL = 27
-    POW = 28
-    SUB = 29
-    TABLE = 30
-    ABS = 31
-    BITWISE_NOT = 32
-    CEIL = 33
-    CLZ = 34
-    EXP = 35
-    FLOOR = 36
-    LOG = 37
-    LOGICAL_NOT = 38
-    NEGATE = 39
-    RECIPROCAL = 40
-    RSQRT = 41
-    SELECT = 42
-    EQUAL = 43
-    GREATER = 44
-    GREATER_EQUAL = 45
-    REDUCE_ANY = 46
-    REDUCE_ALL = 47
-    REDUCE_MAX = 48
-    REDUCE_MIN = 49
-    REDUCE_PRODUCT = 50
-    REDUCE_SUM = 51
-    CONCAT = 52
-    PAD = 53
-    RESHAPE = 54
-    REVERSE = 55
-    SLICE = 56
-    TILE = 57
-    TRANSPOSE = 58
-    GATHER = 59
-    SCATTER = 60
-    RESIZE = 61
-    CAST = 62
-    RESCALE = 63
-    CONST = 64
-    IDENTITY = 65
-    CUSTOM = 66
-    COND_IF = 67
-    WHILE_LOOP = 68
-    FFT2D = 69
-    RFFT2D = 70
-    ERF = 71
-    DIM = 72
-    CONST_SHAPE = 73
-    CONCAT_SHAPE = 74
-    ADD_SHAPE = 75
-    SUB_SHAPE = 76
-    MUL_SHAPE = 77
-    DIV_SHAPE = 78
-    COS = 79
-    SIN = 80
+    RFFT2D = 9
+    TRANSPOSE_CONV2D = 10
+    CLAMP = 11
+    ERF = 12
+    SIGMOID = 13
+    TANH = 14
+    ADD = 15
+    ARITHMETIC_RIGHT_SHIFT = 16
+    BITWISE_AND = 17
+    BITWISE_OR = 18
+    BITWISE_XOR = 19
+    INTDIV = 20
+    LOGICAL_AND = 21
+    LOGICAL_LEFT_SHIFT = 22
+    LOGICAL_RIGHT_SHIFT = 23
+    LOGICAL_OR = 24
+    LOGICAL_XOR = 25
+    MAXIMUM = 26
+    MINIMUM = 27
+    MUL = 28
+    POW = 29
+    SUB = 30
+    TABLE = 31
+    ABS = 32
+    BITWISE_NOT = 33
+    CEIL = 34
+    CLZ = 35
+    COS = 36
+    EXP = 37
+    FLOOR = 38
+    LOG = 39
+    LOGICAL_NOT = 40
+    NEGATE = 41
+    RECIPROCAL = 42
+    RSQRT = 43
+    SIN = 44
+    SELECT = 45
+    EQUAL = 46
+    GREATER = 47
+    GREATER_EQUAL = 48
+    REDUCE_ALL = 49
+    REDUCE_ANY = 50
+    REDUCE_MAX = 51
+    REDUCE_MIN = 52
+    REDUCE_PRODUCT = 53
+    REDUCE_SUM = 54
+    CONCAT = 55
+    PAD = 56
+    RESHAPE = 57
+    REVERSE = 58
+    SLICE = 59
+    TILE = 60
+    TRANSPOSE = 61
+    GATHER = 62
+    SCATTER = 63
+    RESIZE = 64
+    CAST = 65
+    RESCALE = 66
+    CONST = 67
+    IDENTITY = 68
+    CUSTOM = 69
+    COND_IF = 70
+    WHILE_LOOP = 71
+    VARIABLE = 72
+    VARIABLE_WRITE = 73
+    VARIABLE_READ = 74
+    CONST_SHAPE = 75
 
 
 class Attribute(object):
     NONE = 0
-    PoolAttribute = 1
-    ConvAttribute = 2
-    TransposeConvAttribute = 3
-    PadAttribute = 4
-    AxisAttribute = 5
-    ResizeAttribute = 6
-    ClampAttribute = 7
-    RescaleAttribute = 8
-    MulAttribute = 9
-    ArithmeticRightShiftAttribute = 10
-    CondIfAttribute = 11
-    WhileLoopAttribute = 12
-    TransposeAttribute = 13
-    TableAttribute = 14
-    MatMulAttribute = 15
-    FullyConnectedAttribute = 16
-    NegateAttribute = 17
-    CustomAttribute = 18
-    FFTAttribute = 19
-    RFFTAttribute = 20
-    NanPropagationAttribute = 21
+    ArgMaxAttribute = 1
+    AvgPool2dAttribute = 2
+    Conv2dAttribute = 3
+    Conv3dAttribute = 4
+    DepthwiseConv2dAttribute = 5
+    FFT2dAttribute = 6
+    MatMulAttribute = 7
+    MaxPool2dAttribute = 8
+    RFFT2dAttribute = 9
+    TransposeConv2dAttribute = 10
+    ClampAttribute = 11
+    ErfAttribute = 12
+    SigmoidAttribute = 13
+    TanhAttribute = 14
+    AddAttribute = 15
+    ArithmeticRightShiftAttribute = 16
+    BitwiseAndAttribute = 17
+    BitwiseOrAttribute = 18
+    BitwiseXorAttribute = 19
+    IntDivAttribute = 20
+    LogicalAndAttribute = 21
+    LogicalLeftShiftAttribute = 22
+    LogicalRightShiftAttribute = 23
+    LogicalOrAttribute = 24
+    LogicalXorAttribute = 25
+    MaximumAttribute = 26
+    MinimumAttribute = 27
+    MulAttribute = 28
+    PowAttribute = 29
+    SubAttribute = 30
+    TableAttribute = 31
+    AbsAttribute = 32
+    BitwiseNotAttribute = 33
+    CeilAttribute = 34
+    ClzAttribute = 35
+    CosAttribute = 36
+    ExpAttribute = 37
+    FloorAttribute = 38
+    LogAttribute = 39
+    LogicalNotAttribute = 40
+    NegateAttribute = 41
+    ReciprocalAttribute = 42
+    RsqrtAttribute = 43
+    SinAttribute = 44
+    SelectAttribute = 45
+    EqualAttribute = 46
+    GreaterAttribute = 47
+    GreaterEqualAttribute = 48
+    ReduceAllAttribute = 49
+    ReduceAnyAttribute = 50
+    ReduceMaxAttribute = 51
+    ReduceMinAttribute = 52
+    ReduceProductAttribute = 53
+    ReduceSumAttribute = 54
+    ConcatAttribute = 55
+    PadAttribute = 56
+    ReshapeAttribute = 57
+    ReverseAttribute = 58
+    SliceAttribute = 59
+    TileAttribute = 60
+    TransposeAttribute = 61
+    GatherAttribute = 62
+    ScatterAttribute = 63
+    ResizeAttribute = 64
+    CastAttribute = 65
+    RescaleAttribute = 66
+    ConstAttribute = 67
+    IdentityAttribute = 68
+    CustomAttribute = 69
+    CondIfAttribute = 70
+    WhileLoopAttribute = 71
+    VariableAttribute = 72
+    VariableWriteAttribute = 73
+    VariableReadAttribute = 74
+    ConstShapeAttribute = 75
 
 def AttributeCreator(unionType, table):
     from flatbuffers.table import Table
     if not isinstance(table, Table):
         return None
-    if unionType == Attribute.PoolAttribute:
-        return PoolAttributeT.InitFromBuf(table.Bytes, table.Pos)
-    if unionType == Attribute.ConvAttribute:
-        return ConvAttributeT.InitFromBuf(table.Bytes, table.Pos)
-    if unionType == Attribute.TransposeConvAttribute:
-        return TransposeConvAttributeT.InitFromBuf(table.Bytes, table.Pos)
-    if unionType == Attribute.PadAttribute:
-        return PadAttributeT.InitFromBuf(table.Bytes, table.Pos)
-    if unionType == Attribute.AxisAttribute:
-        return AxisAttributeT.InitFromBuf(table.Bytes, table.Pos)
-    if unionType == Attribute.ResizeAttribute:
-        return ResizeAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.ArgMaxAttribute:
+        return ArgMaxAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.AvgPool2dAttribute:
+        return AvgPool2dAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.Conv2dAttribute:
+        return Conv2dAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.Conv3dAttribute:
+        return Conv3dAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.DepthwiseConv2dAttribute:
+        return DepthwiseConv2dAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.FFT2dAttribute:
+        return FFT2dAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.MatMulAttribute:
+        return MatMulAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.MaxPool2dAttribute:
+        return MaxPool2dAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.RFFT2dAttribute:
+        return RFFT2dAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.TransposeConv2dAttribute:
+        return TransposeConv2dAttributeT.InitFromBuf(table.Bytes, table.Pos)
     if unionType == Attribute.ClampAttribute:
         return ClampAttributeT.InitFromBuf(table.Bytes, table.Pos)
-    if unionType == Attribute.RescaleAttribute:
-        return RescaleAttributeT.InitFromBuf(table.Bytes, table.Pos)
-    if unionType == Attribute.MulAttribute:
-        return MulAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.ErfAttribute:
+        return ErfAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.SigmoidAttribute:
+        return SigmoidAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.TanhAttribute:
+        return TanhAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.AddAttribute:
+        return AddAttributeT.InitFromBuf(table.Bytes, table.Pos)
     if unionType == Attribute.ArithmeticRightShiftAttribute:
         return ArithmeticRightShiftAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.BitwiseAndAttribute:
+        return BitwiseAndAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.BitwiseOrAttribute:
+        return BitwiseOrAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.BitwiseXorAttribute:
+        return BitwiseXorAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.IntDivAttribute:
+        return IntDivAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.LogicalAndAttribute:
+        return LogicalAndAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.LogicalLeftShiftAttribute:
+        return LogicalLeftShiftAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.LogicalRightShiftAttribute:
+        return LogicalRightShiftAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.LogicalOrAttribute:
+        return LogicalOrAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.LogicalXorAttribute:
+        return LogicalXorAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.MaximumAttribute:
+        return MaximumAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.MinimumAttribute:
+        return MinimumAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.MulAttribute:
+        return MulAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.PowAttribute:
+        return PowAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.SubAttribute:
+        return SubAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.TableAttribute:
+        return TableAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.AbsAttribute:
+        return AbsAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.BitwiseNotAttribute:
+        return BitwiseNotAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.CeilAttribute:
+        return CeilAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.ClzAttribute:
+        return ClzAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.CosAttribute:
+        return CosAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.ExpAttribute:
+        return ExpAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.FloorAttribute:
+        return FloorAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.LogAttribute:
+        return LogAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.LogicalNotAttribute:
+        return LogicalNotAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.NegateAttribute:
+        return NegateAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.ReciprocalAttribute:
+        return ReciprocalAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.RsqrtAttribute:
+        return RsqrtAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.SinAttribute:
+        return SinAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.SelectAttribute:
+        return SelectAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.EqualAttribute:
+        return EqualAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.GreaterAttribute:
+        return GreaterAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.GreaterEqualAttribute:
+        return GreaterEqualAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.ReduceAllAttribute:
+        return ReduceAllAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.ReduceAnyAttribute:
+        return ReduceAnyAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.ReduceMaxAttribute:
+        return ReduceMaxAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.ReduceMinAttribute:
+        return ReduceMinAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.ReduceProductAttribute:
+        return ReduceProductAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.ReduceSumAttribute:
+        return ReduceSumAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.ConcatAttribute:
+        return ConcatAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.PadAttribute:
+        return PadAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.ReshapeAttribute:
+        return ReshapeAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.ReverseAttribute:
+        return ReverseAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.SliceAttribute:
+        return SliceAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.TileAttribute:
+        return TileAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.TransposeAttribute:
+        return TransposeAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.GatherAttribute:
+        return GatherAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.ScatterAttribute:
+        return ScatterAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.ResizeAttribute:
+        return ResizeAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.CastAttribute:
+        return CastAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.RescaleAttribute:
+        return RescaleAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.ConstAttribute:
+        return ConstAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.IdentityAttribute:
+        return IdentityAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.CustomAttribute:
+        return CustomAttributeT.InitFromBuf(table.Bytes, table.Pos)
     if unionType == Attribute.CondIfAttribute:
         return CondIfAttributeT.InitFromBuf(table.Bytes, table.Pos)
     if unionType == Attribute.WhileLoopAttribute:
         return WhileLoopAttributeT.InitFromBuf(table.Bytes, table.Pos)
-    if unionType == Attribute.TransposeAttribute:
-        return TransposeAttributeT.InitFromBuf(table.Bytes, table.Pos)
-    if unionType == Attribute.TableAttribute:
-        return TableAttributeT.InitFromBuf(table.Bytes, table.Pos)
-    if unionType == Attribute.MatMulAttribute:
-        return MatMulAttributeT.InitFromBuf(table.Bytes, table.Pos)
-    if unionType == Attribute.FullyConnectedAttribute:
-        return FullyConnectedAttributeT.InitFromBuf(table.Bytes, table.Pos)
-    if unionType == Attribute.NegateAttribute:
-        return NegateAttributeT.InitFromBuf(table.Bytes, table.Pos)
-    if unionType == Attribute.CustomAttribute:
-        return CustomAttributeT.InitFromBuf(table.Bytes, table.Pos)
-    if unionType == Attribute.FFTAttribute:
-        return FFTAttributeT.InitFromBuf(table.Bytes, table.Pos)
-    if unionType == Attribute.RFFTAttribute:
-        return RFFTAttributeT.InitFromBuf(table.Bytes, table.Pos)
-    if unionType == Attribute.NanPropagationAttribute:
-        return NanPropagationAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.VariableAttribute:
+        return VariableAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.VariableWriteAttribute:
+        return VariableWriteAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.VariableReadAttribute:
+        return VariableReadAttributeT.InitFromBuf(table.Bytes, table.Pos)
+    if unionType == Attribute.ConstShapeAttribute:
+        return ConstShapeAttributeT.InitFromBuf(table.Bytes, table.Pos)
     return None
 
 
-class PoolAttribute(object):
+class ArgMaxAttribute(object):
     __slots__ = ['_tab']
 
     @classmethod
     def GetRootAs(cls, buf, offset: int = 0):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
-        x = PoolAttribute()
+        x = ArgMaxAttribute()
         x.Init(buf, n + offset)
         return x
 
     @classmethod
-    def GetRootAsPoolAttribute(cls, buf, offset=0):
+    def GetRootAsArgMaxAttribute(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
     @classmethod
-    def PoolAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+    def ArgMaxAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
         return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
 
-    # PoolAttribute
+    # ArgMaxAttribute
     def Init(self, buf: bytes, pos: int):
         self._tab = flatbuffers.table.Table(buf, pos)
 
-    # PoolAttribute
-    def Pad(self, j: int):
+    # ArgMaxAttribute
+    def Axis(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
-        return 0
-
-    # PoolAttribute
-    def PadAsNumpy(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
-        return 0
-
-    # PoolAttribute
-    def PadLength(self) -> int:
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            return self._tab.VectorLen(o)
-        return 0
-
-    # PoolAttribute
-    def PadIsNone(self) -> bool:
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        return o == 0
-
-    # PoolAttribute
-    def Kernel(self, j: int):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
-        if o != 0:
-            a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
-        return 0
-
-    # PoolAttribute
-    def KernelAsNumpy(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
-        if o != 0:
-            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
-        return 0
-
-    # PoolAttribute
-    def KernelLength(self) -> int:
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
-        if o != 0:
-            return self._tab.VectorLen(o)
-        return 0
-
-    # PoolAttribute
-    def KernelIsNone(self) -> bool:
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
-        return o == 0
-
-    # PoolAttribute
-    def Stride(self, j: int):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
-        if o != 0:
-            a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
-        return 0
-
-    # PoolAttribute
-    def StrideAsNumpy(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
-        if o != 0:
-            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
-        return 0
-
-    # PoolAttribute
-    def StrideLength(self) -> int:
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
-        if o != 0:
-            return self._tab.VectorLen(o)
-        return 0
-
-    # PoolAttribute
-    def StrideIsNone(self) -> bool:
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
-        return o == 0
-
-    # PoolAttribute
-    def InputZp(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
         return 0
 
-    # PoolAttribute
-    def OutputZp(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
-        return 0
-
-    # PoolAttribute
-    def AccType(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
-        return 0
-
-    # PoolAttribute
+    # ArgMaxAttribute
     def NanMode(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(16))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
         return 0
 
-def PoolAttributeStart(builder: flatbuffers.Builder):
-    builder.StartObject(7)
+def ArgMaxAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(2)
 
-def PoolAttributeAddPad(builder: flatbuffers.Builder, pad: int):
-    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(pad), 0)
+def ArgMaxAttributeAddAxis(builder: flatbuffers.Builder, axis: int):
+    builder.PrependInt32Slot(0, axis, 0)
 
-def PoolAttributeStartPadVector(builder, numElems: int) -> int:
-    return builder.StartVector(4, numElems, 4)
+def ArgMaxAttributeAddNanMode(builder: flatbuffers.Builder, nanMode: int):
+    builder.PrependUint32Slot(1, nanMode, 0)
 
-def PoolAttributeAddKernel(builder: flatbuffers.Builder, kernel: int):
-    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(kernel), 0)
-
-def PoolAttributeStartKernelVector(builder, numElems: int) -> int:
-    return builder.StartVector(4, numElems, 4)
-
-def PoolAttributeAddStride(builder: flatbuffers.Builder, stride: int):
-    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(stride), 0)
-
-def PoolAttributeStartStrideVector(builder, numElems: int) -> int:
-    return builder.StartVector(4, numElems, 4)
-
-def PoolAttributeAddInputZp(builder: flatbuffers.Builder, inputZp: int):
-    builder.PrependInt32Slot(3, inputZp, 0)
-
-def PoolAttributeAddOutputZp(builder: flatbuffers.Builder, outputZp: int):
-    builder.PrependInt32Slot(4, outputZp, 0)
-
-def PoolAttributeAddAccType(builder: flatbuffers.Builder, accType: int):
-    builder.PrependUint32Slot(5, accType, 0)
-
-def PoolAttributeAddNanMode(builder: flatbuffers.Builder, nanMode: int):
-    builder.PrependUint32Slot(6, nanMode, 0)
-
-def PoolAttributeEnd(builder: flatbuffers.Builder) -> int:
+def ArgMaxAttributeEnd(builder: flatbuffers.Builder) -> int:
     return builder.EndObject()
 
 
-try:
-    from typing import List
-except:
-    pass
 
-class PoolAttributeT(object):
+class ArgMaxAttributeT(object):
 
-    # PoolAttributeT
+    # ArgMaxAttributeT
     def __init__(self):
-        self.pad = None  # type: List[int]
-        self.kernel = None  # type: List[int]
-        self.stride = None  # type: List[int]
-        self.inputZp = 0  # type: int
-        self.outputZp = 0  # type: int
-        self.accType = 0  # type: int
+        self.axis = 0  # type: int
         self.nanMode = 0  # type: int
 
     @classmethod
     def InitFromBuf(cls, buf, pos):
-        poolAttribute = PoolAttribute()
-        poolAttribute.Init(buf, pos)
-        return cls.InitFromObj(poolAttribute)
+        argMaxAttribute = ArgMaxAttribute()
+        argMaxAttribute.Init(buf, pos)
+        return cls.InitFromObj(argMaxAttribute)
 
     @classmethod
     def InitFromPackedBuf(cls, buf, pos=0):
@@ -393,132 +427,77 @@ class PoolAttributeT(object):
         return cls.InitFromBuf(buf, pos+n)
 
     @classmethod
-    def InitFromObj(cls, poolAttribute):
-        x = PoolAttributeT()
-        x._UnPack(poolAttribute)
+    def InitFromObj(cls, argMaxAttribute):
+        x = ArgMaxAttributeT()
+        x._UnPack(argMaxAttribute)
         return x
 
-    # PoolAttributeT
-    def _UnPack(self, poolAttribute):
-        if poolAttribute is None:
+    # ArgMaxAttributeT
+    def _UnPack(self, argMaxAttribute):
+        if argMaxAttribute is None:
             return
-        if not poolAttribute.PadIsNone():
-            if np is None:
-                self.pad = []
-                for i in range(poolAttribute.PadLength()):
-                    self.pad.append(poolAttribute.Pad(i))
-            else:
-                self.pad = poolAttribute.PadAsNumpy()
-        if not poolAttribute.KernelIsNone():
-            if np is None:
-                self.kernel = []
-                for i in range(poolAttribute.KernelLength()):
-                    self.kernel.append(poolAttribute.Kernel(i))
-            else:
-                self.kernel = poolAttribute.KernelAsNumpy()
-        if not poolAttribute.StrideIsNone():
-            if np is None:
-                self.stride = []
-                for i in range(poolAttribute.StrideLength()):
-                    self.stride.append(poolAttribute.Stride(i))
-            else:
-                self.stride = poolAttribute.StrideAsNumpy()
-        self.inputZp = poolAttribute.InputZp()
-        self.outputZp = poolAttribute.OutputZp()
-        self.accType = poolAttribute.AccType()
-        self.nanMode = poolAttribute.NanMode()
+        self.axis = argMaxAttribute.Axis()
+        self.nanMode = argMaxAttribute.NanMode()
 
-    # PoolAttributeT
+    # ArgMaxAttributeT
     def Pack(self, builder):
-        if self.pad is not None:
-            if np is not None and type(self.pad) is np.ndarray:
-                pad = builder.CreateNumpyVector(self.pad)
-            else:
-                PoolAttributeStartPadVector(builder, len(self.pad))
-                for i in reversed(range(len(self.pad))):
-                    builder.PrependInt32(self.pad[i])
-                pad = builder.EndVector()
-        if self.kernel is not None:
-            if np is not None and type(self.kernel) is np.ndarray:
-                kernel = builder.CreateNumpyVector(self.kernel)
-            else:
-                PoolAttributeStartKernelVector(builder, len(self.kernel))
-                for i in reversed(range(len(self.kernel))):
-                    builder.PrependInt32(self.kernel[i])
-                kernel = builder.EndVector()
-        if self.stride is not None:
-            if np is not None and type(self.stride) is np.ndarray:
-                stride = builder.CreateNumpyVector(self.stride)
-            else:
-                PoolAttributeStartStrideVector(builder, len(self.stride))
-                for i in reversed(range(len(self.stride))):
-                    builder.PrependInt32(self.stride[i])
-                stride = builder.EndVector()
-        PoolAttributeStart(builder)
-        if self.pad is not None:
-            PoolAttributeAddPad(builder, pad)
-        if self.kernel is not None:
-            PoolAttributeAddKernel(builder, kernel)
-        if self.stride is not None:
-            PoolAttributeAddStride(builder, stride)
-        PoolAttributeAddInputZp(builder, self.inputZp)
-        PoolAttributeAddOutputZp(builder, self.outputZp)
-        PoolAttributeAddAccType(builder, self.accType)
-        PoolAttributeAddNanMode(builder, self.nanMode)
-        poolAttribute = PoolAttributeEnd(builder)
-        return poolAttribute
+        ArgMaxAttributeStart(builder)
+        ArgMaxAttributeAddAxis(builder, self.axis)
+        ArgMaxAttributeAddNanMode(builder, self.nanMode)
+        argMaxAttribute = ArgMaxAttributeEnd(builder)
+        return argMaxAttribute
 
 
-class ConvAttribute(object):
+class AvgPool2dAttribute(object):
     __slots__ = ['_tab']
 
     @classmethod
     def GetRootAs(cls, buf, offset: int = 0):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
-        x = ConvAttribute()
+        x = AvgPool2dAttribute()
         x.Init(buf, n + offset)
         return x
 
     @classmethod
-    def GetRootAsConvAttribute(cls, buf, offset=0):
+    def GetRootAsAvgPool2dAttribute(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
     @classmethod
-    def ConvAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+    def AvgPool2dAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
         return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
 
-    # ConvAttribute
+    # AvgPool2dAttribute
     def Init(self, buf: bytes, pos: int):
         self._tab = flatbuffers.table.Table(buf, pos)
 
-    # ConvAttribute
-    def Pad(self, j: int):
+    # AvgPool2dAttribute
+    def Kernel(self, j: int):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             a = self._tab.Vector(o)
             return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
         return 0
 
-    # ConvAttribute
-    def PadAsNumpy(self):
+    # AvgPool2dAttribute
+    def KernelAsNumpy(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
         return 0
 
-    # ConvAttribute
-    def PadLength(self) -> int:
+    # AvgPool2dAttribute
+    def KernelLength(self) -> int:
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             return self._tab.VectorLen(o)
         return 0
 
-    # ConvAttribute
-    def PadIsNone(self) -> bool:
+    # AvgPool2dAttribute
+    def KernelIsNone(self) -> bool:
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         return o == 0
 
-    # ConvAttribute
+    # AvgPool2dAttribute
     def Stride(self, j: int):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
@@ -526,94 +505,84 @@ class ConvAttribute(object):
             return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
         return 0
 
-    # ConvAttribute
+    # AvgPool2dAttribute
     def StrideAsNumpy(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
         return 0
 
-    # ConvAttribute
+    # AvgPool2dAttribute
     def StrideLength(self) -> int:
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             return self._tab.VectorLen(o)
         return 0
 
-    # ConvAttribute
+    # AvgPool2dAttribute
     def StrideIsNone(self) -> bool:
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         return o == 0
 
-    # ConvAttribute
-    def Dilation(self, j: int):
+    # AvgPool2dAttribute
+    def Pad(self, j: int):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             a = self._tab.Vector(o)
             return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
         return 0
 
-    # ConvAttribute
-    def DilationAsNumpy(self):
+    # AvgPool2dAttribute
+    def PadAsNumpy(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
         return 0
 
-    # ConvAttribute
-    def DilationLength(self) -> int:
+    # AvgPool2dAttribute
+    def PadLength(self) -> int:
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             return self._tab.VectorLen(o)
         return 0
 
-    # ConvAttribute
-    def DilationIsNone(self) -> bool:
+    # AvgPool2dAttribute
+    def PadIsNone(self) -> bool:
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         return o == 0
 
-    # ConvAttribute
-    def LocalBound(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
-        if o != 0:
-            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
-        return False
-
-    # ConvAttribute
+    # AvgPool2dAttribute
     def AccType(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
         return 0
 
-def ConvAttributeStart(builder: flatbuffers.Builder):
-    builder.StartObject(5)
+def AvgPool2dAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(4)
 
-def ConvAttributeAddPad(builder: flatbuffers.Builder, pad: int):
-    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(pad), 0)
+def AvgPool2dAttributeAddKernel(builder: flatbuffers.Builder, kernel: int):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(kernel), 0)
 
-def ConvAttributeStartPadVector(builder, numElems: int) -> int:
+def AvgPool2dAttributeStartKernelVector(builder, numElems: int) -> int:
     return builder.StartVector(4, numElems, 4)
 
-def ConvAttributeAddStride(builder: flatbuffers.Builder, stride: int):
+def AvgPool2dAttributeAddStride(builder: flatbuffers.Builder, stride: int):
     builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(stride), 0)
 
-def ConvAttributeStartStrideVector(builder, numElems: int) -> int:
+def AvgPool2dAttributeStartStrideVector(builder, numElems: int) -> int:
     return builder.StartVector(4, numElems, 4)
 
-def ConvAttributeAddDilation(builder: flatbuffers.Builder, dilation: int):
-    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(dilation), 0)
+def AvgPool2dAttributeAddPad(builder: flatbuffers.Builder, pad: int):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(pad), 0)
 
-def ConvAttributeStartDilationVector(builder, numElems: int) -> int:
+def AvgPool2dAttributeStartPadVector(builder, numElems: int) -> int:
     return builder.StartVector(4, numElems, 4)
 
-def ConvAttributeAddLocalBound(builder: flatbuffers.Builder, localBound: bool):
-    builder.PrependBoolSlot(3, localBound, 0)
+def AvgPool2dAttributeAddAccType(builder: flatbuffers.Builder, accType: int):
+    builder.PrependUint32Slot(3, accType, 0)
 
-def ConvAttributeAddAccType(builder: flatbuffers.Builder, accType: int):
-    builder.PrependUint32Slot(4, accType, 0)
-
-def ConvAttributeEnd(builder: flatbuffers.Builder) -> int:
+def AvgPool2dAttributeEnd(builder: flatbuffers.Builder) -> int:
     return builder.EndObject()
 
 
@@ -622,9 +591,253 @@ try:
 except:
     pass
 
-class ConvAttributeT(object):
+class AvgPool2dAttributeT(object):
 
-    # ConvAttributeT
+    # AvgPool2dAttributeT
+    def __init__(self):
+        self.kernel = None  # type: List[int]
+        self.stride = None  # type: List[int]
+        self.pad = None  # type: List[int]
+        self.accType = 0  # type: int
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        avgPool2dAttribute = AvgPool2dAttribute()
+        avgPool2dAttribute.Init(buf, pos)
+        return cls.InitFromObj(avgPool2dAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, avgPool2dAttribute):
+        x = AvgPool2dAttributeT()
+        x._UnPack(avgPool2dAttribute)
+        return x
+
+    # AvgPool2dAttributeT
+    def _UnPack(self, avgPool2dAttribute):
+        if avgPool2dAttribute is None:
+            return
+        if not avgPool2dAttribute.KernelIsNone():
+            if np is None:
+                self.kernel = []
+                for i in range(avgPool2dAttribute.KernelLength()):
+                    self.kernel.append(avgPool2dAttribute.Kernel(i))
+            else:
+                self.kernel = avgPool2dAttribute.KernelAsNumpy()
+        if not avgPool2dAttribute.StrideIsNone():
+            if np is None:
+                self.stride = []
+                for i in range(avgPool2dAttribute.StrideLength()):
+                    self.stride.append(avgPool2dAttribute.Stride(i))
+            else:
+                self.stride = avgPool2dAttribute.StrideAsNumpy()
+        if not avgPool2dAttribute.PadIsNone():
+            if np is None:
+                self.pad = []
+                for i in range(avgPool2dAttribute.PadLength()):
+                    self.pad.append(avgPool2dAttribute.Pad(i))
+            else:
+                self.pad = avgPool2dAttribute.PadAsNumpy()
+        self.accType = avgPool2dAttribute.AccType()
+
+    # AvgPool2dAttributeT
+    def Pack(self, builder):
+        if self.kernel is not None:
+            if np is not None and type(self.kernel) is np.ndarray:
+                kernel = builder.CreateNumpyVector(self.kernel)
+            else:
+                AvgPool2dAttributeStartKernelVector(builder, len(self.kernel))
+                for i in reversed(range(len(self.kernel))):
+                    builder.PrependInt32(self.kernel[i])
+                kernel = builder.EndVector()
+        if self.stride is not None:
+            if np is not None and type(self.stride) is np.ndarray:
+                stride = builder.CreateNumpyVector(self.stride)
+            else:
+                AvgPool2dAttributeStartStrideVector(builder, len(self.stride))
+                for i in reversed(range(len(self.stride))):
+                    builder.PrependInt32(self.stride[i])
+                stride = builder.EndVector()
+        if self.pad is not None:
+            if np is not None and type(self.pad) is np.ndarray:
+                pad = builder.CreateNumpyVector(self.pad)
+            else:
+                AvgPool2dAttributeStartPadVector(builder, len(self.pad))
+                for i in reversed(range(len(self.pad))):
+                    builder.PrependInt32(self.pad[i])
+                pad = builder.EndVector()
+        AvgPool2dAttributeStart(builder)
+        if self.kernel is not None:
+            AvgPool2dAttributeAddKernel(builder, kernel)
+        if self.stride is not None:
+            AvgPool2dAttributeAddStride(builder, stride)
+        if self.pad is not None:
+            AvgPool2dAttributeAddPad(builder, pad)
+        AvgPool2dAttributeAddAccType(builder, self.accType)
+        avgPool2dAttribute = AvgPool2dAttributeEnd(builder)
+        return avgPool2dAttribute
+
+
+class Conv2dAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = Conv2dAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsConv2dAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def Conv2dAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # Conv2dAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # Conv2dAttribute
+    def Pad(self, j: int):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            a = self._tab.Vector(o)
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
+        return 0
+
+    # Conv2dAttribute
+    def PadAsNumpy(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
+        return 0
+
+    # Conv2dAttribute
+    def PadLength(self) -> int:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # Conv2dAttribute
+    def PadIsNone(self) -> bool:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        return o == 0
+
+    # Conv2dAttribute
+    def Stride(self, j: int):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            a = self._tab.Vector(o)
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
+        return 0
+
+    # Conv2dAttribute
+    def StrideAsNumpy(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
+        return 0
+
+    # Conv2dAttribute
+    def StrideLength(self) -> int:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # Conv2dAttribute
+    def StrideIsNone(self) -> bool:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        return o == 0
+
+    # Conv2dAttribute
+    def Dilation(self, j: int):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            a = self._tab.Vector(o)
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
+        return 0
+
+    # Conv2dAttribute
+    def DilationAsNumpy(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
+        return 0
+
+    # Conv2dAttribute
+    def DilationLength(self) -> int:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # Conv2dAttribute
+    def DilationIsNone(self) -> bool:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        return o == 0
+
+    # Conv2dAttribute
+    def LocalBound(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+    # Conv2dAttribute
+    def AccType(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
+        return 0
+
+def Conv2dAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(5)
+
+def Conv2dAttributeAddPad(builder: flatbuffers.Builder, pad: int):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(pad), 0)
+
+def Conv2dAttributeStartPadVector(builder, numElems: int) -> int:
+    return builder.StartVector(4, numElems, 4)
+
+def Conv2dAttributeAddStride(builder: flatbuffers.Builder, stride: int):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(stride), 0)
+
+def Conv2dAttributeStartStrideVector(builder, numElems: int) -> int:
+    return builder.StartVector(4, numElems, 4)
+
+def Conv2dAttributeAddDilation(builder: flatbuffers.Builder, dilation: int):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(dilation), 0)
+
+def Conv2dAttributeStartDilationVector(builder, numElems: int) -> int:
+    return builder.StartVector(4, numElems, 4)
+
+def Conv2dAttributeAddLocalBound(builder: flatbuffers.Builder, localBound: bool):
+    builder.PrependBoolSlot(3, localBound, 0)
+
+def Conv2dAttributeAddAccType(builder: flatbuffers.Builder, accType: int):
+    builder.PrependUint32Slot(4, accType, 0)
+
+def Conv2dAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+try:
+    from typing import List
+except:
+    pass
+
+class Conv2dAttributeT(object):
+
+    # Conv2dAttributeT
     def __init__(self):
         self.pad = None  # type: List[int]
         self.stride = None  # type: List[int]
@@ -634,9 +847,9 @@ class ConvAttributeT(object):
 
     @classmethod
     def InitFromBuf(cls, buf, pos):
-        convAttribute = ConvAttribute()
-        convAttribute.Init(buf, pos)
-        return cls.InitFromObj(convAttribute)
+        conv2dAttribute = Conv2dAttribute()
+        conv2dAttribute.Init(buf, pos)
+        return cls.InitFromObj(conv2dAttribute)
 
     @classmethod
     def InitFromPackedBuf(cls, buf, pos=0):
@@ -644,46 +857,46 @@ class ConvAttributeT(object):
         return cls.InitFromBuf(buf, pos+n)
 
     @classmethod
-    def InitFromObj(cls, convAttribute):
-        x = ConvAttributeT()
-        x._UnPack(convAttribute)
+    def InitFromObj(cls, conv2dAttribute):
+        x = Conv2dAttributeT()
+        x._UnPack(conv2dAttribute)
         return x
 
-    # ConvAttributeT
-    def _UnPack(self, convAttribute):
-        if convAttribute is None:
+    # Conv2dAttributeT
+    def _UnPack(self, conv2dAttribute):
+        if conv2dAttribute is None:
             return
-        if not convAttribute.PadIsNone():
+        if not conv2dAttribute.PadIsNone():
             if np is None:
                 self.pad = []
-                for i in range(convAttribute.PadLength()):
-                    self.pad.append(convAttribute.Pad(i))
+                for i in range(conv2dAttribute.PadLength()):
+                    self.pad.append(conv2dAttribute.Pad(i))
             else:
-                self.pad = convAttribute.PadAsNumpy()
-        if not convAttribute.StrideIsNone():
+                self.pad = conv2dAttribute.PadAsNumpy()
+        if not conv2dAttribute.StrideIsNone():
             if np is None:
                 self.stride = []
-                for i in range(convAttribute.StrideLength()):
-                    self.stride.append(convAttribute.Stride(i))
+                for i in range(conv2dAttribute.StrideLength()):
+                    self.stride.append(conv2dAttribute.Stride(i))
             else:
-                self.stride = convAttribute.StrideAsNumpy()
-        if not convAttribute.DilationIsNone():
+                self.stride = conv2dAttribute.StrideAsNumpy()
+        if not conv2dAttribute.DilationIsNone():
             if np is None:
                 self.dilation = []
-                for i in range(convAttribute.DilationLength()):
-                    self.dilation.append(convAttribute.Dilation(i))
+                for i in range(conv2dAttribute.DilationLength()):
+                    self.dilation.append(conv2dAttribute.Dilation(i))
             else:
-                self.dilation = convAttribute.DilationAsNumpy()
-        self.localBound = convAttribute.LocalBound()
-        self.accType = convAttribute.AccType()
+                self.dilation = conv2dAttribute.DilationAsNumpy()
+        self.localBound = conv2dAttribute.LocalBound()
+        self.accType = conv2dAttribute.AccType()
 
-    # ConvAttributeT
+    # Conv2dAttributeT
     def Pack(self, builder):
         if self.pad is not None:
             if np is not None and type(self.pad) is np.ndarray:
                 pad = builder.CreateNumpyVector(self.pad)
             else:
-                ConvAttributeStartPadVector(builder, len(self.pad))
+                Conv2dAttributeStartPadVector(builder, len(self.pad))
                 for i in reversed(range(len(self.pad))):
                     builder.PrependInt32(self.pad[i])
                 pad = builder.EndVector()
@@ -691,7 +904,7 @@ class ConvAttributeT(object):
             if np is not None and type(self.stride) is np.ndarray:
                 stride = builder.CreateNumpyVector(self.stride)
             else:
-                ConvAttributeStartStrideVector(builder, len(self.stride))
+                Conv2dAttributeStartStrideVector(builder, len(self.stride))
                 for i in reversed(range(len(self.stride))):
                     builder.PrependInt32(self.stride[i])
                 stride = builder.EndVector()
@@ -699,73 +912,73 @@ class ConvAttributeT(object):
             if np is not None and type(self.dilation) is np.ndarray:
                 dilation = builder.CreateNumpyVector(self.dilation)
             else:
-                ConvAttributeStartDilationVector(builder, len(self.dilation))
+                Conv2dAttributeStartDilationVector(builder, len(self.dilation))
                 for i in reversed(range(len(self.dilation))):
                     builder.PrependInt32(self.dilation[i])
                 dilation = builder.EndVector()
-        ConvAttributeStart(builder)
+        Conv2dAttributeStart(builder)
         if self.pad is not None:
-            ConvAttributeAddPad(builder, pad)
+            Conv2dAttributeAddPad(builder, pad)
         if self.stride is not None:
-            ConvAttributeAddStride(builder, stride)
+            Conv2dAttributeAddStride(builder, stride)
         if self.dilation is not None:
-            ConvAttributeAddDilation(builder, dilation)
-        ConvAttributeAddLocalBound(builder, self.localBound)
-        ConvAttributeAddAccType(builder, self.accType)
-        convAttribute = ConvAttributeEnd(builder)
-        return convAttribute
+            Conv2dAttributeAddDilation(builder, dilation)
+        Conv2dAttributeAddLocalBound(builder, self.localBound)
+        Conv2dAttributeAddAccType(builder, self.accType)
+        conv2dAttribute = Conv2dAttributeEnd(builder)
+        return conv2dAttribute
 
 
-class TransposeConvAttribute(object):
+class Conv3dAttribute(object):
     __slots__ = ['_tab']
 
     @classmethod
     def GetRootAs(cls, buf, offset: int = 0):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
-        x = TransposeConvAttribute()
+        x = Conv3dAttribute()
         x.Init(buf, n + offset)
         return x
 
     @classmethod
-    def GetRootAsTransposeConvAttribute(cls, buf, offset=0):
+    def GetRootAsConv3dAttribute(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
     @classmethod
-    def TransposeConvAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+    def Conv3dAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
         return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
 
-    # TransposeConvAttribute
+    # Conv3dAttribute
     def Init(self, buf: bytes, pos: int):
         self._tab = flatbuffers.table.Table(buf, pos)
 
-    # TransposeConvAttribute
-    def OutPad(self, j: int):
+    # Conv3dAttribute
+    def Pad(self, j: int):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             a = self._tab.Vector(o)
             return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
         return 0
 
-    # TransposeConvAttribute
-    def OutPadAsNumpy(self):
+    # Conv3dAttribute
+    def PadAsNumpy(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
         return 0
 
-    # TransposeConvAttribute
-    def OutPadLength(self) -> int:
+    # Conv3dAttribute
+    def PadLength(self) -> int:
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             return self._tab.VectorLen(o)
         return 0
 
-    # TransposeConvAttribute
-    def OutPadIsNone(self) -> bool:
+    # Conv3dAttribute
+    def PadIsNone(self) -> bool:
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         return o == 0
 
-    # TransposeConvAttribute
+    # Conv3dAttribute
     def Stride(self, j: int):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
@@ -773,61 +986,94 @@ class TransposeConvAttribute(object):
             return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
         return 0
 
-    # TransposeConvAttribute
+    # Conv3dAttribute
     def StrideAsNumpy(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
         return 0
 
-    # TransposeConvAttribute
+    # Conv3dAttribute
     def StrideLength(self) -> int:
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             return self._tab.VectorLen(o)
         return 0
 
-    # TransposeConvAttribute
+    # Conv3dAttribute
     def StrideIsNone(self) -> bool:
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         return o == 0
 
-    # TransposeConvAttribute
-    def LocalBound(self):
+    # Conv3dAttribute
+    def Dilation(self, j: int):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            a = self._tab.Vector(o)
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
+        return 0
+
+    # Conv3dAttribute
+    def DilationAsNumpy(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
+        return 0
+
+    # Conv3dAttribute
+    def DilationLength(self) -> int:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # Conv3dAttribute
+    def DilationIsNone(self) -> bool:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        return o == 0
+
+    # Conv3dAttribute
+    def LocalBound(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
         if o != 0:
             return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
         return False
 
-    # TransposeConvAttribute
+    # Conv3dAttribute
     def AccType(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
         return 0
 
-def TransposeConvAttributeStart(builder: flatbuffers.Builder):
-    builder.StartObject(4)
+def Conv3dAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(5)
 
-def TransposeConvAttributeAddOutPad(builder: flatbuffers.Builder, outPad: int):
-    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(outPad), 0)
+def Conv3dAttributeAddPad(builder: flatbuffers.Builder, pad: int):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(pad), 0)
 
-def TransposeConvAttributeStartOutPadVector(builder, numElems: int) -> int:
+def Conv3dAttributeStartPadVector(builder, numElems: int) -> int:
     return builder.StartVector(4, numElems, 4)
 
-def TransposeConvAttributeAddStride(builder: flatbuffers.Builder, stride: int):
+def Conv3dAttributeAddStride(builder: flatbuffers.Builder, stride: int):
     builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(stride), 0)
 
-def TransposeConvAttributeStartStrideVector(builder, numElems: int) -> int:
+def Conv3dAttributeStartStrideVector(builder, numElems: int) -> int:
     return builder.StartVector(4, numElems, 4)
 
-def TransposeConvAttributeAddLocalBound(builder: flatbuffers.Builder, localBound: bool):
-    builder.PrependBoolSlot(2, localBound, 0)
+def Conv3dAttributeAddDilation(builder: flatbuffers.Builder, dilation: int):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(dilation), 0)
 
-def TransposeConvAttributeAddAccType(builder: flatbuffers.Builder, accType: int):
-    builder.PrependUint32Slot(3, accType, 0)
+def Conv3dAttributeStartDilationVector(builder, numElems: int) -> int:
+    return builder.StartVector(4, numElems, 4)
 
-def TransposeConvAttributeEnd(builder: flatbuffers.Builder) -> int:
+def Conv3dAttributeAddLocalBound(builder: flatbuffers.Builder, localBound: bool):
+    builder.PrependBoolSlot(3, localBound, 0)
+
+def Conv3dAttributeAddAccType(builder: flatbuffers.Builder, accType: int):
+    builder.PrependUint32Slot(4, accType, 0)
+
+def Conv3dAttributeEnd(builder: flatbuffers.Builder) -> int:
     return builder.EndObject()
 
 
@@ -836,9 +1082,936 @@ try:
 except:
     pass
 
-class TransposeConvAttributeT(object):
+class Conv3dAttributeT(object):
 
-    # TransposeConvAttributeT
+    # Conv3dAttributeT
+    def __init__(self):
+        self.pad = None  # type: List[int]
+        self.stride = None  # type: List[int]
+        self.dilation = None  # type: List[int]
+        self.localBound = False  # type: bool
+        self.accType = 0  # type: int
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        conv3dAttribute = Conv3dAttribute()
+        conv3dAttribute.Init(buf, pos)
+        return cls.InitFromObj(conv3dAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, conv3dAttribute):
+        x = Conv3dAttributeT()
+        x._UnPack(conv3dAttribute)
+        return x
+
+    # Conv3dAttributeT
+    def _UnPack(self, conv3dAttribute):
+        if conv3dAttribute is None:
+            return
+        if not conv3dAttribute.PadIsNone():
+            if np is None:
+                self.pad = []
+                for i in range(conv3dAttribute.PadLength()):
+                    self.pad.append(conv3dAttribute.Pad(i))
+            else:
+                self.pad = conv3dAttribute.PadAsNumpy()
+        if not conv3dAttribute.StrideIsNone():
+            if np is None:
+                self.stride = []
+                for i in range(conv3dAttribute.StrideLength()):
+                    self.stride.append(conv3dAttribute.Stride(i))
+            else:
+                self.stride = conv3dAttribute.StrideAsNumpy()
+        if not conv3dAttribute.DilationIsNone():
+            if np is None:
+                self.dilation = []
+                for i in range(conv3dAttribute.DilationLength()):
+                    self.dilation.append(conv3dAttribute.Dilation(i))
+            else:
+                self.dilation = conv3dAttribute.DilationAsNumpy()
+        self.localBound = conv3dAttribute.LocalBound()
+        self.accType = conv3dAttribute.AccType()
+
+    # Conv3dAttributeT
+    def Pack(self, builder):
+        if self.pad is not None:
+            if np is not None and type(self.pad) is np.ndarray:
+                pad = builder.CreateNumpyVector(self.pad)
+            else:
+                Conv3dAttributeStartPadVector(builder, len(self.pad))
+                for i in reversed(range(len(self.pad))):
+                    builder.PrependInt32(self.pad[i])
+                pad = builder.EndVector()
+        if self.stride is not None:
+            if np is not None and type(self.stride) is np.ndarray:
+                stride = builder.CreateNumpyVector(self.stride)
+            else:
+                Conv3dAttributeStartStrideVector(builder, len(self.stride))
+                for i in reversed(range(len(self.stride))):
+                    builder.PrependInt32(self.stride[i])
+                stride = builder.EndVector()
+        if self.dilation is not None:
+            if np is not None and type(self.dilation) is np.ndarray:
+                dilation = builder.CreateNumpyVector(self.dilation)
+            else:
+                Conv3dAttributeStartDilationVector(builder, len(self.dilation))
+                for i in reversed(range(len(self.dilation))):
+                    builder.PrependInt32(self.dilation[i])
+                dilation = builder.EndVector()
+        Conv3dAttributeStart(builder)
+        if self.pad is not None:
+            Conv3dAttributeAddPad(builder, pad)
+        if self.stride is not None:
+            Conv3dAttributeAddStride(builder, stride)
+        if self.dilation is not None:
+            Conv3dAttributeAddDilation(builder, dilation)
+        Conv3dAttributeAddLocalBound(builder, self.localBound)
+        Conv3dAttributeAddAccType(builder, self.accType)
+        conv3dAttribute = Conv3dAttributeEnd(builder)
+        return conv3dAttribute
+
+
+class DepthwiseConv2dAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = DepthwiseConv2dAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsDepthwiseConv2dAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def DepthwiseConv2dAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # DepthwiseConv2dAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # DepthwiseConv2dAttribute
+    def Pad(self, j: int):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            a = self._tab.Vector(o)
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
+        return 0
+
+    # DepthwiseConv2dAttribute
+    def PadAsNumpy(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
+        return 0
+
+    # DepthwiseConv2dAttribute
+    def PadLength(self) -> int:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # DepthwiseConv2dAttribute
+    def PadIsNone(self) -> bool:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        return o == 0
+
+    # DepthwiseConv2dAttribute
+    def Stride(self, j: int):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            a = self._tab.Vector(o)
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
+        return 0
+
+    # DepthwiseConv2dAttribute
+    def StrideAsNumpy(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
+        return 0
+
+    # DepthwiseConv2dAttribute
+    def StrideLength(self) -> int:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # DepthwiseConv2dAttribute
+    def StrideIsNone(self) -> bool:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        return o == 0
+
+    # DepthwiseConv2dAttribute
+    def Dilation(self, j: int):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            a = self._tab.Vector(o)
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
+        return 0
+
+    # DepthwiseConv2dAttribute
+    def DilationAsNumpy(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
+        return 0
+
+    # DepthwiseConv2dAttribute
+    def DilationLength(self) -> int:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # DepthwiseConv2dAttribute
+    def DilationIsNone(self) -> bool:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        return o == 0
+
+    # DepthwiseConv2dAttribute
+    def LocalBound(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+    # DepthwiseConv2dAttribute
+    def AccType(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
+        return 0
+
+def DepthwiseConv2dAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(5)
+
+def DepthwiseConv2dAttributeAddPad(builder: flatbuffers.Builder, pad: int):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(pad), 0)
+
+def DepthwiseConv2dAttributeStartPadVector(builder, numElems: int) -> int:
+    return builder.StartVector(4, numElems, 4)
+
+def DepthwiseConv2dAttributeAddStride(builder: flatbuffers.Builder, stride: int):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(stride), 0)
+
+def DepthwiseConv2dAttributeStartStrideVector(builder, numElems: int) -> int:
+    return builder.StartVector(4, numElems, 4)
+
+def DepthwiseConv2dAttributeAddDilation(builder: flatbuffers.Builder, dilation: int):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(dilation), 0)
+
+def DepthwiseConv2dAttributeStartDilationVector(builder, numElems: int) -> int:
+    return builder.StartVector(4, numElems, 4)
+
+def DepthwiseConv2dAttributeAddLocalBound(builder: flatbuffers.Builder, localBound: bool):
+    builder.PrependBoolSlot(3, localBound, 0)
+
+def DepthwiseConv2dAttributeAddAccType(builder: flatbuffers.Builder, accType: int):
+    builder.PrependUint32Slot(4, accType, 0)
+
+def DepthwiseConv2dAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+try:
+    from typing import List
+except:
+    pass
+
+class DepthwiseConv2dAttributeT(object):
+
+    # DepthwiseConv2dAttributeT
+    def __init__(self):
+        self.pad = None  # type: List[int]
+        self.stride = None  # type: List[int]
+        self.dilation = None  # type: List[int]
+        self.localBound = False  # type: bool
+        self.accType = 0  # type: int
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        depthwiseConv2dAttribute = DepthwiseConv2dAttribute()
+        depthwiseConv2dAttribute.Init(buf, pos)
+        return cls.InitFromObj(depthwiseConv2dAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, depthwiseConv2dAttribute):
+        x = DepthwiseConv2dAttributeT()
+        x._UnPack(depthwiseConv2dAttribute)
+        return x
+
+    # DepthwiseConv2dAttributeT
+    def _UnPack(self, depthwiseConv2dAttribute):
+        if depthwiseConv2dAttribute is None:
+            return
+        if not depthwiseConv2dAttribute.PadIsNone():
+            if np is None:
+                self.pad = []
+                for i in range(depthwiseConv2dAttribute.PadLength()):
+                    self.pad.append(depthwiseConv2dAttribute.Pad(i))
+            else:
+                self.pad = depthwiseConv2dAttribute.PadAsNumpy()
+        if not depthwiseConv2dAttribute.StrideIsNone():
+            if np is None:
+                self.stride = []
+                for i in range(depthwiseConv2dAttribute.StrideLength()):
+                    self.stride.append(depthwiseConv2dAttribute.Stride(i))
+            else:
+                self.stride = depthwiseConv2dAttribute.StrideAsNumpy()
+        if not depthwiseConv2dAttribute.DilationIsNone():
+            if np is None:
+                self.dilation = []
+                for i in range(depthwiseConv2dAttribute.DilationLength()):
+                    self.dilation.append(depthwiseConv2dAttribute.Dilation(i))
+            else:
+                self.dilation = depthwiseConv2dAttribute.DilationAsNumpy()
+        self.localBound = depthwiseConv2dAttribute.LocalBound()
+        self.accType = depthwiseConv2dAttribute.AccType()
+
+    # DepthwiseConv2dAttributeT
+    def Pack(self, builder):
+        if self.pad is not None:
+            if np is not None and type(self.pad) is np.ndarray:
+                pad = builder.CreateNumpyVector(self.pad)
+            else:
+                DepthwiseConv2dAttributeStartPadVector(builder, len(self.pad))
+                for i in reversed(range(len(self.pad))):
+                    builder.PrependInt32(self.pad[i])
+                pad = builder.EndVector()
+        if self.stride is not None:
+            if np is not None and type(self.stride) is np.ndarray:
+                stride = builder.CreateNumpyVector(self.stride)
+            else:
+                DepthwiseConv2dAttributeStartStrideVector(builder, len(self.stride))
+                for i in reversed(range(len(self.stride))):
+                    builder.PrependInt32(self.stride[i])
+                stride = builder.EndVector()
+        if self.dilation is not None:
+            if np is not None and type(self.dilation) is np.ndarray:
+                dilation = builder.CreateNumpyVector(self.dilation)
+            else:
+                DepthwiseConv2dAttributeStartDilationVector(builder, len(self.dilation))
+                for i in reversed(range(len(self.dilation))):
+                    builder.PrependInt32(self.dilation[i])
+                dilation = builder.EndVector()
+        DepthwiseConv2dAttributeStart(builder)
+        if self.pad is not None:
+            DepthwiseConv2dAttributeAddPad(builder, pad)
+        if self.stride is not None:
+            DepthwiseConv2dAttributeAddStride(builder, stride)
+        if self.dilation is not None:
+            DepthwiseConv2dAttributeAddDilation(builder, dilation)
+        DepthwiseConv2dAttributeAddLocalBound(builder, self.localBound)
+        DepthwiseConv2dAttributeAddAccType(builder, self.accType)
+        depthwiseConv2dAttribute = DepthwiseConv2dAttributeEnd(builder)
+        return depthwiseConv2dAttribute
+
+
+class FFT2dAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = FFT2dAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsFFT2dAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def FFT2dAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # FFT2dAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # FFT2dAttribute
+    def Inverse(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+    # FFT2dAttribute
+    def LocalBound(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+def FFT2dAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(2)
+
+def FFT2dAttributeAddInverse(builder: flatbuffers.Builder, inverse: bool):
+    builder.PrependBoolSlot(0, inverse, 0)
+
+def FFT2dAttributeAddLocalBound(builder: flatbuffers.Builder, localBound: bool):
+    builder.PrependBoolSlot(1, localBound, 0)
+
+def FFT2dAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class FFT2dAttributeT(object):
+
+    # FFT2dAttributeT
+    def __init__(self):
+        self.inverse = False  # type: bool
+        self.localBound = False  # type: bool
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        fft2dAttribute = FFT2dAttribute()
+        fft2dAttribute.Init(buf, pos)
+        return cls.InitFromObj(fft2dAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, fft2dAttribute):
+        x = FFT2dAttributeT()
+        x._UnPack(fft2dAttribute)
+        return x
+
+    # FFT2dAttributeT
+    def _UnPack(self, fft2dAttribute):
+        if fft2dAttribute is None:
+            return
+        self.inverse = fft2dAttribute.Inverse()
+        self.localBound = fft2dAttribute.LocalBound()
+
+    # FFT2dAttributeT
+    def Pack(self, builder):
+        FFT2dAttributeStart(builder)
+        FFT2dAttributeAddInverse(builder, self.inverse)
+        FFT2dAttributeAddLocalBound(builder, self.localBound)
+        fft2dAttribute = FFT2dAttributeEnd(builder)
+        return fft2dAttribute
+
+
+class MatMulAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = MatMulAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsMatMulAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def MatMulAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # MatMulAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def MatMulAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def MatMulAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class MatMulAttributeT(object):
+
+    # MatMulAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        matMulAttribute = MatMulAttribute()
+        matMulAttribute.Init(buf, pos)
+        return cls.InitFromObj(matMulAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, matMulAttribute):
+        x = MatMulAttributeT()
+        x._UnPack(matMulAttribute)
+        return x
+
+    # MatMulAttributeT
+    def _UnPack(self, matMulAttribute):
+        if matMulAttribute is None:
+            return
+
+    # MatMulAttributeT
+    def Pack(self, builder):
+        MatMulAttributeStart(builder)
+        matMulAttribute = MatMulAttributeEnd(builder)
+        return matMulAttribute
+
+
+class MaxPool2dAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = MaxPool2dAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsMaxPool2dAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def MaxPool2dAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # MaxPool2dAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # MaxPool2dAttribute
+    def Kernel(self, j: int):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            a = self._tab.Vector(o)
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
+        return 0
+
+    # MaxPool2dAttribute
+    def KernelAsNumpy(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
+        return 0
+
+    # MaxPool2dAttribute
+    def KernelLength(self) -> int:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # MaxPool2dAttribute
+    def KernelIsNone(self) -> bool:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        return o == 0
+
+    # MaxPool2dAttribute
+    def Stride(self, j: int):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            a = self._tab.Vector(o)
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
+        return 0
+
+    # MaxPool2dAttribute
+    def StrideAsNumpy(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
+        return 0
+
+    # MaxPool2dAttribute
+    def StrideLength(self) -> int:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # MaxPool2dAttribute
+    def StrideIsNone(self) -> bool:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        return o == 0
+
+    # MaxPool2dAttribute
+    def Pad(self, j: int):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            a = self._tab.Vector(o)
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
+        return 0
+
+    # MaxPool2dAttribute
+    def PadAsNumpy(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
+        return 0
+
+    # MaxPool2dAttribute
+    def PadLength(self) -> int:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # MaxPool2dAttribute
+    def PadIsNone(self) -> bool:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        return o == 0
+
+    # MaxPool2dAttribute
+    def NanMode(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
+        return 0
+
+def MaxPool2dAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(4)
+
+def MaxPool2dAttributeAddKernel(builder: flatbuffers.Builder, kernel: int):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(kernel), 0)
+
+def MaxPool2dAttributeStartKernelVector(builder, numElems: int) -> int:
+    return builder.StartVector(4, numElems, 4)
+
+def MaxPool2dAttributeAddStride(builder: flatbuffers.Builder, stride: int):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(stride), 0)
+
+def MaxPool2dAttributeStartStrideVector(builder, numElems: int) -> int:
+    return builder.StartVector(4, numElems, 4)
+
+def MaxPool2dAttributeAddPad(builder: flatbuffers.Builder, pad: int):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(pad), 0)
+
+def MaxPool2dAttributeStartPadVector(builder, numElems: int) -> int:
+    return builder.StartVector(4, numElems, 4)
+
+def MaxPool2dAttributeAddNanMode(builder: flatbuffers.Builder, nanMode: int):
+    builder.PrependUint32Slot(3, nanMode, 0)
+
+def MaxPool2dAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+try:
+    from typing import List
+except:
+    pass
+
+class MaxPool2dAttributeT(object):
+
+    # MaxPool2dAttributeT
+    def __init__(self):
+        self.kernel = None  # type: List[int]
+        self.stride = None  # type: List[int]
+        self.pad = None  # type: List[int]
+        self.nanMode = 0  # type: int
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        maxPool2dAttribute = MaxPool2dAttribute()
+        maxPool2dAttribute.Init(buf, pos)
+        return cls.InitFromObj(maxPool2dAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, maxPool2dAttribute):
+        x = MaxPool2dAttributeT()
+        x._UnPack(maxPool2dAttribute)
+        return x
+
+    # MaxPool2dAttributeT
+    def _UnPack(self, maxPool2dAttribute):
+        if maxPool2dAttribute is None:
+            return
+        if not maxPool2dAttribute.KernelIsNone():
+            if np is None:
+                self.kernel = []
+                for i in range(maxPool2dAttribute.KernelLength()):
+                    self.kernel.append(maxPool2dAttribute.Kernel(i))
+            else:
+                self.kernel = maxPool2dAttribute.KernelAsNumpy()
+        if not maxPool2dAttribute.StrideIsNone():
+            if np is None:
+                self.stride = []
+                for i in range(maxPool2dAttribute.StrideLength()):
+                    self.stride.append(maxPool2dAttribute.Stride(i))
+            else:
+                self.stride = maxPool2dAttribute.StrideAsNumpy()
+        if not maxPool2dAttribute.PadIsNone():
+            if np is None:
+                self.pad = []
+                for i in range(maxPool2dAttribute.PadLength()):
+                    self.pad.append(maxPool2dAttribute.Pad(i))
+            else:
+                self.pad = maxPool2dAttribute.PadAsNumpy()
+        self.nanMode = maxPool2dAttribute.NanMode()
+
+    # MaxPool2dAttributeT
+    def Pack(self, builder):
+        if self.kernel is not None:
+            if np is not None and type(self.kernel) is np.ndarray:
+                kernel = builder.CreateNumpyVector(self.kernel)
+            else:
+                MaxPool2dAttributeStartKernelVector(builder, len(self.kernel))
+                for i in reversed(range(len(self.kernel))):
+                    builder.PrependInt32(self.kernel[i])
+                kernel = builder.EndVector()
+        if self.stride is not None:
+            if np is not None and type(self.stride) is np.ndarray:
+                stride = builder.CreateNumpyVector(self.stride)
+            else:
+                MaxPool2dAttributeStartStrideVector(builder, len(self.stride))
+                for i in reversed(range(len(self.stride))):
+                    builder.PrependInt32(self.stride[i])
+                stride = builder.EndVector()
+        if self.pad is not None:
+            if np is not None and type(self.pad) is np.ndarray:
+                pad = builder.CreateNumpyVector(self.pad)
+            else:
+                MaxPool2dAttributeStartPadVector(builder, len(self.pad))
+                for i in reversed(range(len(self.pad))):
+                    builder.PrependInt32(self.pad[i])
+                pad = builder.EndVector()
+        MaxPool2dAttributeStart(builder)
+        if self.kernel is not None:
+            MaxPool2dAttributeAddKernel(builder, kernel)
+        if self.stride is not None:
+            MaxPool2dAttributeAddStride(builder, stride)
+        if self.pad is not None:
+            MaxPool2dAttributeAddPad(builder, pad)
+        MaxPool2dAttributeAddNanMode(builder, self.nanMode)
+        maxPool2dAttribute = MaxPool2dAttributeEnd(builder)
+        return maxPool2dAttribute
+
+
+class RFFT2dAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = RFFT2dAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsRFFT2dAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def RFFT2dAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # RFFT2dAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # RFFT2dAttribute
+    def LocalBound(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+def RFFT2dAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(1)
+
+def RFFT2dAttributeAddLocalBound(builder: flatbuffers.Builder, localBound: bool):
+    builder.PrependBoolSlot(0, localBound, 0)
+
+def RFFT2dAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class RFFT2dAttributeT(object):
+
+    # RFFT2dAttributeT
+    def __init__(self):
+        self.localBound = False  # type: bool
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        rfft2dAttribute = RFFT2dAttribute()
+        rfft2dAttribute.Init(buf, pos)
+        return cls.InitFromObj(rfft2dAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, rfft2dAttribute):
+        x = RFFT2dAttributeT()
+        x._UnPack(rfft2dAttribute)
+        return x
+
+    # RFFT2dAttributeT
+    def _UnPack(self, rfft2dAttribute):
+        if rfft2dAttribute is None:
+            return
+        self.localBound = rfft2dAttribute.LocalBound()
+
+    # RFFT2dAttributeT
+    def Pack(self, builder):
+        RFFT2dAttributeStart(builder)
+        RFFT2dAttributeAddLocalBound(builder, self.localBound)
+        rfft2dAttribute = RFFT2dAttributeEnd(builder)
+        return rfft2dAttribute
+
+
+class TransposeConv2dAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = TransposeConv2dAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsTransposeConv2dAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def TransposeConv2dAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # TransposeConv2dAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # TransposeConv2dAttribute
+    def OutPad(self, j: int):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            a = self._tab.Vector(o)
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
+        return 0
+
+    # TransposeConv2dAttribute
+    def OutPadAsNumpy(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
+        return 0
+
+    # TransposeConv2dAttribute
+    def OutPadLength(self) -> int:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # TransposeConv2dAttribute
+    def OutPadIsNone(self) -> bool:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        return o == 0
+
+    # TransposeConv2dAttribute
+    def Stride(self, j: int):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            a = self._tab.Vector(o)
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
+        return 0
+
+    # TransposeConv2dAttribute
+    def StrideAsNumpy(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
+        return 0
+
+    # TransposeConv2dAttribute
+    def StrideLength(self) -> int:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # TransposeConv2dAttribute
+    def StrideIsNone(self) -> bool:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        return o == 0
+
+    # TransposeConv2dAttribute
+    def LocalBound(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+    # TransposeConv2dAttribute
+    def AccType(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
+        return 0
+
+def TransposeConv2dAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(4)
+
+def TransposeConv2dAttributeAddOutPad(builder: flatbuffers.Builder, outPad: int):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(outPad), 0)
+
+def TransposeConv2dAttributeStartOutPadVector(builder, numElems: int) -> int:
+    return builder.StartVector(4, numElems, 4)
+
+def TransposeConv2dAttributeAddStride(builder: flatbuffers.Builder, stride: int):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(stride), 0)
+
+def TransposeConv2dAttributeStartStrideVector(builder, numElems: int) -> int:
+    return builder.StartVector(4, numElems, 4)
+
+def TransposeConv2dAttributeAddLocalBound(builder: flatbuffers.Builder, localBound: bool):
+    builder.PrependBoolSlot(2, localBound, 0)
+
+def TransposeConv2dAttributeAddAccType(builder: flatbuffers.Builder, accType: int):
+    builder.PrependUint32Slot(3, accType, 0)
+
+def TransposeConv2dAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+try:
+    from typing import List
+except:
+    pass
+
+class TransposeConv2dAttributeT(object):
+
+    # TransposeConv2dAttributeT
     def __init__(self):
         self.outPad = None  # type: List[int]
         self.stride = None  # type: List[int]
@@ -847,9 +2020,9 @@ class TransposeConvAttributeT(object):
 
     @classmethod
     def InitFromBuf(cls, buf, pos):
-        transposeConvAttribute = TransposeConvAttribute()
-        transposeConvAttribute.Init(buf, pos)
-        return cls.InitFromObj(transposeConvAttribute)
+        transposeConv2dAttribute = TransposeConv2dAttribute()
+        transposeConv2dAttribute.Init(buf, pos)
+        return cls.InitFromObj(transposeConv2dAttribute)
 
     @classmethod
     def InitFromPackedBuf(cls, buf, pos=0):
@@ -857,39 +2030,39 @@ class TransposeConvAttributeT(object):
         return cls.InitFromBuf(buf, pos+n)
 
     @classmethod
-    def InitFromObj(cls, transposeConvAttribute):
-        x = TransposeConvAttributeT()
-        x._UnPack(transposeConvAttribute)
+    def InitFromObj(cls, transposeConv2dAttribute):
+        x = TransposeConv2dAttributeT()
+        x._UnPack(transposeConv2dAttribute)
         return x
 
-    # TransposeConvAttributeT
-    def _UnPack(self, transposeConvAttribute):
-        if transposeConvAttribute is None:
+    # TransposeConv2dAttributeT
+    def _UnPack(self, transposeConv2dAttribute):
+        if transposeConv2dAttribute is None:
             return
-        if not transposeConvAttribute.OutPadIsNone():
+        if not transposeConv2dAttribute.OutPadIsNone():
             if np is None:
                 self.outPad = []
-                for i in range(transposeConvAttribute.OutPadLength()):
-                    self.outPad.append(transposeConvAttribute.OutPad(i))
+                for i in range(transposeConv2dAttribute.OutPadLength()):
+                    self.outPad.append(transposeConv2dAttribute.OutPad(i))
             else:
-                self.outPad = transposeConvAttribute.OutPadAsNumpy()
-        if not transposeConvAttribute.StrideIsNone():
+                self.outPad = transposeConv2dAttribute.OutPadAsNumpy()
+        if not transposeConv2dAttribute.StrideIsNone():
             if np is None:
                 self.stride = []
-                for i in range(transposeConvAttribute.StrideLength()):
-                    self.stride.append(transposeConvAttribute.Stride(i))
+                for i in range(transposeConv2dAttribute.StrideLength()):
+                    self.stride.append(transposeConv2dAttribute.Stride(i))
             else:
-                self.stride = transposeConvAttribute.StrideAsNumpy()
-        self.localBound = transposeConvAttribute.LocalBound()
-        self.accType = transposeConvAttribute.AccType()
+                self.stride = transposeConv2dAttribute.StrideAsNumpy()
+        self.localBound = transposeConv2dAttribute.LocalBound()
+        self.accType = transposeConv2dAttribute.AccType()
 
-    # TransposeConvAttributeT
+    # TransposeConv2dAttributeT
     def Pack(self, builder):
         if self.outPad is not None:
             if np is not None and type(self.outPad) is np.ndarray:
                 outPad = builder.CreateNumpyVector(self.outPad)
             else:
-                TransposeConvAttributeStartOutPadVector(builder, len(self.outPad))
+                TransposeConv2dAttributeStartOutPadVector(builder, len(self.outPad))
                 for i in reversed(range(len(self.outPad))):
                     builder.PrependInt32(self.outPad[i])
                 outPad = builder.EndVector()
@@ -897,305 +2070,19 @@ class TransposeConvAttributeT(object):
             if np is not None and type(self.stride) is np.ndarray:
                 stride = builder.CreateNumpyVector(self.stride)
             else:
-                TransposeConvAttributeStartStrideVector(builder, len(self.stride))
+                TransposeConv2dAttributeStartStrideVector(builder, len(self.stride))
                 for i in reversed(range(len(self.stride))):
                     builder.PrependInt32(self.stride[i])
                 stride = builder.EndVector()
-        TransposeConvAttributeStart(builder)
+        TransposeConv2dAttributeStart(builder)
         if self.outPad is not None:
-            TransposeConvAttributeAddOutPad(builder, outPad)
+            TransposeConv2dAttributeAddOutPad(builder, outPad)
         if self.stride is not None:
-            TransposeConvAttributeAddStride(builder, stride)
-        TransposeConvAttributeAddLocalBound(builder, self.localBound)
-        TransposeConvAttributeAddAccType(builder, self.accType)
-        transposeConvAttribute = TransposeConvAttributeEnd(builder)
-        return transposeConvAttribute
-
-
-class PadAttribute(object):
-    __slots__ = ['_tab']
-
-    @classmethod
-    def GetRootAs(cls, buf, offset: int = 0):
-        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
-        x = PadAttribute()
-        x.Init(buf, n + offset)
-        return x
-
-    @classmethod
-    def GetRootAsPadAttribute(cls, buf, offset=0):
-        """This method is deprecated. Please switch to GetRootAs."""
-        return cls.GetRootAs(buf, offset)
-    @classmethod
-    def PadAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
-        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
-
-    # PadAttribute
-    def Init(self, buf: bytes, pos: int):
-        self._tab = flatbuffers.table.Table(buf, pos)
-
-    # PadAttribute
-    def PadConst(self, j: int):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
-        return 0
-
-    # PadAttribute
-    def PadConstAsNumpy(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Uint8Flags, o)
-        return 0
-
-    # PadAttribute
-    def PadConstLength(self) -> int:
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            return self._tab.VectorLen(o)
-        return 0
-
-    # PadAttribute
-    def PadConstIsNone(self) -> bool:
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        return o == 0
-
-def PadAttributeStart(builder: flatbuffers.Builder):
-    builder.StartObject(1)
-
-def PadAttributeAddPadConst(builder: flatbuffers.Builder, padConst: int):
-    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(padConst), 0)
-
-def PadAttributeStartPadConstVector(builder, numElems: int) -> int:
-    return builder.StartVector(1, numElems, 1)
-
-def PadAttributeEnd(builder: flatbuffers.Builder) -> int:
-    return builder.EndObject()
-
-
-try:
-    from typing import List
-except:
-    pass
-
-class PadAttributeT(object):
-
-    # PadAttributeT
-    def __init__(self):
-        self.padConst = None  # type: List[int]
-
-    @classmethod
-    def InitFromBuf(cls, buf, pos):
-        padAttribute = PadAttribute()
-        padAttribute.Init(buf, pos)
-        return cls.InitFromObj(padAttribute)
-
-    @classmethod
-    def InitFromPackedBuf(cls, buf, pos=0):
-        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
-        return cls.InitFromBuf(buf, pos+n)
-
-    @classmethod
-    def InitFromObj(cls, padAttribute):
-        x = PadAttributeT()
-        x._UnPack(padAttribute)
-        return x
-
-    # PadAttributeT
-    def _UnPack(self, padAttribute):
-        if padAttribute is None:
-            return
-        if not padAttribute.PadConstIsNone():
-            if np is None:
-                self.padConst = []
-                for i in range(padAttribute.PadConstLength()):
-                    self.padConst.append(padAttribute.PadConst(i))
-            else:
-                self.padConst = padAttribute.PadConstAsNumpy()
-
-    # PadAttributeT
-    def Pack(self, builder):
-        if self.padConst is not None:
-            if np is not None and type(self.padConst) is np.ndarray:
-                padConst = builder.CreateNumpyVector(self.padConst)
-            else:
-                PadAttributeStartPadConstVector(builder, len(self.padConst))
-                for i in reversed(range(len(self.padConst))):
-                    builder.PrependUint8(self.padConst[i])
-                padConst = builder.EndVector()
-        PadAttributeStart(builder)
-        if self.padConst is not None:
-            PadAttributeAddPadConst(builder, padConst)
-        padAttribute = PadAttributeEnd(builder)
-        return padAttribute
-
-
-class AxisAttribute(object):
-    __slots__ = ['_tab']
-
-    @classmethod
-    def GetRootAs(cls, buf, offset: int = 0):
-        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
-        x = AxisAttribute()
-        x.Init(buf, n + offset)
-        return x
-
-    @classmethod
-    def GetRootAsAxisAttribute(cls, buf, offset=0):
-        """This method is deprecated. Please switch to GetRootAs."""
-        return cls.GetRootAs(buf, offset)
-    @classmethod
-    def AxisAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
-        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
-
-    # AxisAttribute
-    def Init(self, buf: bytes, pos: int):
-        self._tab = flatbuffers.table.Table(buf, pos)
-
-    # AxisAttribute
-    def Axis(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
-        return 0
-
-    # AxisAttribute
-    def NanMode(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
-        return 0
-
-def AxisAttributeStart(builder: flatbuffers.Builder):
-    builder.StartObject(2)
-
-def AxisAttributeAddAxis(builder: flatbuffers.Builder, axis: int):
-    builder.PrependInt32Slot(0, axis, 0)
-
-def AxisAttributeAddNanMode(builder: flatbuffers.Builder, nanMode: int):
-    builder.PrependUint32Slot(1, nanMode, 0)
-
-def AxisAttributeEnd(builder: flatbuffers.Builder) -> int:
-    return builder.EndObject()
-
-
-
-class AxisAttributeT(object):
-
-    # AxisAttributeT
-    def __init__(self):
-        self.axis = 0  # type: int
-        self.nanMode = 0  # type: int
-
-    @classmethod
-    def InitFromBuf(cls, buf, pos):
-        axisAttribute = AxisAttribute()
-        axisAttribute.Init(buf, pos)
-        return cls.InitFromObj(axisAttribute)
-
-    @classmethod
-    def InitFromPackedBuf(cls, buf, pos=0):
-        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
-        return cls.InitFromBuf(buf, pos+n)
-
-    @classmethod
-    def InitFromObj(cls, axisAttribute):
-        x = AxisAttributeT()
-        x._UnPack(axisAttribute)
-        return x
-
-    # AxisAttributeT
-    def _UnPack(self, axisAttribute):
-        if axisAttribute is None:
-            return
-        self.axis = axisAttribute.Axis()
-        self.nanMode = axisAttribute.NanMode()
-
-    # AxisAttributeT
-    def Pack(self, builder):
-        AxisAttributeStart(builder)
-        AxisAttributeAddAxis(builder, self.axis)
-        AxisAttributeAddNanMode(builder, self.nanMode)
-        axisAttribute = AxisAttributeEnd(builder)
-        return axisAttribute
-
-
-class ResizeAttribute(object):
-    __slots__ = ['_tab']
-
-    @classmethod
-    def GetRootAs(cls, buf, offset: int = 0):
-        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
-        x = ResizeAttribute()
-        x.Init(buf, n + offset)
-        return x
-
-    @classmethod
-    def GetRootAsResizeAttribute(cls, buf, offset=0):
-        """This method is deprecated. Please switch to GetRootAs."""
-        return cls.GetRootAs(buf, offset)
-    @classmethod
-    def ResizeAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
-        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
-
-    # ResizeAttribute
-    def Init(self, buf: bytes, pos: int):
-        self._tab = flatbuffers.table.Table(buf, pos)
-
-    # ResizeAttribute
-    def Mode(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
-        return 0
-
-def ResizeAttributeStart(builder: flatbuffers.Builder):
-    builder.StartObject(4)
-
-def ResizeAttributeAddMode(builder: flatbuffers.Builder, mode: int):
-    builder.PrependUint32Slot(3, mode, 0)
-
-def ResizeAttributeEnd(builder: flatbuffers.Builder) -> int:
-    return builder.EndObject()
-
-
-
-class ResizeAttributeT(object):
-
-    # ResizeAttributeT
-    def __init__(self):
-        self.mode = 0  # type: int
-
-    @classmethod
-    def InitFromBuf(cls, buf, pos):
-        resizeAttribute = ResizeAttribute()
-        resizeAttribute.Init(buf, pos)
-        return cls.InitFromObj(resizeAttribute)
-
-    @classmethod
-    def InitFromPackedBuf(cls, buf, pos=0):
-        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
-        return cls.InitFromBuf(buf, pos+n)
-
-    @classmethod
-    def InitFromObj(cls, resizeAttribute):
-        x = ResizeAttributeT()
-        x._UnPack(resizeAttribute)
-        return x
-
-    # ResizeAttributeT
-    def _UnPack(self, resizeAttribute):
-        if resizeAttribute is None:
-            return
-        self.mode = resizeAttribute.Mode()
-
-    # ResizeAttributeT
-    def Pack(self, builder):
-        ResizeAttributeStart(builder)
-        ResizeAttributeAddMode(builder, self.mode)
-        resizeAttribute = ResizeAttributeEnd(builder)
-        return resizeAttribute
+            TransposeConv2dAttributeAddStride(builder, stride)
+        TransposeConv2dAttributeAddLocalBound(builder, self.localBound)
+        TransposeConv2dAttributeAddAccType(builder, self.accType)
+        transposeConv2dAttribute = TransposeConv2dAttributeEnd(builder)
+        return transposeConv2dAttribute
 
 
 class ClampAttribute(object):
@@ -1381,123 +2268,47 @@ class ClampAttributeT(object):
         return clampAttribute
 
 
-class RescaleAttribute(object):
+class ErfAttribute(object):
     __slots__ = ['_tab']
 
     @classmethod
     def GetRootAs(cls, buf, offset: int = 0):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
-        x = RescaleAttribute()
+        x = ErfAttribute()
         x.Init(buf, n + offset)
         return x
 
     @classmethod
-    def GetRootAsRescaleAttribute(cls, buf, offset=0):
+    def GetRootAsErfAttribute(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
     @classmethod
-    def RescaleAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+    def ErfAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
         return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
 
-    # RescaleAttribute
+    # ErfAttribute
     def Init(self, buf: bytes, pos: int):
         self._tab = flatbuffers.table.Table(buf, pos)
 
-    # RescaleAttribute
-    def InputZp(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
-        return 0
+def ErfAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
 
-    # RescaleAttribute
-    def OutputZp(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
-        return 0
-
-    # RescaleAttribute
-    def Scale32(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
-        if o != 0:
-            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
-        return False
-
-    # RescaleAttribute
-    def DoubleRound(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
-        if o != 0:
-            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
-        return False
-
-    # RescaleAttribute
-    def PerChannel(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
-        if o != 0:
-            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
-        return False
-
-    # RescaleAttribute
-    def InputUnsigned(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
-        if o != 0:
-            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
-        return False
-
-    # RescaleAttribute
-    def OutputUnsigned(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(16))
-        if o != 0:
-            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
-        return False
-
-def RescaleAttributeStart(builder: flatbuffers.Builder):
-    builder.StartObject(7)
-
-def RescaleAttributeAddInputZp(builder: flatbuffers.Builder, inputZp: int):
-    builder.PrependInt32Slot(0, inputZp, 0)
-
-def RescaleAttributeAddOutputZp(builder: flatbuffers.Builder, outputZp: int):
-    builder.PrependInt32Slot(1, outputZp, 0)
-
-def RescaleAttributeAddScale32(builder: flatbuffers.Builder, scale32: bool):
-    builder.PrependBoolSlot(2, scale32, 0)
-
-def RescaleAttributeAddDoubleRound(builder: flatbuffers.Builder, doubleRound: bool):
-    builder.PrependBoolSlot(3, doubleRound, 0)
-
-def RescaleAttributeAddPerChannel(builder: flatbuffers.Builder, perChannel: bool):
-    builder.PrependBoolSlot(4, perChannel, 0)
-
-def RescaleAttributeAddInputUnsigned(builder: flatbuffers.Builder, inputUnsigned: bool):
-    builder.PrependBoolSlot(5, inputUnsigned, 0)
-
-def RescaleAttributeAddOutputUnsigned(builder: flatbuffers.Builder, outputUnsigned: bool):
-    builder.PrependBoolSlot(6, outputUnsigned, 0)
-
-def RescaleAttributeEnd(builder: flatbuffers.Builder) -> int:
+def ErfAttributeEnd(builder: flatbuffers.Builder) -> int:
     return builder.EndObject()
 
 
 
-class RescaleAttributeT(object):
+class ErfAttributeT(object):
 
-    # RescaleAttributeT
+    # ErfAttributeT
     def __init__(self):
-        self.inputZp = 0  # type: int
-        self.outputZp = 0  # type: int
-        self.scale32 = False  # type: bool
-        self.doubleRound = False  # type: bool
-        self.perChannel = False  # type: bool
-        self.inputUnsigned = False  # type: bool
-        self.outputUnsigned = False  # type: bool
+        pass
 
     @classmethod
     def InitFromBuf(cls, buf, pos):
-        rescaleAttribute = RescaleAttribute()
-        rescaleAttribute.Init(buf, pos)
-        return cls.InitFromObj(rescaleAttribute)
+        erfAttribute = ErfAttribute()
+        erfAttribute.Init(buf, pos)
+        return cls.InitFromObj(erfAttribute)
 
     @classmethod
     def InitFromPackedBuf(cls, buf, pos=0):
@@ -1505,88 +2316,64 @@ class RescaleAttributeT(object):
         return cls.InitFromBuf(buf, pos+n)
 
     @classmethod
-    def InitFromObj(cls, rescaleAttribute):
-        x = RescaleAttributeT()
-        x._UnPack(rescaleAttribute)
+    def InitFromObj(cls, erfAttribute):
+        x = ErfAttributeT()
+        x._UnPack(erfAttribute)
         return x
 
-    # RescaleAttributeT
-    def _UnPack(self, rescaleAttribute):
-        if rescaleAttribute is None:
+    # ErfAttributeT
+    def _UnPack(self, erfAttribute):
+        if erfAttribute is None:
             return
-        self.inputZp = rescaleAttribute.InputZp()
-        self.outputZp = rescaleAttribute.OutputZp()
-        self.scale32 = rescaleAttribute.Scale32()
-        self.doubleRound = rescaleAttribute.DoubleRound()
-        self.perChannel = rescaleAttribute.PerChannel()
-        self.inputUnsigned = rescaleAttribute.InputUnsigned()
-        self.outputUnsigned = rescaleAttribute.OutputUnsigned()
 
-    # RescaleAttributeT
+    # ErfAttributeT
     def Pack(self, builder):
-        RescaleAttributeStart(builder)
-        RescaleAttributeAddInputZp(builder, self.inputZp)
-        RescaleAttributeAddOutputZp(builder, self.outputZp)
-        RescaleAttributeAddScale32(builder, self.scale32)
-        RescaleAttributeAddDoubleRound(builder, self.doubleRound)
-        RescaleAttributeAddPerChannel(builder, self.perChannel)
-        RescaleAttributeAddInputUnsigned(builder, self.inputUnsigned)
-        RescaleAttributeAddOutputUnsigned(builder, self.outputUnsigned)
-        rescaleAttribute = RescaleAttributeEnd(builder)
-        return rescaleAttribute
+        ErfAttributeStart(builder)
+        erfAttribute = ErfAttributeEnd(builder)
+        return erfAttribute
 
 
-class MulAttribute(object):
+class SigmoidAttribute(object):
     __slots__ = ['_tab']
 
     @classmethod
     def GetRootAs(cls, buf, offset: int = 0):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
-        x = MulAttribute()
+        x = SigmoidAttribute()
         x.Init(buf, n + offset)
         return x
 
     @classmethod
-    def GetRootAsMulAttribute(cls, buf, offset=0):
+    def GetRootAsSigmoidAttribute(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
     @classmethod
-    def MulAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+    def SigmoidAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
         return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
 
-    # MulAttribute
+    # SigmoidAttribute
     def Init(self, buf: bytes, pos: int):
         self._tab = flatbuffers.table.Table(buf, pos)
 
-    # MulAttribute
-    def Shift(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
-        return 0
+def SigmoidAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
 
-def MulAttributeStart(builder: flatbuffers.Builder):
-    builder.StartObject(1)
-
-def MulAttributeAddShift(builder: flatbuffers.Builder, shift: int):
-    builder.PrependInt32Slot(0, shift, 0)
-
-def MulAttributeEnd(builder: flatbuffers.Builder) -> int:
+def SigmoidAttributeEnd(builder: flatbuffers.Builder) -> int:
     return builder.EndObject()
 
 
 
-class MulAttributeT(object):
+class SigmoidAttributeT(object):
 
-    # MulAttributeT
+    # SigmoidAttributeT
     def __init__(self):
-        self.shift = 0  # type: int
+        pass
 
     @classmethod
     def InitFromBuf(cls, buf, pos):
-        mulAttribute = MulAttribute()
-        mulAttribute.Init(buf, pos)
-        return cls.InitFromObj(mulAttribute)
+        sigmoidAttribute = SigmoidAttribute()
+        sigmoidAttribute.Init(buf, pos)
+        return cls.InitFromObj(sigmoidAttribute)
 
     @classmethod
     def InitFromPackedBuf(cls, buf, pos=0):
@@ -1594,23 +2381,151 @@ class MulAttributeT(object):
         return cls.InitFromBuf(buf, pos+n)
 
     @classmethod
-    def InitFromObj(cls, mulAttribute):
-        x = MulAttributeT()
-        x._UnPack(mulAttribute)
+    def InitFromObj(cls, sigmoidAttribute):
+        x = SigmoidAttributeT()
+        x._UnPack(sigmoidAttribute)
         return x
 
-    # MulAttributeT
-    def _UnPack(self, mulAttribute):
-        if mulAttribute is None:
+    # SigmoidAttributeT
+    def _UnPack(self, sigmoidAttribute):
+        if sigmoidAttribute is None:
             return
-        self.shift = mulAttribute.Shift()
 
-    # MulAttributeT
+    # SigmoidAttributeT
     def Pack(self, builder):
-        MulAttributeStart(builder)
-        MulAttributeAddShift(builder, self.shift)
-        mulAttribute = MulAttributeEnd(builder)
-        return mulAttribute
+        SigmoidAttributeStart(builder)
+        sigmoidAttribute = SigmoidAttributeEnd(builder)
+        return sigmoidAttribute
+
+
+class TanhAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = TanhAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsTanhAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def TanhAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # TanhAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def TanhAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def TanhAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class TanhAttributeT(object):
+
+    # TanhAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        tanhAttribute = TanhAttribute()
+        tanhAttribute.Init(buf, pos)
+        return cls.InitFromObj(tanhAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, tanhAttribute):
+        x = TanhAttributeT()
+        x._UnPack(tanhAttribute)
+        return x
+
+    # TanhAttributeT
+    def _UnPack(self, tanhAttribute):
+        if tanhAttribute is None:
+            return
+
+    # TanhAttributeT
+    def Pack(self, builder):
+        TanhAttributeStart(builder)
+        tanhAttribute = TanhAttributeEnd(builder)
+        return tanhAttribute
+
+
+class AddAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = AddAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsAddAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def AddAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # AddAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def AddAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def AddAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class AddAttributeT(object):
+
+    # AddAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        addAttribute = AddAttribute()
+        addAttribute.Init(buf, pos)
+        return cls.InitFromObj(addAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, addAttribute):
+        x = AddAttributeT()
+        x._UnPack(addAttribute)
+        return x
+
+    # AddAttributeT
+    def _UnPack(self, addAttribute):
+        if addAttribute is None:
+            return
+
+    # AddAttributeT
+    def Pack(self, builder):
+        AddAttributeStart(builder)
+        addAttribute = AddAttributeEnd(builder)
+        return addAttribute
 
 
 class ArithmeticRightShiftAttribute(object):
@@ -1688,6 +2603,3813 @@ class ArithmeticRightShiftAttributeT(object):
         ArithmeticRightShiftAttributeAddRound(builder, self.round)
         arithmeticRightShiftAttribute = ArithmeticRightShiftAttributeEnd(builder)
         return arithmeticRightShiftAttribute
+
+
+class BitwiseAndAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = BitwiseAndAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsBitwiseAndAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def BitwiseAndAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # BitwiseAndAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def BitwiseAndAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def BitwiseAndAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class BitwiseAndAttributeT(object):
+
+    # BitwiseAndAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        bitwiseAndAttribute = BitwiseAndAttribute()
+        bitwiseAndAttribute.Init(buf, pos)
+        return cls.InitFromObj(bitwiseAndAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, bitwiseAndAttribute):
+        x = BitwiseAndAttributeT()
+        x._UnPack(bitwiseAndAttribute)
+        return x
+
+    # BitwiseAndAttributeT
+    def _UnPack(self, bitwiseAndAttribute):
+        if bitwiseAndAttribute is None:
+            return
+
+    # BitwiseAndAttributeT
+    def Pack(self, builder):
+        BitwiseAndAttributeStart(builder)
+        bitwiseAndAttribute = BitwiseAndAttributeEnd(builder)
+        return bitwiseAndAttribute
+
+
+class BitwiseOrAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = BitwiseOrAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsBitwiseOrAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def BitwiseOrAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # BitwiseOrAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def BitwiseOrAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def BitwiseOrAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class BitwiseOrAttributeT(object):
+
+    # BitwiseOrAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        bitwiseOrAttribute = BitwiseOrAttribute()
+        bitwiseOrAttribute.Init(buf, pos)
+        return cls.InitFromObj(bitwiseOrAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, bitwiseOrAttribute):
+        x = BitwiseOrAttributeT()
+        x._UnPack(bitwiseOrAttribute)
+        return x
+
+    # BitwiseOrAttributeT
+    def _UnPack(self, bitwiseOrAttribute):
+        if bitwiseOrAttribute is None:
+            return
+
+    # BitwiseOrAttributeT
+    def Pack(self, builder):
+        BitwiseOrAttributeStart(builder)
+        bitwiseOrAttribute = BitwiseOrAttributeEnd(builder)
+        return bitwiseOrAttribute
+
+
+class BitwiseXorAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = BitwiseXorAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsBitwiseXorAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def BitwiseXorAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # BitwiseXorAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def BitwiseXorAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def BitwiseXorAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class BitwiseXorAttributeT(object):
+
+    # BitwiseXorAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        bitwiseXorAttribute = BitwiseXorAttribute()
+        bitwiseXorAttribute.Init(buf, pos)
+        return cls.InitFromObj(bitwiseXorAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, bitwiseXorAttribute):
+        x = BitwiseXorAttributeT()
+        x._UnPack(bitwiseXorAttribute)
+        return x
+
+    # BitwiseXorAttributeT
+    def _UnPack(self, bitwiseXorAttribute):
+        if bitwiseXorAttribute is None:
+            return
+
+    # BitwiseXorAttributeT
+    def Pack(self, builder):
+        BitwiseXorAttributeStart(builder)
+        bitwiseXorAttribute = BitwiseXorAttributeEnd(builder)
+        return bitwiseXorAttribute
+
+
+class IntDivAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = IntDivAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsIntDivAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def IntDivAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # IntDivAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def IntDivAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def IntDivAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class IntDivAttributeT(object):
+
+    # IntDivAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        intDivAttribute = IntDivAttribute()
+        intDivAttribute.Init(buf, pos)
+        return cls.InitFromObj(intDivAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, intDivAttribute):
+        x = IntDivAttributeT()
+        x._UnPack(intDivAttribute)
+        return x
+
+    # IntDivAttributeT
+    def _UnPack(self, intDivAttribute):
+        if intDivAttribute is None:
+            return
+
+    # IntDivAttributeT
+    def Pack(self, builder):
+        IntDivAttributeStart(builder)
+        intDivAttribute = IntDivAttributeEnd(builder)
+        return intDivAttribute
+
+
+class LogicalAndAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = LogicalAndAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsLogicalAndAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def LogicalAndAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # LogicalAndAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def LogicalAndAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def LogicalAndAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class LogicalAndAttributeT(object):
+
+    # LogicalAndAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        logicalAndAttribute = LogicalAndAttribute()
+        logicalAndAttribute.Init(buf, pos)
+        return cls.InitFromObj(logicalAndAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, logicalAndAttribute):
+        x = LogicalAndAttributeT()
+        x._UnPack(logicalAndAttribute)
+        return x
+
+    # LogicalAndAttributeT
+    def _UnPack(self, logicalAndAttribute):
+        if logicalAndAttribute is None:
+            return
+
+    # LogicalAndAttributeT
+    def Pack(self, builder):
+        LogicalAndAttributeStart(builder)
+        logicalAndAttribute = LogicalAndAttributeEnd(builder)
+        return logicalAndAttribute
+
+
+class LogicalLeftShiftAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = LogicalLeftShiftAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsLogicalLeftShiftAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def LogicalLeftShiftAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # LogicalLeftShiftAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def LogicalLeftShiftAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def LogicalLeftShiftAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class LogicalLeftShiftAttributeT(object):
+
+    # LogicalLeftShiftAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        logicalLeftShiftAttribute = LogicalLeftShiftAttribute()
+        logicalLeftShiftAttribute.Init(buf, pos)
+        return cls.InitFromObj(logicalLeftShiftAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, logicalLeftShiftAttribute):
+        x = LogicalLeftShiftAttributeT()
+        x._UnPack(logicalLeftShiftAttribute)
+        return x
+
+    # LogicalLeftShiftAttributeT
+    def _UnPack(self, logicalLeftShiftAttribute):
+        if logicalLeftShiftAttribute is None:
+            return
+
+    # LogicalLeftShiftAttributeT
+    def Pack(self, builder):
+        LogicalLeftShiftAttributeStart(builder)
+        logicalLeftShiftAttribute = LogicalLeftShiftAttributeEnd(builder)
+        return logicalLeftShiftAttribute
+
+
+class LogicalRightShiftAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = LogicalRightShiftAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsLogicalRightShiftAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def LogicalRightShiftAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # LogicalRightShiftAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def LogicalRightShiftAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def LogicalRightShiftAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class LogicalRightShiftAttributeT(object):
+
+    # LogicalRightShiftAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        logicalRightShiftAttribute = LogicalRightShiftAttribute()
+        logicalRightShiftAttribute.Init(buf, pos)
+        return cls.InitFromObj(logicalRightShiftAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, logicalRightShiftAttribute):
+        x = LogicalRightShiftAttributeT()
+        x._UnPack(logicalRightShiftAttribute)
+        return x
+
+    # LogicalRightShiftAttributeT
+    def _UnPack(self, logicalRightShiftAttribute):
+        if logicalRightShiftAttribute is None:
+            return
+
+    # LogicalRightShiftAttributeT
+    def Pack(self, builder):
+        LogicalRightShiftAttributeStart(builder)
+        logicalRightShiftAttribute = LogicalRightShiftAttributeEnd(builder)
+        return logicalRightShiftAttribute
+
+
+class LogicalOrAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = LogicalOrAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsLogicalOrAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def LogicalOrAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # LogicalOrAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def LogicalOrAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def LogicalOrAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class LogicalOrAttributeT(object):
+
+    # LogicalOrAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        logicalOrAttribute = LogicalOrAttribute()
+        logicalOrAttribute.Init(buf, pos)
+        return cls.InitFromObj(logicalOrAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, logicalOrAttribute):
+        x = LogicalOrAttributeT()
+        x._UnPack(logicalOrAttribute)
+        return x
+
+    # LogicalOrAttributeT
+    def _UnPack(self, logicalOrAttribute):
+        if logicalOrAttribute is None:
+            return
+
+    # LogicalOrAttributeT
+    def Pack(self, builder):
+        LogicalOrAttributeStart(builder)
+        logicalOrAttribute = LogicalOrAttributeEnd(builder)
+        return logicalOrAttribute
+
+
+class LogicalXorAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = LogicalXorAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsLogicalXorAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def LogicalXorAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # LogicalXorAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def LogicalXorAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def LogicalXorAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class LogicalXorAttributeT(object):
+
+    # LogicalXorAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        logicalXorAttribute = LogicalXorAttribute()
+        logicalXorAttribute.Init(buf, pos)
+        return cls.InitFromObj(logicalXorAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, logicalXorAttribute):
+        x = LogicalXorAttributeT()
+        x._UnPack(logicalXorAttribute)
+        return x
+
+    # LogicalXorAttributeT
+    def _UnPack(self, logicalXorAttribute):
+        if logicalXorAttribute is None:
+            return
+
+    # LogicalXorAttributeT
+    def Pack(self, builder):
+        LogicalXorAttributeStart(builder)
+        logicalXorAttribute = LogicalXorAttributeEnd(builder)
+        return logicalXorAttribute
+
+
+class MaximumAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = MaximumAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsMaximumAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def MaximumAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # MaximumAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # MaximumAttribute
+    def NanMode(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
+        return 0
+
+def MaximumAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(1)
+
+def MaximumAttributeAddNanMode(builder: flatbuffers.Builder, nanMode: int):
+    builder.PrependUint32Slot(0, nanMode, 0)
+
+def MaximumAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class MaximumAttributeT(object):
+
+    # MaximumAttributeT
+    def __init__(self):
+        self.nanMode = 0  # type: int
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        maximumAttribute = MaximumAttribute()
+        maximumAttribute.Init(buf, pos)
+        return cls.InitFromObj(maximumAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, maximumAttribute):
+        x = MaximumAttributeT()
+        x._UnPack(maximumAttribute)
+        return x
+
+    # MaximumAttributeT
+    def _UnPack(self, maximumAttribute):
+        if maximumAttribute is None:
+            return
+        self.nanMode = maximumAttribute.NanMode()
+
+    # MaximumAttributeT
+    def Pack(self, builder):
+        MaximumAttributeStart(builder)
+        MaximumAttributeAddNanMode(builder, self.nanMode)
+        maximumAttribute = MaximumAttributeEnd(builder)
+        return maximumAttribute
+
+
+class MinimumAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = MinimumAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsMinimumAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def MinimumAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # MinimumAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # MinimumAttribute
+    def NanMode(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
+        return 0
+
+def MinimumAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(1)
+
+def MinimumAttributeAddNanMode(builder: flatbuffers.Builder, nanMode: int):
+    builder.PrependUint32Slot(0, nanMode, 0)
+
+def MinimumAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class MinimumAttributeT(object):
+
+    # MinimumAttributeT
+    def __init__(self):
+        self.nanMode = 0  # type: int
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        minimumAttribute = MinimumAttribute()
+        minimumAttribute.Init(buf, pos)
+        return cls.InitFromObj(minimumAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, minimumAttribute):
+        x = MinimumAttributeT()
+        x._UnPack(minimumAttribute)
+        return x
+
+    # MinimumAttributeT
+    def _UnPack(self, minimumAttribute):
+        if minimumAttribute is None:
+            return
+        self.nanMode = minimumAttribute.NanMode()
+
+    # MinimumAttributeT
+    def Pack(self, builder):
+        MinimumAttributeStart(builder)
+        MinimumAttributeAddNanMode(builder, self.nanMode)
+        minimumAttribute = MinimumAttributeEnd(builder)
+        return minimumAttribute
+
+
+class MulAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = MulAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsMulAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def MulAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # MulAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def MulAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def MulAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class MulAttributeT(object):
+
+    # MulAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        mulAttribute = MulAttribute()
+        mulAttribute.Init(buf, pos)
+        return cls.InitFromObj(mulAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, mulAttribute):
+        x = MulAttributeT()
+        x._UnPack(mulAttribute)
+        return x
+
+    # MulAttributeT
+    def _UnPack(self, mulAttribute):
+        if mulAttribute is None:
+            return
+
+    # MulAttributeT
+    def Pack(self, builder):
+        MulAttributeStart(builder)
+        mulAttribute = MulAttributeEnd(builder)
+        return mulAttribute
+
+
+class PowAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = PowAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsPowAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def PowAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # PowAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def PowAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def PowAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class PowAttributeT(object):
+
+    # PowAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        powAttribute = PowAttribute()
+        powAttribute.Init(buf, pos)
+        return cls.InitFromObj(powAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, powAttribute):
+        x = PowAttributeT()
+        x._UnPack(powAttribute)
+        return x
+
+    # PowAttributeT
+    def _UnPack(self, powAttribute):
+        if powAttribute is None:
+            return
+
+    # PowAttributeT
+    def Pack(self, builder):
+        PowAttributeStart(builder)
+        powAttribute = PowAttributeEnd(builder)
+        return powAttribute
+
+
+class SubAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = SubAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsSubAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def SubAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # SubAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def SubAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def SubAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class SubAttributeT(object):
+
+    # SubAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        subAttribute = SubAttribute()
+        subAttribute.Init(buf, pos)
+        return cls.InitFromObj(subAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, subAttribute):
+        x = SubAttributeT()
+        x._UnPack(subAttribute)
+        return x
+
+    # SubAttributeT
+    def _UnPack(self, subAttribute):
+        if subAttribute is None:
+            return
+
+    # SubAttributeT
+    def Pack(self, builder):
+        SubAttributeStart(builder)
+        subAttribute = SubAttributeEnd(builder)
+        return subAttribute
+
+
+class TableAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = TableAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsTableAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def TableAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # TableAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def TableAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def TableAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class TableAttributeT(object):
+
+    # TableAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        tableAttribute = TableAttribute()
+        tableAttribute.Init(buf, pos)
+        return cls.InitFromObj(tableAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, tableAttribute):
+        x = TableAttributeT()
+        x._UnPack(tableAttribute)
+        return x
+
+    # TableAttributeT
+    def _UnPack(self, tableAttribute):
+        if tableAttribute is None:
+            return
+
+    # TableAttributeT
+    def Pack(self, builder):
+        TableAttributeStart(builder)
+        tableAttribute = TableAttributeEnd(builder)
+        return tableAttribute
+
+
+class AbsAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = AbsAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsAbsAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def AbsAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # AbsAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def AbsAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def AbsAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class AbsAttributeT(object):
+
+    # AbsAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        absAttribute = AbsAttribute()
+        absAttribute.Init(buf, pos)
+        return cls.InitFromObj(absAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, absAttribute):
+        x = AbsAttributeT()
+        x._UnPack(absAttribute)
+        return x
+
+    # AbsAttributeT
+    def _UnPack(self, absAttribute):
+        if absAttribute is None:
+            return
+
+    # AbsAttributeT
+    def Pack(self, builder):
+        AbsAttributeStart(builder)
+        absAttribute = AbsAttributeEnd(builder)
+        return absAttribute
+
+
+class BitwiseNotAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = BitwiseNotAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsBitwiseNotAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def BitwiseNotAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # BitwiseNotAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def BitwiseNotAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def BitwiseNotAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class BitwiseNotAttributeT(object):
+
+    # BitwiseNotAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        bitwiseNotAttribute = BitwiseNotAttribute()
+        bitwiseNotAttribute.Init(buf, pos)
+        return cls.InitFromObj(bitwiseNotAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, bitwiseNotAttribute):
+        x = BitwiseNotAttributeT()
+        x._UnPack(bitwiseNotAttribute)
+        return x
+
+    # BitwiseNotAttributeT
+    def _UnPack(self, bitwiseNotAttribute):
+        if bitwiseNotAttribute is None:
+            return
+
+    # BitwiseNotAttributeT
+    def Pack(self, builder):
+        BitwiseNotAttributeStart(builder)
+        bitwiseNotAttribute = BitwiseNotAttributeEnd(builder)
+        return bitwiseNotAttribute
+
+
+class CeilAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = CeilAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsCeilAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def CeilAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # CeilAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def CeilAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def CeilAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class CeilAttributeT(object):
+
+    # CeilAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        ceilAttribute = CeilAttribute()
+        ceilAttribute.Init(buf, pos)
+        return cls.InitFromObj(ceilAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, ceilAttribute):
+        x = CeilAttributeT()
+        x._UnPack(ceilAttribute)
+        return x
+
+    # CeilAttributeT
+    def _UnPack(self, ceilAttribute):
+        if ceilAttribute is None:
+            return
+
+    # CeilAttributeT
+    def Pack(self, builder):
+        CeilAttributeStart(builder)
+        ceilAttribute = CeilAttributeEnd(builder)
+        return ceilAttribute
+
+
+class ClzAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = ClzAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsClzAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def ClzAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # ClzAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def ClzAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def ClzAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class ClzAttributeT(object):
+
+    # ClzAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        clzAttribute = ClzAttribute()
+        clzAttribute.Init(buf, pos)
+        return cls.InitFromObj(clzAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, clzAttribute):
+        x = ClzAttributeT()
+        x._UnPack(clzAttribute)
+        return x
+
+    # ClzAttributeT
+    def _UnPack(self, clzAttribute):
+        if clzAttribute is None:
+            return
+
+    # ClzAttributeT
+    def Pack(self, builder):
+        ClzAttributeStart(builder)
+        clzAttribute = ClzAttributeEnd(builder)
+        return clzAttribute
+
+
+class CosAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = CosAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsCosAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def CosAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # CosAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def CosAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def CosAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class CosAttributeT(object):
+
+    # CosAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        cosAttribute = CosAttribute()
+        cosAttribute.Init(buf, pos)
+        return cls.InitFromObj(cosAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, cosAttribute):
+        x = CosAttributeT()
+        x._UnPack(cosAttribute)
+        return x
+
+    # CosAttributeT
+    def _UnPack(self, cosAttribute):
+        if cosAttribute is None:
+            return
+
+    # CosAttributeT
+    def Pack(self, builder):
+        CosAttributeStart(builder)
+        cosAttribute = CosAttributeEnd(builder)
+        return cosAttribute
+
+
+class ExpAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = ExpAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsExpAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def ExpAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # ExpAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def ExpAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def ExpAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class ExpAttributeT(object):
+
+    # ExpAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        expAttribute = ExpAttribute()
+        expAttribute.Init(buf, pos)
+        return cls.InitFromObj(expAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, expAttribute):
+        x = ExpAttributeT()
+        x._UnPack(expAttribute)
+        return x
+
+    # ExpAttributeT
+    def _UnPack(self, expAttribute):
+        if expAttribute is None:
+            return
+
+    # ExpAttributeT
+    def Pack(self, builder):
+        ExpAttributeStart(builder)
+        expAttribute = ExpAttributeEnd(builder)
+        return expAttribute
+
+
+class FloorAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = FloorAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsFloorAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def FloorAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # FloorAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def FloorAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def FloorAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class FloorAttributeT(object):
+
+    # FloorAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        floorAttribute = FloorAttribute()
+        floorAttribute.Init(buf, pos)
+        return cls.InitFromObj(floorAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, floorAttribute):
+        x = FloorAttributeT()
+        x._UnPack(floorAttribute)
+        return x
+
+    # FloorAttributeT
+    def _UnPack(self, floorAttribute):
+        if floorAttribute is None:
+            return
+
+    # FloorAttributeT
+    def Pack(self, builder):
+        FloorAttributeStart(builder)
+        floorAttribute = FloorAttributeEnd(builder)
+        return floorAttribute
+
+
+class LogAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = LogAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsLogAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def LogAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # LogAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def LogAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def LogAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class LogAttributeT(object):
+
+    # LogAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        logAttribute = LogAttribute()
+        logAttribute.Init(buf, pos)
+        return cls.InitFromObj(logAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, logAttribute):
+        x = LogAttributeT()
+        x._UnPack(logAttribute)
+        return x
+
+    # LogAttributeT
+    def _UnPack(self, logAttribute):
+        if logAttribute is None:
+            return
+
+    # LogAttributeT
+    def Pack(self, builder):
+        LogAttributeStart(builder)
+        logAttribute = LogAttributeEnd(builder)
+        return logAttribute
+
+
+class LogicalNotAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = LogicalNotAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsLogicalNotAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def LogicalNotAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # LogicalNotAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def LogicalNotAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def LogicalNotAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class LogicalNotAttributeT(object):
+
+    # LogicalNotAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        logicalNotAttribute = LogicalNotAttribute()
+        logicalNotAttribute.Init(buf, pos)
+        return cls.InitFromObj(logicalNotAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, logicalNotAttribute):
+        x = LogicalNotAttributeT()
+        x._UnPack(logicalNotAttribute)
+        return x
+
+    # LogicalNotAttributeT
+    def _UnPack(self, logicalNotAttribute):
+        if logicalNotAttribute is None:
+            return
+
+    # LogicalNotAttributeT
+    def Pack(self, builder):
+        LogicalNotAttributeStart(builder)
+        logicalNotAttribute = LogicalNotAttributeEnd(builder)
+        return logicalNotAttribute
+
+
+class NegateAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = NegateAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsNegateAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def NegateAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # NegateAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def NegateAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def NegateAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class NegateAttributeT(object):
+
+    # NegateAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        negateAttribute = NegateAttribute()
+        negateAttribute.Init(buf, pos)
+        return cls.InitFromObj(negateAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, negateAttribute):
+        x = NegateAttributeT()
+        x._UnPack(negateAttribute)
+        return x
+
+    # NegateAttributeT
+    def _UnPack(self, negateAttribute):
+        if negateAttribute is None:
+            return
+
+    # NegateAttributeT
+    def Pack(self, builder):
+        NegateAttributeStart(builder)
+        negateAttribute = NegateAttributeEnd(builder)
+        return negateAttribute
+
+
+class ReciprocalAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = ReciprocalAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsReciprocalAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def ReciprocalAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # ReciprocalAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def ReciprocalAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def ReciprocalAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class ReciprocalAttributeT(object):
+
+    # ReciprocalAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        reciprocalAttribute = ReciprocalAttribute()
+        reciprocalAttribute.Init(buf, pos)
+        return cls.InitFromObj(reciprocalAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, reciprocalAttribute):
+        x = ReciprocalAttributeT()
+        x._UnPack(reciprocalAttribute)
+        return x
+
+    # ReciprocalAttributeT
+    def _UnPack(self, reciprocalAttribute):
+        if reciprocalAttribute is None:
+            return
+
+    # ReciprocalAttributeT
+    def Pack(self, builder):
+        ReciprocalAttributeStart(builder)
+        reciprocalAttribute = ReciprocalAttributeEnd(builder)
+        return reciprocalAttribute
+
+
+class RsqrtAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = RsqrtAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsRsqrtAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def RsqrtAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # RsqrtAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def RsqrtAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def RsqrtAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class RsqrtAttributeT(object):
+
+    # RsqrtAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        rsqrtAttribute = RsqrtAttribute()
+        rsqrtAttribute.Init(buf, pos)
+        return cls.InitFromObj(rsqrtAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, rsqrtAttribute):
+        x = RsqrtAttributeT()
+        x._UnPack(rsqrtAttribute)
+        return x
+
+    # RsqrtAttributeT
+    def _UnPack(self, rsqrtAttribute):
+        if rsqrtAttribute is None:
+            return
+
+    # RsqrtAttributeT
+    def Pack(self, builder):
+        RsqrtAttributeStart(builder)
+        rsqrtAttribute = RsqrtAttributeEnd(builder)
+        return rsqrtAttribute
+
+
+class SinAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = SinAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsSinAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def SinAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # SinAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def SinAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def SinAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class SinAttributeT(object):
+
+    # SinAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        sinAttribute = SinAttribute()
+        sinAttribute.Init(buf, pos)
+        return cls.InitFromObj(sinAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, sinAttribute):
+        x = SinAttributeT()
+        x._UnPack(sinAttribute)
+        return x
+
+    # SinAttributeT
+    def _UnPack(self, sinAttribute):
+        if sinAttribute is None:
+            return
+
+    # SinAttributeT
+    def Pack(self, builder):
+        SinAttributeStart(builder)
+        sinAttribute = SinAttributeEnd(builder)
+        return sinAttribute
+
+
+class SelectAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = SelectAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsSelectAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def SelectAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # SelectAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def SelectAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def SelectAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class SelectAttributeT(object):
+
+    # SelectAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        selectAttribute = SelectAttribute()
+        selectAttribute.Init(buf, pos)
+        return cls.InitFromObj(selectAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, selectAttribute):
+        x = SelectAttributeT()
+        x._UnPack(selectAttribute)
+        return x
+
+    # SelectAttributeT
+    def _UnPack(self, selectAttribute):
+        if selectAttribute is None:
+            return
+
+    # SelectAttributeT
+    def Pack(self, builder):
+        SelectAttributeStart(builder)
+        selectAttribute = SelectAttributeEnd(builder)
+        return selectAttribute
+
+
+class EqualAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = EqualAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsEqualAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def EqualAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # EqualAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def EqualAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def EqualAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class EqualAttributeT(object):
+
+    # EqualAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        equalAttribute = EqualAttribute()
+        equalAttribute.Init(buf, pos)
+        return cls.InitFromObj(equalAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, equalAttribute):
+        x = EqualAttributeT()
+        x._UnPack(equalAttribute)
+        return x
+
+    # EqualAttributeT
+    def _UnPack(self, equalAttribute):
+        if equalAttribute is None:
+            return
+
+    # EqualAttributeT
+    def Pack(self, builder):
+        EqualAttributeStart(builder)
+        equalAttribute = EqualAttributeEnd(builder)
+        return equalAttribute
+
+
+class GreaterAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = GreaterAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsGreaterAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def GreaterAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # GreaterAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def GreaterAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def GreaterAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class GreaterAttributeT(object):
+
+    # GreaterAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        greaterAttribute = GreaterAttribute()
+        greaterAttribute.Init(buf, pos)
+        return cls.InitFromObj(greaterAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, greaterAttribute):
+        x = GreaterAttributeT()
+        x._UnPack(greaterAttribute)
+        return x
+
+    # GreaterAttributeT
+    def _UnPack(self, greaterAttribute):
+        if greaterAttribute is None:
+            return
+
+    # GreaterAttributeT
+    def Pack(self, builder):
+        GreaterAttributeStart(builder)
+        greaterAttribute = GreaterAttributeEnd(builder)
+        return greaterAttribute
+
+
+class GreaterEqualAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = GreaterEqualAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsGreaterEqualAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def GreaterEqualAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # GreaterEqualAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def GreaterEqualAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def GreaterEqualAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class GreaterEqualAttributeT(object):
+
+    # GreaterEqualAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        greaterEqualAttribute = GreaterEqualAttribute()
+        greaterEqualAttribute.Init(buf, pos)
+        return cls.InitFromObj(greaterEqualAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, greaterEqualAttribute):
+        x = GreaterEqualAttributeT()
+        x._UnPack(greaterEqualAttribute)
+        return x
+
+    # GreaterEqualAttributeT
+    def _UnPack(self, greaterEqualAttribute):
+        if greaterEqualAttribute is None:
+            return
+
+    # GreaterEqualAttributeT
+    def Pack(self, builder):
+        GreaterEqualAttributeStart(builder)
+        greaterEqualAttribute = GreaterEqualAttributeEnd(builder)
+        return greaterEqualAttribute
+
+
+class ReduceAllAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = ReduceAllAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsReduceAllAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def ReduceAllAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # ReduceAllAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # ReduceAllAttribute
+    def Axis(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
+        return 0
+
+def ReduceAllAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(1)
+
+def ReduceAllAttributeAddAxis(builder: flatbuffers.Builder, axis: int):
+    builder.PrependInt32Slot(0, axis, 0)
+
+def ReduceAllAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class ReduceAllAttributeT(object):
+
+    # ReduceAllAttributeT
+    def __init__(self):
+        self.axis = 0  # type: int
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        reduceAllAttribute = ReduceAllAttribute()
+        reduceAllAttribute.Init(buf, pos)
+        return cls.InitFromObj(reduceAllAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, reduceAllAttribute):
+        x = ReduceAllAttributeT()
+        x._UnPack(reduceAllAttribute)
+        return x
+
+    # ReduceAllAttributeT
+    def _UnPack(self, reduceAllAttribute):
+        if reduceAllAttribute is None:
+            return
+        self.axis = reduceAllAttribute.Axis()
+
+    # ReduceAllAttributeT
+    def Pack(self, builder):
+        ReduceAllAttributeStart(builder)
+        ReduceAllAttributeAddAxis(builder, self.axis)
+        reduceAllAttribute = ReduceAllAttributeEnd(builder)
+        return reduceAllAttribute
+
+
+class ReduceAnyAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = ReduceAnyAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsReduceAnyAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def ReduceAnyAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # ReduceAnyAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # ReduceAnyAttribute
+    def Axis(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
+        return 0
+
+def ReduceAnyAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(1)
+
+def ReduceAnyAttributeAddAxis(builder: flatbuffers.Builder, axis: int):
+    builder.PrependInt32Slot(0, axis, 0)
+
+def ReduceAnyAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class ReduceAnyAttributeT(object):
+
+    # ReduceAnyAttributeT
+    def __init__(self):
+        self.axis = 0  # type: int
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        reduceAnyAttribute = ReduceAnyAttribute()
+        reduceAnyAttribute.Init(buf, pos)
+        return cls.InitFromObj(reduceAnyAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, reduceAnyAttribute):
+        x = ReduceAnyAttributeT()
+        x._UnPack(reduceAnyAttribute)
+        return x
+
+    # ReduceAnyAttributeT
+    def _UnPack(self, reduceAnyAttribute):
+        if reduceAnyAttribute is None:
+            return
+        self.axis = reduceAnyAttribute.Axis()
+
+    # ReduceAnyAttributeT
+    def Pack(self, builder):
+        ReduceAnyAttributeStart(builder)
+        ReduceAnyAttributeAddAxis(builder, self.axis)
+        reduceAnyAttribute = ReduceAnyAttributeEnd(builder)
+        return reduceAnyAttribute
+
+
+class ReduceMaxAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = ReduceMaxAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsReduceMaxAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def ReduceMaxAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # ReduceMaxAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # ReduceMaxAttribute
+    def Axis(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
+        return 0
+
+    # ReduceMaxAttribute
+    def NanMode(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
+        return 0
+
+def ReduceMaxAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(2)
+
+def ReduceMaxAttributeAddAxis(builder: flatbuffers.Builder, axis: int):
+    builder.PrependInt32Slot(0, axis, 0)
+
+def ReduceMaxAttributeAddNanMode(builder: flatbuffers.Builder, nanMode: int):
+    builder.PrependUint32Slot(1, nanMode, 0)
+
+def ReduceMaxAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class ReduceMaxAttributeT(object):
+
+    # ReduceMaxAttributeT
+    def __init__(self):
+        self.axis = 0  # type: int
+        self.nanMode = 0  # type: int
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        reduceMaxAttribute = ReduceMaxAttribute()
+        reduceMaxAttribute.Init(buf, pos)
+        return cls.InitFromObj(reduceMaxAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, reduceMaxAttribute):
+        x = ReduceMaxAttributeT()
+        x._UnPack(reduceMaxAttribute)
+        return x
+
+    # ReduceMaxAttributeT
+    def _UnPack(self, reduceMaxAttribute):
+        if reduceMaxAttribute is None:
+            return
+        self.axis = reduceMaxAttribute.Axis()
+        self.nanMode = reduceMaxAttribute.NanMode()
+
+    # ReduceMaxAttributeT
+    def Pack(self, builder):
+        ReduceMaxAttributeStart(builder)
+        ReduceMaxAttributeAddAxis(builder, self.axis)
+        ReduceMaxAttributeAddNanMode(builder, self.nanMode)
+        reduceMaxAttribute = ReduceMaxAttributeEnd(builder)
+        return reduceMaxAttribute
+
+
+class ReduceMinAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = ReduceMinAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsReduceMinAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def ReduceMinAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # ReduceMinAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # ReduceMinAttribute
+    def Axis(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
+        return 0
+
+    # ReduceMinAttribute
+    def NanMode(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
+        return 0
+
+def ReduceMinAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(2)
+
+def ReduceMinAttributeAddAxis(builder: flatbuffers.Builder, axis: int):
+    builder.PrependInt32Slot(0, axis, 0)
+
+def ReduceMinAttributeAddNanMode(builder: flatbuffers.Builder, nanMode: int):
+    builder.PrependUint32Slot(1, nanMode, 0)
+
+def ReduceMinAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class ReduceMinAttributeT(object):
+
+    # ReduceMinAttributeT
+    def __init__(self):
+        self.axis = 0  # type: int
+        self.nanMode = 0  # type: int
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        reduceMinAttribute = ReduceMinAttribute()
+        reduceMinAttribute.Init(buf, pos)
+        return cls.InitFromObj(reduceMinAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, reduceMinAttribute):
+        x = ReduceMinAttributeT()
+        x._UnPack(reduceMinAttribute)
+        return x
+
+    # ReduceMinAttributeT
+    def _UnPack(self, reduceMinAttribute):
+        if reduceMinAttribute is None:
+            return
+        self.axis = reduceMinAttribute.Axis()
+        self.nanMode = reduceMinAttribute.NanMode()
+
+    # ReduceMinAttributeT
+    def Pack(self, builder):
+        ReduceMinAttributeStart(builder)
+        ReduceMinAttributeAddAxis(builder, self.axis)
+        ReduceMinAttributeAddNanMode(builder, self.nanMode)
+        reduceMinAttribute = ReduceMinAttributeEnd(builder)
+        return reduceMinAttribute
+
+
+class ReduceProductAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = ReduceProductAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsReduceProductAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def ReduceProductAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # ReduceProductAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # ReduceProductAttribute
+    def Axis(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
+        return 0
+
+def ReduceProductAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(1)
+
+def ReduceProductAttributeAddAxis(builder: flatbuffers.Builder, axis: int):
+    builder.PrependInt32Slot(0, axis, 0)
+
+def ReduceProductAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class ReduceProductAttributeT(object):
+
+    # ReduceProductAttributeT
+    def __init__(self):
+        self.axis = 0  # type: int
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        reduceProductAttribute = ReduceProductAttribute()
+        reduceProductAttribute.Init(buf, pos)
+        return cls.InitFromObj(reduceProductAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, reduceProductAttribute):
+        x = ReduceProductAttributeT()
+        x._UnPack(reduceProductAttribute)
+        return x
+
+    # ReduceProductAttributeT
+    def _UnPack(self, reduceProductAttribute):
+        if reduceProductAttribute is None:
+            return
+        self.axis = reduceProductAttribute.Axis()
+
+    # ReduceProductAttributeT
+    def Pack(self, builder):
+        ReduceProductAttributeStart(builder)
+        ReduceProductAttributeAddAxis(builder, self.axis)
+        reduceProductAttribute = ReduceProductAttributeEnd(builder)
+        return reduceProductAttribute
+
+
+class ReduceSumAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = ReduceSumAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsReduceSumAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def ReduceSumAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # ReduceSumAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # ReduceSumAttribute
+    def Axis(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
+        return 0
+
+def ReduceSumAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(1)
+
+def ReduceSumAttributeAddAxis(builder: flatbuffers.Builder, axis: int):
+    builder.PrependInt32Slot(0, axis, 0)
+
+def ReduceSumAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class ReduceSumAttributeT(object):
+
+    # ReduceSumAttributeT
+    def __init__(self):
+        self.axis = 0  # type: int
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        reduceSumAttribute = ReduceSumAttribute()
+        reduceSumAttribute.Init(buf, pos)
+        return cls.InitFromObj(reduceSumAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, reduceSumAttribute):
+        x = ReduceSumAttributeT()
+        x._UnPack(reduceSumAttribute)
+        return x
+
+    # ReduceSumAttributeT
+    def _UnPack(self, reduceSumAttribute):
+        if reduceSumAttribute is None:
+            return
+        self.axis = reduceSumAttribute.Axis()
+
+    # ReduceSumAttributeT
+    def Pack(self, builder):
+        ReduceSumAttributeStart(builder)
+        ReduceSumAttributeAddAxis(builder, self.axis)
+        reduceSumAttribute = ReduceSumAttributeEnd(builder)
+        return reduceSumAttribute
+
+
+class ConcatAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = ConcatAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsConcatAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def ConcatAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # ConcatAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # ConcatAttribute
+    def Axis(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
+        return 0
+
+def ConcatAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(1)
+
+def ConcatAttributeAddAxis(builder: flatbuffers.Builder, axis: int):
+    builder.PrependInt32Slot(0, axis, 0)
+
+def ConcatAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class ConcatAttributeT(object):
+
+    # ConcatAttributeT
+    def __init__(self):
+        self.axis = 0  # type: int
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        concatAttribute = ConcatAttribute()
+        concatAttribute.Init(buf, pos)
+        return cls.InitFromObj(concatAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, concatAttribute):
+        x = ConcatAttributeT()
+        x._UnPack(concatAttribute)
+        return x
+
+    # ConcatAttributeT
+    def _UnPack(self, concatAttribute):
+        if concatAttribute is None:
+            return
+        self.axis = concatAttribute.Axis()
+
+    # ConcatAttributeT
+    def Pack(self, builder):
+        ConcatAttributeStart(builder)
+        ConcatAttributeAddAxis(builder, self.axis)
+        concatAttribute = ConcatAttributeEnd(builder)
+        return concatAttribute
+
+
+class PadAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = PadAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsPadAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def PadAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # PadAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def PadAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def PadAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class PadAttributeT(object):
+
+    # PadAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        padAttribute = PadAttribute()
+        padAttribute.Init(buf, pos)
+        return cls.InitFromObj(padAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, padAttribute):
+        x = PadAttributeT()
+        x._UnPack(padAttribute)
+        return x
+
+    # PadAttributeT
+    def _UnPack(self, padAttribute):
+        if padAttribute is None:
+            return
+
+    # PadAttributeT
+    def Pack(self, builder):
+        PadAttributeStart(builder)
+        padAttribute = PadAttributeEnd(builder)
+        return padAttribute
+
+
+class ReshapeAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = ReshapeAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsReshapeAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def ReshapeAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # ReshapeAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def ReshapeAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def ReshapeAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class ReshapeAttributeT(object):
+
+    # ReshapeAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        reshapeAttribute = ReshapeAttribute()
+        reshapeAttribute.Init(buf, pos)
+        return cls.InitFromObj(reshapeAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, reshapeAttribute):
+        x = ReshapeAttributeT()
+        x._UnPack(reshapeAttribute)
+        return x
+
+    # ReshapeAttributeT
+    def _UnPack(self, reshapeAttribute):
+        if reshapeAttribute is None:
+            return
+
+    # ReshapeAttributeT
+    def Pack(self, builder):
+        ReshapeAttributeStart(builder)
+        reshapeAttribute = ReshapeAttributeEnd(builder)
+        return reshapeAttribute
+
+
+class ReverseAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = ReverseAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsReverseAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def ReverseAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # ReverseAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # ReverseAttribute
+    def Axis(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
+        return 0
+
+def ReverseAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(1)
+
+def ReverseAttributeAddAxis(builder: flatbuffers.Builder, axis: int):
+    builder.PrependInt32Slot(0, axis, 0)
+
+def ReverseAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class ReverseAttributeT(object):
+
+    # ReverseAttributeT
+    def __init__(self):
+        self.axis = 0  # type: int
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        reverseAttribute = ReverseAttribute()
+        reverseAttribute.Init(buf, pos)
+        return cls.InitFromObj(reverseAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, reverseAttribute):
+        x = ReverseAttributeT()
+        x._UnPack(reverseAttribute)
+        return x
+
+    # ReverseAttributeT
+    def _UnPack(self, reverseAttribute):
+        if reverseAttribute is None:
+            return
+        self.axis = reverseAttribute.Axis()
+
+    # ReverseAttributeT
+    def Pack(self, builder):
+        ReverseAttributeStart(builder)
+        ReverseAttributeAddAxis(builder, self.axis)
+        reverseAttribute = ReverseAttributeEnd(builder)
+        return reverseAttribute
+
+
+class SliceAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = SliceAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsSliceAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def SliceAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # SliceAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def SliceAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def SliceAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class SliceAttributeT(object):
+
+    # SliceAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        sliceAttribute = SliceAttribute()
+        sliceAttribute.Init(buf, pos)
+        return cls.InitFromObj(sliceAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, sliceAttribute):
+        x = SliceAttributeT()
+        x._UnPack(sliceAttribute)
+        return x
+
+    # SliceAttributeT
+    def _UnPack(self, sliceAttribute):
+        if sliceAttribute is None:
+            return
+
+    # SliceAttributeT
+    def Pack(self, builder):
+        SliceAttributeStart(builder)
+        sliceAttribute = SliceAttributeEnd(builder)
+        return sliceAttribute
+
+
+class TileAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = TileAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsTileAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def TileAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # TileAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def TileAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def TileAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class TileAttributeT(object):
+
+    # TileAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        tileAttribute = TileAttribute()
+        tileAttribute.Init(buf, pos)
+        return cls.InitFromObj(tileAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, tileAttribute):
+        x = TileAttributeT()
+        x._UnPack(tileAttribute)
+        return x
+
+    # TileAttributeT
+    def _UnPack(self, tileAttribute):
+        if tileAttribute is None:
+            return
+
+    # TileAttributeT
+    def Pack(self, builder):
+        TileAttributeStart(builder)
+        tileAttribute = TileAttributeEnd(builder)
+        return tileAttribute
+
+
+class TransposeAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = TransposeAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsTransposeAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def TransposeAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # TransposeAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # TransposeAttribute
+    def Perms(self, j: int):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            a = self._tab.Vector(o)
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
+        return 0
+
+    # TransposeAttribute
+    def PermsAsNumpy(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
+        return 0
+
+    # TransposeAttribute
+    def PermsLength(self) -> int:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # TransposeAttribute
+    def PermsIsNone(self) -> bool:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        return o == 0
+
+def TransposeAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(1)
+
+def TransposeAttributeAddPerms(builder: flatbuffers.Builder, perms: int):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(perms), 0)
+
+def TransposeAttributeStartPermsVector(builder, numElems: int) -> int:
+    return builder.StartVector(4, numElems, 4)
+
+def TransposeAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+try:
+    from typing import List
+except:
+    pass
+
+class TransposeAttributeT(object):
+
+    # TransposeAttributeT
+    def __init__(self):
+        self.perms = None  # type: List[int]
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        transposeAttribute = TransposeAttribute()
+        transposeAttribute.Init(buf, pos)
+        return cls.InitFromObj(transposeAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, transposeAttribute):
+        x = TransposeAttributeT()
+        x._UnPack(transposeAttribute)
+        return x
+
+    # TransposeAttributeT
+    def _UnPack(self, transposeAttribute):
+        if transposeAttribute is None:
+            return
+        if not transposeAttribute.PermsIsNone():
+            if np is None:
+                self.perms = []
+                for i in range(transposeAttribute.PermsLength()):
+                    self.perms.append(transposeAttribute.Perms(i))
+            else:
+                self.perms = transposeAttribute.PermsAsNumpy()
+
+    # TransposeAttributeT
+    def Pack(self, builder):
+        if self.perms is not None:
+            if np is not None and type(self.perms) is np.ndarray:
+                perms = builder.CreateNumpyVector(self.perms)
+            else:
+                TransposeAttributeStartPermsVector(builder, len(self.perms))
+                for i in reversed(range(len(self.perms))):
+                    builder.PrependInt32(self.perms[i])
+                perms = builder.EndVector()
+        TransposeAttributeStart(builder)
+        if self.perms is not None:
+            TransposeAttributeAddPerms(builder, perms)
+        transposeAttribute = TransposeAttributeEnd(builder)
+        return transposeAttribute
+
+
+class GatherAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = GatherAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsGatherAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def GatherAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # GatherAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def GatherAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def GatherAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class GatherAttributeT(object):
+
+    # GatherAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        gatherAttribute = GatherAttribute()
+        gatherAttribute.Init(buf, pos)
+        return cls.InitFromObj(gatherAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, gatherAttribute):
+        x = GatherAttributeT()
+        x._UnPack(gatherAttribute)
+        return x
+
+    # GatherAttributeT
+    def _UnPack(self, gatherAttribute):
+        if gatherAttribute is None:
+            return
+
+    # GatherAttributeT
+    def Pack(self, builder):
+        GatherAttributeStart(builder)
+        gatherAttribute = GatherAttributeEnd(builder)
+        return gatherAttribute
+
+
+class ScatterAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = ScatterAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsScatterAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def ScatterAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # ScatterAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def ScatterAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def ScatterAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class ScatterAttributeT(object):
+
+    # ScatterAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        scatterAttribute = ScatterAttribute()
+        scatterAttribute.Init(buf, pos)
+        return cls.InitFromObj(scatterAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, scatterAttribute):
+        x = ScatterAttributeT()
+        x._UnPack(scatterAttribute)
+        return x
+
+    # ScatterAttributeT
+    def _UnPack(self, scatterAttribute):
+        if scatterAttribute is None:
+            return
+
+    # ScatterAttributeT
+    def Pack(self, builder):
+        ScatterAttributeStart(builder)
+        scatterAttribute = ScatterAttributeEnd(builder)
+        return scatterAttribute
+
+
+class ResizeAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = ResizeAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsResizeAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def ResizeAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # ResizeAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # ResizeAttribute
+    def Mode(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
+        return 0
+
+def ResizeAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(1)
+
+def ResizeAttributeAddMode(builder: flatbuffers.Builder, mode: int):
+    builder.PrependUint32Slot(0, mode, 0)
+
+def ResizeAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class ResizeAttributeT(object):
+
+    # ResizeAttributeT
+    def __init__(self):
+        self.mode = 0  # type: int
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        resizeAttribute = ResizeAttribute()
+        resizeAttribute.Init(buf, pos)
+        return cls.InitFromObj(resizeAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, resizeAttribute):
+        x = ResizeAttributeT()
+        x._UnPack(resizeAttribute)
+        return x
+
+    # ResizeAttributeT
+    def _UnPack(self, resizeAttribute):
+        if resizeAttribute is None:
+            return
+        self.mode = resizeAttribute.Mode()
+
+    # ResizeAttributeT
+    def Pack(self, builder):
+        ResizeAttributeStart(builder)
+        ResizeAttributeAddMode(builder, self.mode)
+        resizeAttribute = ResizeAttributeEnd(builder)
+        return resizeAttribute
+
+
+class CastAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = CastAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsCastAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def CastAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # CastAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def CastAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def CastAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class CastAttributeT(object):
+
+    # CastAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        castAttribute = CastAttribute()
+        castAttribute.Init(buf, pos)
+        return cls.InitFromObj(castAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, castAttribute):
+        x = CastAttributeT()
+        x._UnPack(castAttribute)
+        return x
+
+    # CastAttributeT
+    def _UnPack(self, castAttribute):
+        if castAttribute is None:
+            return
+
+    # CastAttributeT
+    def Pack(self, builder):
+        CastAttributeStart(builder)
+        castAttribute = CastAttributeEnd(builder)
+        return castAttribute
+
+
+class RescaleAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = RescaleAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsRescaleAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def RescaleAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # RescaleAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # RescaleAttribute
+    def Scale32(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+    # RescaleAttribute
+    def RoundingMode(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
+        return 0
+
+    # RescaleAttribute
+    def PerChannel(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+    # RescaleAttribute
+    def InputUnsigned(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+    # RescaleAttribute
+    def OutputUnsigned(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+def RescaleAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(5)
+
+def RescaleAttributeAddScale32(builder: flatbuffers.Builder, scale32: bool):
+    builder.PrependBoolSlot(0, scale32, 0)
+
+def RescaleAttributeAddRoundingMode(builder: flatbuffers.Builder, roundingMode: int):
+    builder.PrependUint32Slot(1, roundingMode, 0)
+
+def RescaleAttributeAddPerChannel(builder: flatbuffers.Builder, perChannel: bool):
+    builder.PrependBoolSlot(2, perChannel, 0)
+
+def RescaleAttributeAddInputUnsigned(builder: flatbuffers.Builder, inputUnsigned: bool):
+    builder.PrependBoolSlot(3, inputUnsigned, 0)
+
+def RescaleAttributeAddOutputUnsigned(builder: flatbuffers.Builder, outputUnsigned: bool):
+    builder.PrependBoolSlot(4, outputUnsigned, 0)
+
+def RescaleAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class RescaleAttributeT(object):
+
+    # RescaleAttributeT
+    def __init__(self):
+        self.scale32 = False  # type: bool
+        self.roundingMode = 0  # type: int
+        self.perChannel = False  # type: bool
+        self.inputUnsigned = False  # type: bool
+        self.outputUnsigned = False  # type: bool
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        rescaleAttribute = RescaleAttribute()
+        rescaleAttribute.Init(buf, pos)
+        return cls.InitFromObj(rescaleAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, rescaleAttribute):
+        x = RescaleAttributeT()
+        x._UnPack(rescaleAttribute)
+        return x
+
+    # RescaleAttributeT
+    def _UnPack(self, rescaleAttribute):
+        if rescaleAttribute is None:
+            return
+        self.scale32 = rescaleAttribute.Scale32()
+        self.roundingMode = rescaleAttribute.RoundingMode()
+        self.perChannel = rescaleAttribute.PerChannel()
+        self.inputUnsigned = rescaleAttribute.InputUnsigned()
+        self.outputUnsigned = rescaleAttribute.OutputUnsigned()
+
+    # RescaleAttributeT
+    def Pack(self, builder):
+        RescaleAttributeStart(builder)
+        RescaleAttributeAddScale32(builder, self.scale32)
+        RescaleAttributeAddRoundingMode(builder, self.roundingMode)
+        RescaleAttributeAddPerChannel(builder, self.perChannel)
+        RescaleAttributeAddInputUnsigned(builder, self.inputUnsigned)
+        RescaleAttributeAddOutputUnsigned(builder, self.outputUnsigned)
+        rescaleAttribute = RescaleAttributeEnd(builder)
+        return rescaleAttribute
+
+
+class ConstAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = ConstAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsConstAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def ConstAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # ConstAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def ConstAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def ConstAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class ConstAttributeT(object):
+
+    # ConstAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        constAttribute = ConstAttribute()
+        constAttribute.Init(buf, pos)
+        return cls.InitFromObj(constAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, constAttribute):
+        x = ConstAttributeT()
+        x._UnPack(constAttribute)
+        return x
+
+    # ConstAttributeT
+    def _UnPack(self, constAttribute):
+        if constAttribute is None:
+            return
+
+    # ConstAttributeT
+    def Pack(self, builder):
+        ConstAttributeStart(builder)
+        constAttribute = ConstAttributeEnd(builder)
+        return constAttribute
+
+
+class IdentityAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = IdentityAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsIdentityAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def IdentityAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # IdentityAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+def IdentityAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
+
+def IdentityAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class IdentityAttributeT(object):
+
+    # IdentityAttributeT
+    def __init__(self):
+        pass
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        identityAttribute = IdentityAttribute()
+        identityAttribute.Init(buf, pos)
+        return cls.InitFromObj(identityAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, identityAttribute):
+        x = IdentityAttributeT()
+        x._UnPack(identityAttribute)
+        return x
+
+    # IdentityAttributeT
+    def _UnPack(self, identityAttribute):
+        if identityAttribute is None:
+            return
+
+    # IdentityAttributeT
+    def Pack(self, builder):
+        IdentityAttributeStart(builder)
+        identityAttribute = IdentityAttributeEnd(builder)
+        return identityAttribute
+
+
+class CustomAttribute(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = CustomAttribute()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsCustomAttribute(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def CustomAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # CustomAttribute
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # CustomAttribute
+    def OperatorName(self) -> Optional[str]:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.String(o + self._tab.Pos)
+        return None
+
+    # CustomAttribute
+    def DomainName(self) -> Optional[str]:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            return self._tab.String(o + self._tab.Pos)
+        return None
+
+    # CustomAttribute
+    def ImplementationAttrs(self, j: int):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            a = self._tab.Vector(o)
+            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+        return 0
+
+    # CustomAttribute
+    def ImplementationAttrsAsNumpy(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Uint8Flags, o)
+        return 0
+
+    # CustomAttribute
+    def ImplementationAttrsLength(self) -> int:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # CustomAttribute
+    def ImplementationAttrsIsNone(self) -> bool:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        return o == 0
+
+def CustomAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(3)
+
+def CustomAttributeAddOperatorName(builder: flatbuffers.Builder, operatorName: int):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(operatorName), 0)
+
+def CustomAttributeAddDomainName(builder: flatbuffers.Builder, domainName: int):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(domainName), 0)
+
+def CustomAttributeAddImplementationAttrs(builder: flatbuffers.Builder, implementationAttrs: int):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(implementationAttrs), 0)
+
+def CustomAttributeStartImplementationAttrsVector(builder, numElems: int) -> int:
+    return builder.StartVector(1, numElems, 1)
+
+def CustomAttributeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+try:
+    from typing import List
+except:
+    pass
+
+class CustomAttributeT(object):
+
+    # CustomAttributeT
+    def __init__(self):
+        self.operatorName = None  # type: str
+        self.domainName = None  # type: str
+        self.implementationAttrs = None  # type: List[int]
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        customAttribute = CustomAttribute()
+        customAttribute.Init(buf, pos)
+        return cls.InitFromObj(customAttribute)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, customAttribute):
+        x = CustomAttributeT()
+        x._UnPack(customAttribute)
+        return x
+
+    # CustomAttributeT
+    def _UnPack(self, customAttribute):
+        if customAttribute is None:
+            return
+        self.operatorName = customAttribute.OperatorName()
+        self.domainName = customAttribute.DomainName()
+        if not customAttribute.ImplementationAttrsIsNone():
+            if np is None:
+                self.implementationAttrs = []
+                for i in range(customAttribute.ImplementationAttrsLength()):
+                    self.implementationAttrs.append(customAttribute.ImplementationAttrs(i))
+            else:
+                self.implementationAttrs = customAttribute.ImplementationAttrsAsNumpy()
+
+    # CustomAttributeT
+    def Pack(self, builder):
+        if self.operatorName is not None:
+            operatorName = builder.CreateString(self.operatorName)
+        if self.domainName is not None:
+            domainName = builder.CreateString(self.domainName)
+        if self.implementationAttrs is not None:
+            if np is not None and type(self.implementationAttrs) is np.ndarray:
+                implementationAttrs = builder.CreateNumpyVector(self.implementationAttrs)
+            else:
+                CustomAttributeStartImplementationAttrsVector(builder, len(self.implementationAttrs))
+                for i in reversed(range(len(self.implementationAttrs))):
+                    builder.PrependUint8(self.implementationAttrs[i])
+                implementationAttrs = builder.EndVector()
+        CustomAttributeStart(builder)
+        if self.operatorName is not None:
+            CustomAttributeAddOperatorName(builder, operatorName)
+        if self.domainName is not None:
+            CustomAttributeAddDomainName(builder, domainName)
+        if self.implementationAttrs is not None:
+            CustomAttributeAddImplementationAttrs(builder, implementationAttrs)
+        customAttribute = CustomAttributeEnd(builder)
+        return customAttribute
 
 
 class CondIfAttribute(object):
@@ -1882,166 +6604,47 @@ class WhileLoopAttributeT(object):
         return whileLoopAttribute
 
 
-class TransposeAttribute(object):
+class VariableAttribute(object):
     __slots__ = ['_tab']
 
     @classmethod
     def GetRootAs(cls, buf, offset: int = 0):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
-        x = TransposeAttribute()
+        x = VariableAttribute()
         x.Init(buf, n + offset)
         return x
 
     @classmethod
-    def GetRootAsTransposeAttribute(cls, buf, offset=0):
+    def GetRootAsVariableAttribute(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
     @classmethod
-    def TransposeAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+    def VariableAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
         return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
 
-    # TransposeAttribute
+    # VariableAttribute
     def Init(self, buf: bytes, pos: int):
         self._tab = flatbuffers.table.Table(buf, pos)
 
-    # TransposeAttribute
-    def Perms(self, j: int):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Int32Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
-        return 0
+def VariableAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
 
-    # TransposeAttribute
-    def PermsAsNumpy(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o)
-        return 0
-
-    # TransposeAttribute
-    def PermsLength(self) -> int:
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            return self._tab.VectorLen(o)
-        return 0
-
-    # TransposeAttribute
-    def PermsIsNone(self) -> bool:
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        return o == 0
-
-def TransposeAttributeStart(builder: flatbuffers.Builder):
-    builder.StartObject(1)
-
-def TransposeAttributeAddPerms(builder: flatbuffers.Builder, perms: int):
-    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(perms), 0)
-
-def TransposeAttributeStartPermsVector(builder, numElems: int) -> int:
-    return builder.StartVector(4, numElems, 4)
-
-def TransposeAttributeEnd(builder: flatbuffers.Builder) -> int:
-    return builder.EndObject()
-
-
-try:
-    from typing import List
-except:
-    pass
-
-class TransposeAttributeT(object):
-
-    # TransposeAttributeT
-    def __init__(self):
-        self.perms = None  # type: List[int]
-
-    @classmethod
-    def InitFromBuf(cls, buf, pos):
-        transposeAttribute = TransposeAttribute()
-        transposeAttribute.Init(buf, pos)
-        return cls.InitFromObj(transposeAttribute)
-
-    @classmethod
-    def InitFromPackedBuf(cls, buf, pos=0):
-        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
-        return cls.InitFromBuf(buf, pos+n)
-
-    @classmethod
-    def InitFromObj(cls, transposeAttribute):
-        x = TransposeAttributeT()
-        x._UnPack(transposeAttribute)
-        return x
-
-    # TransposeAttributeT
-    def _UnPack(self, transposeAttribute):
-        if transposeAttribute is None:
-            return
-        if not transposeAttribute.PermsIsNone():
-            if np is None:
-                self.perms = []
-                for i in range(transposeAttribute.PermsLength()):
-                    self.perms.append(transposeAttribute.Perms(i))
-            else:
-                self.perms = transposeAttribute.PermsAsNumpy()
-
-    # TransposeAttributeT
-    def Pack(self, builder):
-        if self.perms is not None:
-            if np is not None and type(self.perms) is np.ndarray:
-                perms = builder.CreateNumpyVector(self.perms)
-            else:
-                TransposeAttributeStartPermsVector(builder, len(self.perms))
-                for i in reversed(range(len(self.perms))):
-                    builder.PrependInt32(self.perms[i])
-                perms = builder.EndVector()
-        TransposeAttributeStart(builder)
-        if self.perms is not None:
-            TransposeAttributeAddPerms(builder, perms)
-        transposeAttribute = TransposeAttributeEnd(builder)
-        return transposeAttribute
-
-
-class TableAttribute(object):
-    __slots__ = ['_tab']
-
-    @classmethod
-    def GetRootAs(cls, buf, offset: int = 0):
-        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
-        x = TableAttribute()
-        x.Init(buf, n + offset)
-        return x
-
-    @classmethod
-    def GetRootAsTableAttribute(cls, buf, offset=0):
-        """This method is deprecated. Please switch to GetRootAs."""
-        return cls.GetRootAs(buf, offset)
-    @classmethod
-    def TableAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
-        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
-
-    # TableAttribute
-    def Init(self, buf: bytes, pos: int):
-        self._tab = flatbuffers.table.Table(buf, pos)
-
-def TableAttributeStart(builder: flatbuffers.Builder):
-    builder.StartObject(1)
-
-def TableAttributeEnd(builder: flatbuffers.Builder) -> int:
+def VariableAttributeEnd(builder: flatbuffers.Builder) -> int:
     return builder.EndObject()
 
 
 
-class TableAttributeT(object):
+class VariableAttributeT(object):
 
-    # TableAttributeT
+    # VariableAttributeT
     def __init__(self):
         pass
 
     @classmethod
     def InitFromBuf(cls, buf, pos):
-        tableAttribute = TableAttribute()
-        tableAttribute.Init(buf, pos)
-        return cls.InitFromObj(tableAttribute)
+        variableAttribute = VariableAttribute()
+        variableAttribute.Init(buf, pos)
+        return cls.InitFromObj(variableAttribute)
 
     @classmethod
     def InitFromPackedBuf(cls, buf, pos=0):
@@ -2049,154 +6652,64 @@ class TableAttributeT(object):
         return cls.InitFromBuf(buf, pos+n)
 
     @classmethod
-    def InitFromObj(cls, tableAttribute):
-        x = TableAttributeT()
-        x._UnPack(tableAttribute)
+    def InitFromObj(cls, variableAttribute):
+        x = VariableAttributeT()
+        x._UnPack(variableAttribute)
         return x
 
-    # TableAttributeT
-    def _UnPack(self, tableAttribute):
-        if tableAttribute is None:
+    # VariableAttributeT
+    def _UnPack(self, variableAttribute):
+        if variableAttribute is None:
             return
 
-    # TableAttributeT
+    # VariableAttributeT
     def Pack(self, builder):
-        TableAttributeStart(builder)
-        tableAttribute = TableAttributeEnd(builder)
-        return tableAttribute
+        VariableAttributeStart(builder)
+        variableAttribute = VariableAttributeEnd(builder)
+        return variableAttribute
 
 
-class MatMulAttribute(object):
+class VariableWriteAttribute(object):
     __slots__ = ['_tab']
 
     @classmethod
     def GetRootAs(cls, buf, offset: int = 0):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
-        x = MatMulAttribute()
+        x = VariableWriteAttribute()
         x.Init(buf, n + offset)
         return x
 
     @classmethod
-    def GetRootAsMatMulAttribute(cls, buf, offset=0):
+    def GetRootAsVariableWriteAttribute(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
     @classmethod
-    def MatMulAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+    def VariableWriteAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
         return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
 
-    # MatMulAttribute
+    # VariableWriteAttribute
     def Init(self, buf: bytes, pos: int):
         self._tab = flatbuffers.table.Table(buf, pos)
 
-    # MatMulAttribute
-    def AZp(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
-        return 0
+def VariableWriteAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
 
-    # MatMulAttribute
-    def BZp(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
-        return 0
-
-def MatMulAttributeStart(builder: flatbuffers.Builder):
-    builder.StartObject(2)
-
-def MatMulAttributeAddAZp(builder: flatbuffers.Builder, aZp: int):
-    builder.PrependInt32Slot(0, aZp, 0)
-
-def MatMulAttributeAddBZp(builder: flatbuffers.Builder, bZp: int):
-    builder.PrependInt32Slot(1, bZp, 0)
-
-def MatMulAttributeEnd(builder: flatbuffers.Builder) -> int:
+def VariableWriteAttributeEnd(builder: flatbuffers.Builder) -> int:
     return builder.EndObject()
 
 
 
-class MatMulAttributeT(object):
+class VariableWriteAttributeT(object):
 
-    # MatMulAttributeT
-    def __init__(self):
-        self.aZp = 0  # type: int
-        self.bZp = 0  # type: int
-
-    @classmethod
-    def InitFromBuf(cls, buf, pos):
-        matMulAttribute = MatMulAttribute()
-        matMulAttribute.Init(buf, pos)
-        return cls.InitFromObj(matMulAttribute)
-
-    @classmethod
-    def InitFromPackedBuf(cls, buf, pos=0):
-        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
-        return cls.InitFromBuf(buf, pos+n)
-
-    @classmethod
-    def InitFromObj(cls, matMulAttribute):
-        x = MatMulAttributeT()
-        x._UnPack(matMulAttribute)
-        return x
-
-    # MatMulAttributeT
-    def _UnPack(self, matMulAttribute):
-        if matMulAttribute is None:
-            return
-        self.aZp = matMulAttribute.AZp()
-        self.bZp = matMulAttribute.BZp()
-
-    # MatMulAttributeT
-    def Pack(self, builder):
-        MatMulAttributeStart(builder)
-        MatMulAttributeAddAZp(builder, self.aZp)
-        MatMulAttributeAddBZp(builder, self.bZp)
-        matMulAttribute = MatMulAttributeEnd(builder)
-        return matMulAttribute
-
-
-class FullyConnectedAttribute(object):
-    __slots__ = ['_tab']
-
-    @classmethod
-    def GetRootAs(cls, buf, offset: int = 0):
-        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
-        x = FullyConnectedAttribute()
-        x.Init(buf, n + offset)
-        return x
-
-    @classmethod
-    def GetRootAsFullyConnectedAttribute(cls, buf, offset=0):
-        """This method is deprecated. Please switch to GetRootAs."""
-        return cls.GetRootAs(buf, offset)
-    @classmethod
-    def FullyConnectedAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
-        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
-
-    # FullyConnectedAttribute
-    def Init(self, buf: bytes, pos: int):
-        self._tab = flatbuffers.table.Table(buf, pos)
-
-def FullyConnectedAttributeStart(builder: flatbuffers.Builder):
-    builder.StartObject(2)
-
-def FullyConnectedAttributeEnd(builder: flatbuffers.Builder) -> int:
-    return builder.EndObject()
-
-
-
-class FullyConnectedAttributeT(object):
-
-    # FullyConnectedAttributeT
+    # VariableWriteAttributeT
     def __init__(self):
         pass
 
     @classmethod
     def InitFromBuf(cls, buf, pos):
-        fullyConnectedAttribute = FullyConnectedAttribute()
-        fullyConnectedAttribute.Init(buf, pos)
-        return cls.InitFromObj(fullyConnectedAttribute)
+        variableWriteAttribute = VariableWriteAttribute()
+        variableWriteAttribute.Init(buf, pos)
+        return cls.InitFromObj(variableWriteAttribute)
 
     @classmethod
     def InitFromPackedBuf(cls, buf, pos=0):
@@ -2204,85 +6717,64 @@ class FullyConnectedAttributeT(object):
         return cls.InitFromBuf(buf, pos+n)
 
     @classmethod
-    def InitFromObj(cls, fullyConnectedAttribute):
-        x = FullyConnectedAttributeT()
-        x._UnPack(fullyConnectedAttribute)
+    def InitFromObj(cls, variableWriteAttribute):
+        x = VariableWriteAttributeT()
+        x._UnPack(variableWriteAttribute)
         return x
 
-    # FullyConnectedAttributeT
-    def _UnPack(self, fullyConnectedAttribute):
-        if fullyConnectedAttribute is None:
+    # VariableWriteAttributeT
+    def _UnPack(self, variableWriteAttribute):
+        if variableWriteAttribute is None:
             return
 
-    # FullyConnectedAttributeT
+    # VariableWriteAttributeT
     def Pack(self, builder):
-        FullyConnectedAttributeStart(builder)
-        fullyConnectedAttribute = FullyConnectedAttributeEnd(builder)
-        return fullyConnectedAttribute
+        VariableWriteAttributeStart(builder)
+        variableWriteAttribute = VariableWriteAttributeEnd(builder)
+        return variableWriteAttribute
 
 
-class NegateAttribute(object):
+class VariableReadAttribute(object):
     __slots__ = ['_tab']
 
     @classmethod
     def GetRootAs(cls, buf, offset: int = 0):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
-        x = NegateAttribute()
+        x = VariableReadAttribute()
         x.Init(buf, n + offset)
         return x
 
     @classmethod
-    def GetRootAsNegateAttribute(cls, buf, offset=0):
+    def GetRootAsVariableReadAttribute(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
     @classmethod
-    def NegateAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+    def VariableReadAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
         return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
 
-    # NegateAttribute
+    # VariableReadAttribute
     def Init(self, buf: bytes, pos: int):
         self._tab = flatbuffers.table.Table(buf, pos)
 
-    # NegateAttribute
-    def Input1Zp(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
-        return 0
+def VariableReadAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
 
-    # NegateAttribute
-    def OutputZp(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
-        return 0
-
-def NegateAttributeStart(builder: flatbuffers.Builder):
-    builder.StartObject(2)
-
-def NegateAttributeAddInput1Zp(builder: flatbuffers.Builder, input1Zp: int):
-    builder.PrependInt32Slot(0, input1Zp, 0)
-
-def NegateAttributeAddOutputZp(builder: flatbuffers.Builder, outputZp: int):
-    builder.PrependInt32Slot(1, outputZp, 0)
-
-def NegateAttributeEnd(builder: flatbuffers.Builder) -> int:
+def VariableReadAttributeEnd(builder: flatbuffers.Builder) -> int:
     return builder.EndObject()
 
 
 
-class NegateAttributeT(object):
+class VariableReadAttributeT(object):
 
-    # NegateAttributeT
+    # VariableReadAttributeT
     def __init__(self):
-        self.input1Zp = 0  # type: int
-        self.outputZp = 0  # type: int
+        pass
 
     @classmethod
     def InitFromBuf(cls, buf, pos):
-        negateAttribute = NegateAttribute()
-        negateAttribute.Init(buf, pos)
-        return cls.InitFromObj(negateAttribute)
+        variableReadAttribute = VariableReadAttribute()
+        variableReadAttribute.Init(buf, pos)
+        return cls.InitFromObj(variableReadAttribute)
 
     @classmethod
     def InitFromPackedBuf(cls, buf, pos=0):
@@ -2290,127 +6782,64 @@ class NegateAttributeT(object):
         return cls.InitFromBuf(buf, pos+n)
 
     @classmethod
-    def InitFromObj(cls, negateAttribute):
-        x = NegateAttributeT()
-        x._UnPack(negateAttribute)
+    def InitFromObj(cls, variableReadAttribute):
+        x = VariableReadAttributeT()
+        x._UnPack(variableReadAttribute)
         return x
 
-    # NegateAttributeT
-    def _UnPack(self, negateAttribute):
-        if negateAttribute is None:
+    # VariableReadAttributeT
+    def _UnPack(self, variableReadAttribute):
+        if variableReadAttribute is None:
             return
-        self.input1Zp = negateAttribute.Input1Zp()
-        self.outputZp = negateAttribute.OutputZp()
 
-    # NegateAttributeT
+    # VariableReadAttributeT
     def Pack(self, builder):
-        NegateAttributeStart(builder)
-        NegateAttributeAddInput1Zp(builder, self.input1Zp)
-        NegateAttributeAddOutputZp(builder, self.outputZp)
-        negateAttribute = NegateAttributeEnd(builder)
-        return negateAttribute
+        VariableReadAttributeStart(builder)
+        variableReadAttribute = VariableReadAttributeEnd(builder)
+        return variableReadAttribute
 
 
-class CustomAttribute(object):
+class ConstShapeAttribute(object):
     __slots__ = ['_tab']
 
     @classmethod
     def GetRootAs(cls, buf, offset: int = 0):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
-        x = CustomAttribute()
+        x = ConstShapeAttribute()
         x.Init(buf, n + offset)
         return x
 
     @classmethod
-    def GetRootAsCustomAttribute(cls, buf, offset=0):
+    def GetRootAsConstShapeAttribute(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
     @classmethod
-    def CustomAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+    def ConstShapeAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
         return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
 
-    # CustomAttribute
+    # ConstShapeAttribute
     def Init(self, buf: bytes, pos: int):
         self._tab = flatbuffers.table.Table(buf, pos)
 
-    # CustomAttribute
-    def OperatorName(self) -> Optional[str]:
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            return self._tab.String(o + self._tab.Pos)
-        return None
+def ConstShapeAttributeStart(builder: flatbuffers.Builder):
+    builder.StartObject(0)
 
-    # CustomAttribute
-    def DomainName(self) -> Optional[str]:
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
-        if o != 0:
-            return self._tab.String(o + self._tab.Pos)
-        return None
-
-    # CustomAttribute
-    def ImplementationAttrs(self, j: int):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
-        if o != 0:
-            a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
-        return 0
-
-    # CustomAttribute
-    def ImplementationAttrsAsNumpy(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
-        if o != 0:
-            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Uint8Flags, o)
-        return 0
-
-    # CustomAttribute
-    def ImplementationAttrsLength(self) -> int:
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
-        if o != 0:
-            return self._tab.VectorLen(o)
-        return 0
-
-    # CustomAttribute
-    def ImplementationAttrsIsNone(self) -> bool:
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
-        return o == 0
-
-def CustomAttributeStart(builder: flatbuffers.Builder):
-    builder.StartObject(3)
-
-def CustomAttributeAddOperatorName(builder: flatbuffers.Builder, operatorName: int):
-    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(operatorName), 0)
-
-def CustomAttributeAddDomainName(builder: flatbuffers.Builder, domainName: int):
-    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(domainName), 0)
-
-def CustomAttributeAddImplementationAttrs(builder: flatbuffers.Builder, implementationAttrs: int):
-    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(implementationAttrs), 0)
-
-def CustomAttributeStartImplementationAttrsVector(builder, numElems: int) -> int:
-    return builder.StartVector(1, numElems, 1)
-
-def CustomAttributeEnd(builder: flatbuffers.Builder) -> int:
+def ConstShapeAttributeEnd(builder: flatbuffers.Builder) -> int:
     return builder.EndObject()
 
 
-try:
-    from typing import List
-except:
-    pass
 
-class CustomAttributeT(object):
+class ConstShapeAttributeT(object):
 
-    # CustomAttributeT
+    # ConstShapeAttributeT
     def __init__(self):
-        self.operatorName = None  # type: str
-        self.domainName = None  # type: str
-        self.implementationAttrs = None  # type: List[int]
+        pass
 
     @classmethod
     def InitFromBuf(cls, buf, pos):
-        customAttribute = CustomAttribute()
-        customAttribute.Init(buf, pos)
-        return cls.InitFromObj(customAttribute)
+        constShapeAttribute = ConstShapeAttribute()
+        constShapeAttribute.Init(buf, pos)
+        return cls.InitFromObj(constShapeAttribute)
 
     @classmethod
     def InitFromPackedBuf(cls, buf, pos=0):
@@ -2418,292 +6847,21 @@ class CustomAttributeT(object):
         return cls.InitFromBuf(buf, pos+n)
 
     @classmethod
-    def InitFromObj(cls, customAttribute):
-        x = CustomAttributeT()
-        x._UnPack(customAttribute)
+    def InitFromObj(cls, constShapeAttribute):
+        x = ConstShapeAttributeT()
+        x._UnPack(constShapeAttribute)
         return x
 
-    # CustomAttributeT
-    def _UnPack(self, customAttribute):
-        if customAttribute is None:
+    # ConstShapeAttributeT
+    def _UnPack(self, constShapeAttribute):
+        if constShapeAttribute is None:
             return
-        self.operatorName = customAttribute.OperatorName()
-        self.domainName = customAttribute.DomainName()
-        if not customAttribute.ImplementationAttrsIsNone():
-            if np is None:
-                self.implementationAttrs = []
-                for i in range(customAttribute.ImplementationAttrsLength()):
-                    self.implementationAttrs.append(customAttribute.ImplementationAttrs(i))
-            else:
-                self.implementationAttrs = customAttribute.ImplementationAttrsAsNumpy()
 
-    # CustomAttributeT
+    # ConstShapeAttributeT
     def Pack(self, builder):
-        if self.operatorName is not None:
-            operatorName = builder.CreateString(self.operatorName)
-        if self.domainName is not None:
-            domainName = builder.CreateString(self.domainName)
-        if self.implementationAttrs is not None:
-            if np is not None and type(self.implementationAttrs) is np.ndarray:
-                implementationAttrs = builder.CreateNumpyVector(self.implementationAttrs)
-            else:
-                CustomAttributeStartImplementationAttrsVector(builder, len(self.implementationAttrs))
-                for i in reversed(range(len(self.implementationAttrs))):
-                    builder.PrependUint8(self.implementationAttrs[i])
-                implementationAttrs = builder.EndVector()
-        CustomAttributeStart(builder)
-        if self.operatorName is not None:
-            CustomAttributeAddOperatorName(builder, operatorName)
-        if self.domainName is not None:
-            CustomAttributeAddDomainName(builder, domainName)
-        if self.implementationAttrs is not None:
-            CustomAttributeAddImplementationAttrs(builder, implementationAttrs)
-        customAttribute = CustomAttributeEnd(builder)
-        return customAttribute
-
-
-class FFTAttribute(object):
-    __slots__ = ['_tab']
-
-    @classmethod
-    def GetRootAs(cls, buf, offset: int = 0):
-        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
-        x = FFTAttribute()
-        x.Init(buf, n + offset)
-        return x
-
-    @classmethod
-    def GetRootAsFFTAttribute(cls, buf, offset=0):
-        """This method is deprecated. Please switch to GetRootAs."""
-        return cls.GetRootAs(buf, offset)
-    @classmethod
-    def FFTAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
-        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
-
-    # FFTAttribute
-    def Init(self, buf: bytes, pos: int):
-        self._tab = flatbuffers.table.Table(buf, pos)
-
-    # FFTAttribute
-    def Inverse(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
-        return False
-
-    # FFTAttribute
-    def LocalBound(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
-        if o != 0:
-            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
-        return False
-
-def FFTAttributeStart(builder: flatbuffers.Builder):
-    builder.StartObject(2)
-
-def FFTAttributeAddInverse(builder: flatbuffers.Builder, inverse: bool):
-    builder.PrependBoolSlot(0, inverse, 0)
-
-def FFTAttributeAddLocalBound(builder: flatbuffers.Builder, localBound: bool):
-    builder.PrependBoolSlot(1, localBound, 0)
-
-def FFTAttributeEnd(builder: flatbuffers.Builder) -> int:
-    return builder.EndObject()
-
-
-
-class FFTAttributeT(object):
-
-    # FFTAttributeT
-    def __init__(self):
-        self.inverse = False  # type: bool
-        self.localBound = False  # type: bool
-
-    @classmethod
-    def InitFromBuf(cls, buf, pos):
-        fftattribute = FFTAttribute()
-        fftattribute.Init(buf, pos)
-        return cls.InitFromObj(fftattribute)
-
-    @classmethod
-    def InitFromPackedBuf(cls, buf, pos=0):
-        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
-        return cls.InitFromBuf(buf, pos+n)
-
-    @classmethod
-    def InitFromObj(cls, fftattribute):
-        x = FFTAttributeT()
-        x._UnPack(fftattribute)
-        return x
-
-    # FFTAttributeT
-    def _UnPack(self, fftattribute):
-        if fftattribute is None:
-            return
-        self.inverse = fftattribute.Inverse()
-        self.localBound = fftattribute.LocalBound()
-
-    # FFTAttributeT
-    def Pack(self, builder):
-        FFTAttributeStart(builder)
-        FFTAttributeAddInverse(builder, self.inverse)
-        FFTAttributeAddLocalBound(builder, self.localBound)
-        fftattribute = FFTAttributeEnd(builder)
-        return fftattribute
-
-
-class RFFTAttribute(object):
-    __slots__ = ['_tab']
-
-    @classmethod
-    def GetRootAs(cls, buf, offset: int = 0):
-        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
-        x = RFFTAttribute()
-        x.Init(buf, n + offset)
-        return x
-
-    @classmethod
-    def GetRootAsRFFTAttribute(cls, buf, offset=0):
-        """This method is deprecated. Please switch to GetRootAs."""
-        return cls.GetRootAs(buf, offset)
-    @classmethod
-    def RFFTAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
-        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
-
-    # RFFTAttribute
-    def Init(self, buf: bytes, pos: int):
-        self._tab = flatbuffers.table.Table(buf, pos)
-
-    # RFFTAttribute
-    def LocalBound(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
-        return False
-
-def RFFTAttributeStart(builder: flatbuffers.Builder):
-    builder.StartObject(1)
-
-def RFFTAttributeAddLocalBound(builder: flatbuffers.Builder, localBound: bool):
-    builder.PrependBoolSlot(0, localBound, 0)
-
-def RFFTAttributeEnd(builder: flatbuffers.Builder) -> int:
-    return builder.EndObject()
-
-
-
-class RFFTAttributeT(object):
-
-    # RFFTAttributeT
-    def __init__(self):
-        self.localBound = False  # type: bool
-
-    @classmethod
-    def InitFromBuf(cls, buf, pos):
-        rfftattribute = RFFTAttribute()
-        rfftattribute.Init(buf, pos)
-        return cls.InitFromObj(rfftattribute)
-
-    @classmethod
-    def InitFromPackedBuf(cls, buf, pos=0):
-        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
-        return cls.InitFromBuf(buf, pos+n)
-
-    @classmethod
-    def InitFromObj(cls, rfftattribute):
-        x = RFFTAttributeT()
-        x._UnPack(rfftattribute)
-        return x
-
-    # RFFTAttributeT
-    def _UnPack(self, rfftattribute):
-        if rfftattribute is None:
-            return
-        self.localBound = rfftattribute.LocalBound()
-
-    # RFFTAttributeT
-    def Pack(self, builder):
-        RFFTAttributeStart(builder)
-        RFFTAttributeAddLocalBound(builder, self.localBound)
-        rfftattribute = RFFTAttributeEnd(builder)
-        return rfftattribute
-
-
-class NanPropagationAttribute(object):
-    __slots__ = ['_tab']
-
-    @classmethod
-    def GetRootAs(cls, buf, offset: int = 0):
-        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
-        x = NanPropagationAttribute()
-        x.Init(buf, n + offset)
-        return x
-
-    @classmethod
-    def GetRootAsNanPropagationAttribute(cls, buf, offset=0):
-        """This method is deprecated. Please switch to GetRootAs."""
-        return cls.GetRootAs(buf, offset)
-    @classmethod
-    def NanPropagationAttributeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
-        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
-
-    # NanPropagationAttribute
-    def Init(self, buf: bytes, pos: int):
-        self._tab = flatbuffers.table.Table(buf, pos)
-
-    # NanPropagationAttribute
-    def NanMode(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
-        return 0
-
-def NanPropagationAttributeStart(builder: flatbuffers.Builder):
-    builder.StartObject(1)
-
-def NanPropagationAttributeAddNanMode(builder: flatbuffers.Builder, nanMode: int):
-    builder.PrependUint32Slot(0, nanMode, 0)
-
-def NanPropagationAttributeEnd(builder: flatbuffers.Builder) -> int:
-    return builder.EndObject()
-
-
-
-class NanPropagationAttributeT(object):
-
-    # NanPropagationAttributeT
-    def __init__(self):
-        self.nanMode = 0  # type: int
-
-    @classmethod
-    def InitFromBuf(cls, buf, pos):
-        nanPropagationAttribute = NanPropagationAttribute()
-        nanPropagationAttribute.Init(buf, pos)
-        return cls.InitFromObj(nanPropagationAttribute)
-
-    @classmethod
-    def InitFromPackedBuf(cls, buf, pos=0):
-        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
-        return cls.InitFromBuf(buf, pos+n)
-
-    @classmethod
-    def InitFromObj(cls, nanPropagationAttribute):
-        x = NanPropagationAttributeT()
-        x._UnPack(nanPropagationAttribute)
-        return x
-
-    # NanPropagationAttributeT
-    def _UnPack(self, nanPropagationAttribute):
-        if nanPropagationAttribute is None:
-            return
-        self.nanMode = nanPropagationAttribute.NanMode()
-
-    # NanPropagationAttributeT
-    def Pack(self, builder):
-        NanPropagationAttributeStart(builder)
-        NanPropagationAttributeAddNanMode(builder, self.nanMode)
-        nanPropagationAttribute = NanPropagationAttributeEnd(builder)
-        return nanPropagationAttribute
+        ConstShapeAttributeStart(builder)
+        constShapeAttribute = ConstShapeAttributeEnd(builder)
+        return constShapeAttribute
 
 
 class Version(object):
@@ -3187,7 +7345,7 @@ class TosaOperatorT(object):
     def __init__(self):
         self.op = 0  # type: int
         self.attributeType = 0  # type: int
-        self.attribute = None  # type: Union[None, PoolAttributeT, ConvAttributeT, TransposeConvAttributeT, PadAttributeT, AxisAttributeT, ResizeAttributeT, ClampAttributeT, RescaleAttributeT, MulAttributeT, ArithmeticRightShiftAttributeT, CondIfAttributeT, WhileLoopAttributeT, TransposeAttributeT, TableAttributeT, MatMulAttributeT, FullyConnectedAttributeT, NegateAttributeT, CustomAttributeT, FFTAttributeT, RFFTAttributeT, NanPropagationAttributeT]
+        self.attribute = None  # type: Union[None, ArgMaxAttributeT, AvgPool2dAttributeT, Conv2dAttributeT, Conv3dAttributeT, DepthwiseConv2dAttributeT, FFT2dAttributeT, MatMulAttributeT, MaxPool2dAttributeT, RFFT2dAttributeT, TransposeConv2dAttributeT, ClampAttributeT, ErfAttributeT, SigmoidAttributeT, TanhAttributeT, AddAttributeT, ArithmeticRightShiftAttributeT, BitwiseAndAttributeT, BitwiseOrAttributeT, BitwiseXorAttributeT, IntDivAttributeT, LogicalAndAttributeT, LogicalLeftShiftAttributeT, LogicalRightShiftAttributeT, LogicalOrAttributeT, LogicalXorAttributeT, MaximumAttributeT, MinimumAttributeT, MulAttributeT, PowAttributeT, SubAttributeT, TableAttributeT, AbsAttributeT, BitwiseNotAttributeT, CeilAttributeT, ClzAttributeT, CosAttributeT, ExpAttributeT, FloorAttributeT, LogAttributeT, LogicalNotAttributeT, NegateAttributeT, ReciprocalAttributeT, RsqrtAttributeT, SinAttributeT, SelectAttributeT, EqualAttributeT, GreaterAttributeT, GreaterEqualAttributeT, ReduceAllAttributeT, ReduceAnyAttributeT, ReduceMaxAttributeT, ReduceMinAttributeT, ReduceProductAttributeT, ReduceSumAttributeT, ConcatAttributeT, PadAttributeT, ReshapeAttributeT, ReverseAttributeT, SliceAttributeT, TileAttributeT, TransposeAttributeT, GatherAttributeT, ScatterAttributeT, ResizeAttributeT, CastAttributeT, RescaleAttributeT, ConstAttributeT, IdentityAttributeT, CustomAttributeT, CondIfAttributeT, WhileLoopAttributeT, VariableAttributeT, VariableWriteAttributeT, VariableReadAttributeT, ConstShapeAttributeT]
         self.inputs = None  # type: List[str]
         self.outputs = None  # type: List[str]
 

@@ -1,5 +1,5 @@
-// https://github.com/pytorch-labs/tosa_serialization_lib-mirror/blob/v1.0/schema/tosa.fbs
-// Copyright (c) 2020-2024, ARM Limited.
+
+// Copyright (c) 2020-2025, ARM Limited.
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -26,14 +26,12 @@ file_extension "tosa";
 enum DType:uint32 {
   UNKNOWN = 0,
   BOOL,
-  UINT8,
   INT4,
   INT8,
   INT16,
   INT32,
   INT48,
   FP32,
-  UINT16,
   FP16,
   BF16,
   SHAPE,
@@ -53,6 +51,13 @@ enum NanPropagationMode:uint32 {
   IGNORE,
 }
 
+enum RoundingMode:uint32 {
+  UNKNOWN = 0,
+  SINGLE_ROUND,
+  INEXACT_ROUND,
+  DOUBLE_ROUND
+}
+
 enum Op:uint32 {
   UNKNOWN = 0,
   ARGMAX,
@@ -60,12 +65,13 @@ enum Op:uint32 {
   CONV2D,
   CONV3D,
   DEPTHWISE_CONV2D,
-  FULLY_CONNECTED (deprecated),
+  FFT2D,
   MATMUL,
   MAX_POOL2D,
+  RFFT2D,
   TRANSPOSE_CONV2D,
   CLAMP,
-  RESERVED,
+  ERF,
   SIGMOID,
   TANH,
   ADD,
@@ -89,6 +95,7 @@ enum Op:uint32 {
   BITWISE_NOT,
   CEIL,
   CLZ,
+  COS,
   EXP,
   FLOOR,
   LOG,
@@ -96,12 +103,13 @@ enum Op:uint32 {
   NEGATE,
   RECIPROCAL,
   RSQRT,
+  SIN,
   SELECT,
   EQUAL,
   GREATER,
   GREATER_EQUAL,
-  REDUCE_ANY,
   REDUCE_ALL,
+  REDUCE_ANY,
   REDUCE_MAX,
   REDUCE_MIN,
   REDUCE_PRODUCT,
@@ -123,55 +131,103 @@ enum Op:uint32 {
   CUSTOM,
   COND_IF,
   WHILE_LOOP,
-  FFT2D,
-  RFFT2D,
-  ERF,
-  DIM (deprecated),
+  VARIABLE,
+  VARIABLE_WRITE,
+  VARIABLE_READ,
   CONST_SHAPE,
-  CONCAT_SHAPE (deprecated),
-  ADD_SHAPE (deprecated),
-  SUB_SHAPE (deprecated),
-  MUL_SHAPE (deprecated),
-  DIV_SHAPE (deprecated),
-  COS,
-  SIN,
 }
 
 union Attribute {
-  PoolAttribute,
-  ConvAttribute,
-  TransposeConvAttribute,
-  PadAttribute,
-  AxisAttribute,
-  ResizeAttribute,
+  ArgMaxAttribute,
+  AvgPool2dAttribute,
+  Conv2dAttribute,
+  Conv3dAttribute,
+  DepthwiseConv2dAttribute,
+  FFT2dAttribute,
+  MatMulAttribute,
+  MaxPool2dAttribute,
+  RFFT2dAttribute,
+  TransposeConv2dAttribute,
   ClampAttribute,
-  RescaleAttribute,
-  MulAttribute,
+  ErfAttribute,
+  SigmoidAttribute,
+  TanhAttribute,
+  AddAttribute,
   ArithmeticRightShiftAttribute,
+  BitwiseAndAttribute,
+  BitwiseOrAttribute,
+  BitwiseXorAttribute,
+  IntDivAttribute,
+  LogicalAndAttribute,
+  LogicalLeftShiftAttribute,
+  LogicalRightShiftAttribute,
+  LogicalOrAttribute,
+  LogicalXorAttribute,
+  MaximumAttribute,
+  MinimumAttribute,
+  MulAttribute,
+  PowAttribute,
+  SubAttribute,
+  TableAttribute,
+  AbsAttribute,
+  BitwiseNotAttribute,
+  CeilAttribute,
+  ClzAttribute,
+  CosAttribute,
+  ExpAttribute,
+  FloorAttribute,
+  LogAttribute,
+  LogicalNotAttribute,
+  NegateAttribute,
+  ReciprocalAttribute,
+  RsqrtAttribute,
+  SinAttribute,
+  SelectAttribute,
+  EqualAttribute,
+  GreaterAttribute,
+  GreaterEqualAttribute,
+  ReduceAllAttribute,
+  ReduceAnyAttribute,
+  ReduceMaxAttribute,
+  ReduceMinAttribute,
+  ReduceProductAttribute,
+  ReduceSumAttribute,
+  ConcatAttribute,
+  PadAttribute,
+  ReshapeAttribute,
+  ReverseAttribute,
+  SliceAttribute,
+  TileAttribute,
+  TransposeAttribute,
+  GatherAttribute,
+  ScatterAttribute,
+  ResizeAttribute,
+  CastAttribute,
+  RescaleAttribute,
+  ConstAttribute,
+  IdentityAttribute,
+  CustomAttribute,
   CondIfAttribute,
   WhileLoopAttribute,
-  TransposeAttribute,
-  TableAttribute (deprecated),
-  MatMulAttribute,
-  FullyConnectedAttribute (deprecated),
-  NegateAttribute,
-  CustomAttribute,
-  FFTAttribute,
-  RFFTAttribute,
-  NanPropagationAttribute,
+  VariableAttribute,
+  VariableWriteAttribute,
+  VariableReadAttribute,
+  ConstShapeAttribute,
 }
 
-table PoolAttribute {
-  pad: [int32];
-  kernel: [int32];
-  stride: [int32];
-  input_zp: int32;
-  output_zp: int32;
-  acc_type: DType;
+table ArgMaxAttribute {
+  axis: int32;
   nan_mode: NanPropagationMode;
 }
 
-table ConvAttribute {
+table AvgPool2dAttribute {
+  kernel: [int32];
+  stride: [int32];
+  pad: [int32];
+  acc_type: DType;
+}
+
+table Conv2dAttribute {
   pad: [int32];
   stride: [int32];
   dilation: [int32];
@@ -179,27 +235,46 @@ table ConvAttribute {
   acc_type: DType;
 }
 
-table TransposeConvAttribute {
-  out_pad: [int32];
+table Conv3dAttribute {
+  pad: [int32];
   stride: [int32];
+  dilation: [int32];
   local_bound: bool;
   acc_type: DType;
 }
 
-table PadAttribute {
-  pad_const: [ubyte] (force_align: 8);
+table DepthwiseConv2dAttribute {
+  pad: [int32];
+  stride: [int32];
+  dilation: [int32];
+  local_bound: bool;
+  acc_type: DType;
 }
 
-table AxisAttribute {
-  axis: int32;
+table FFT2dAttribute {
+  inverse: bool;
+  local_bound: bool;
+}
+
+table MatMulAttribute {
+}
+
+table MaxPool2dAttribute {
+  kernel: [int32];
+  stride: [int32];
+  pad: [int32];
   nan_mode: NanPropagationMode;
 }
 
-table ResizeAttribute {
-  scale: [int16] (deprecated);
-  offset: [int16] (deprecated);
-  border: [int16] (deprecated);
-  mode: ResizeMode;
+table RFFT2dAttribute {
+  local_bound: bool;
+}
+
+table TransposeConv2dAttribute {
+  out_pad: [int32];
+  stride: [int32];
+  local_bound: bool;
+  acc_type: DType;
 }
 
 table ClampAttribute {
@@ -208,22 +283,202 @@ table ClampAttribute {
   nan_mode: NanPropagationMode;
 }
 
+table ErfAttribute {
+}
+
+table SigmoidAttribute {
+}
+
+table TanhAttribute {
+}
+
+table AddAttribute {
+}
+
+table ArithmeticRightShiftAttribute {
+  round: bool;
+}
+
+table BitwiseAndAttribute {
+}
+
+table BitwiseOrAttribute {
+}
+
+table BitwiseXorAttribute {
+}
+
+table IntDivAttribute {
+}
+
+table LogicalAndAttribute {
+}
+
+table LogicalLeftShiftAttribute {
+}
+
+table LogicalRightShiftAttribute {
+}
+
+table LogicalOrAttribute {
+}
+
+table LogicalXorAttribute {
+}
+
+table MaximumAttribute {
+  nan_mode: NanPropagationMode;
+}
+
+table MinimumAttribute {
+  nan_mode: NanPropagationMode;
+}
+
+table MulAttribute {
+}
+
+table PowAttribute {
+}
+
+table SubAttribute {
+}
+
+table TableAttribute {
+}
+
+table AbsAttribute {
+}
+
+table BitwiseNotAttribute {
+}
+
+table CeilAttribute {
+}
+
+table ClzAttribute {
+}
+
+table CosAttribute {
+}
+
+table ExpAttribute {
+}
+
+table FloorAttribute {
+}
+
+table LogAttribute {
+}
+
+table LogicalNotAttribute {
+}
+
+table NegateAttribute {
+}
+
+table ReciprocalAttribute {
+}
+
+table RsqrtAttribute {
+}
+
+table SinAttribute {
+}
+
+table SelectAttribute {
+}
+
+table EqualAttribute {
+}
+
+table GreaterAttribute {
+}
+
+table GreaterEqualAttribute {
+}
+
+table ReduceAllAttribute {
+  axis: int32;
+}
+
+table ReduceAnyAttribute {
+  axis: int32;
+}
+
+table ReduceMaxAttribute {
+  axis: int32;
+  nan_mode: NanPropagationMode;
+}
+
+table ReduceMinAttribute {
+  axis: int32;
+  nan_mode: NanPropagationMode;
+}
+
+table ReduceProductAttribute {
+  axis: int32;
+}
+
+table ReduceSumAttribute {
+  axis: int32;
+}
+
+table ConcatAttribute {
+  axis: int32;
+}
+
+table PadAttribute {
+}
+
+table ReshapeAttribute {
+}
+
+table ReverseAttribute {
+  axis: int32;
+}
+
+table SliceAttribute {
+}
+
+table TileAttribute {
+}
+
+table TransposeAttribute {
+  perms: [int32];
+}
+
+table GatherAttribute {
+}
+
+table ScatterAttribute {
+}
+
+table ResizeAttribute {
+  mode: ResizeMode;
+}
+
+table CastAttribute {
+}
+
 table RescaleAttribute {
-  input_zp: int32;
-  output_zp: int32;
   scale32: bool;
-  double_round: bool;
+  rounding_mode: RoundingMode;
   per_channel: bool;
   input_unsigned: bool;
   output_unsigned: bool;
 }
 
-table MulAttribute {
-  shift: int32;
+table ConstAttribute {
+  // value is stored in output TosaTensor
 }
 
-table ArithmeticRightShiftAttribute {
-  round: bool;
+table IdentityAttribute {
+}
+
+table CustomAttribute {
+  operator_name:string;
+  domain_name:string;
+  implementation_attrs:[ubyte];
 }
 
 table CondIfAttribute {
@@ -236,47 +491,19 @@ table WhileLoopAttribute {
   body_graph: string;
 }
 
-table TransposeAttribute {
-  perms: [int32];
+table VariableAttribute {
 }
 
-table TableAttribute {
-  table: [int16] (deprecated);
+table VariableWriteAttribute {
 }
 
-table MatMulAttribute {
-  a_zp: int32;
-  b_zp: int32;
+table VariableReadAttribute {
 }
 
-table FullyConnectedAttribute {
-  input_zp: int32 (deprecated);
-  weight_zp: int32 (deprecated);
+table ConstShapeAttribute {
+  // value is stored in output TosaTensor
 }
 
-table NegateAttribute {
-  input1_zp: int32;
-  output_zp: int32;
-}
-
-table CustomAttribute {
-  operator_name:string;
-  domain_name:string;
-  implementation_attrs:[ubyte];
-}
-
-table FFTAttribute {
-  inverse: bool;
-  local_bound: bool;
-}
-
-table RFFTAttribute {
-  local_bound: bool;
-}
-
-table NanPropagationAttribute {
-  nan_mode: NanPropagationMode;
-}
 
 table Version {
   _major: int32 = -1;
@@ -321,4 +548,3 @@ table TosaGraph {
 }
 
 root_type TosaGraph;
-

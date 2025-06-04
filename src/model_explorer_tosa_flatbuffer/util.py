@@ -4,13 +4,28 @@ from model_explorer import graph_builder as gb
 
 
 def read_file(file_path: str) -> bytes:
-    """Read a binary file into byes."""
+    """Read a binary file into bytes.
+
+    Args:
+        file_path: Path to the file to read.
+
+    Returns:
+        The contents of the file as bytes.
+    """
     with open(file_path, "rb") as file:
         return file.read()
 
 
 def operator_id(namespace: str, index: int) -> str:
-    """Generate a unique operator ID."""
+    """Generate a unique operator ID within a namespace.
+
+    Args:
+        namespace: Namespace identifier for the operator.
+        index: Index of the operator within the namespace.
+
+    Returns:
+        A string representing the unique operator ID.
+    """
     return f"{namespace}/op{index}"
 
 
@@ -39,8 +54,18 @@ def dict_to_key_value_list(
     return result
 
 
-def safe_decode(value, default=""):
-    """Safely decode bytes to string, handling various input types."""
+def safe_decode(value: Any, default: str = "") -> str:
+    """Safely decode a value to a string.
+
+    Handles bytes, None, and other types.
+
+    Args:
+        value: The value to decode.
+        default: Default string if value is None.
+
+    Returns:
+        Decoded string or default.
+    """
     if value is None:
         return default
     if isinstance(value, bytes):
