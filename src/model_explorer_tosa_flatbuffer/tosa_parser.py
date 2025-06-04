@@ -79,7 +79,7 @@ class TosaParser:
         for region in self.root_graph.regions:
             for block in region.blocks:
                 region_name = safe_decode(region.name)
-                graphs.append(self._build_graph(block, region_name))  
+                graphs.append(self._build_graph(block, region_name))
 
         return gb.GraphCollection(label=Path(self.file_path).stem, graphs=graphs)
 
@@ -95,7 +95,7 @@ class TosaParser:
             if not region_name:
                 region_name = f"region{idx}"
             self.region_id_map[region_name] = region_name
-    
+
     def _collect_metadata(
         self,
         io_list: List[Any],
@@ -258,18 +258,20 @@ class TosaParser:
                 )
 
         return incoming_edges
-    
-    def _extract_subgraph_ids(
-        self, op: TosaOperatorTType
-    ) -> List[str]:
+
+    def _extract_subgraph_ids(self, op: TosaOperatorTType) -> List[str]:
         """
         Extract conditional subgraph IDs from a TOSA operator attribute.
         """
         subgraph_ids: List[str] = []
         attr_type = enum_name(op.attributeType, self.tosa_module.Attribute)
         if attr_type == "CondIfAttribute" and op.attribute:
-            tg = getattr(op.attribute, "thenGraph", None) or getattr(op.attribute, "thenBranch", None)
-            eg = getattr(op.attribute, "elseGraph", None) or getattr(op.attribute, "elseBranch", None)
+            tg = getattr(op.attribute, "thenGraph", None) or getattr(
+                op.attribute, "thenBranch", None
+            )
+            eg = getattr(op.attribute, "elseGraph", None) or getattr(
+                op.attribute, "elseBranch", None
+            )
             then_name = safe_decode(tg) if tg is not None else None
             else_name = safe_decode(eg) if eg is not None else None
             if then_name and then_name in self.region_id_map:
@@ -316,7 +318,9 @@ class TosaParser:
                 label=op_name,
                 namespace=graph_id,
                 incomingEdges=self._add_incoming_edges(op, producer_map),
-                attrs=dict_to_key_value_list(self._collect_operator_attrs(op), self.tosa_module),
+                attrs=dict_to_key_value_list(
+                    self._collect_operator_attrs(op), self.tosa_module
+                ),
                 inputsMetadata=self._collect_metadata(op.inputs, tensor_map),
                 outputsMetadata=self._collect_metadata(op.outputs, tensor_map),
                 subgraphIds=self._extract_subgraph_ids(op),
