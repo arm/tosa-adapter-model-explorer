@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import List, Dict, Any, Union
+from typing import List, Dict, Any, Union, Optional
 
 from .util import read_file, operator_id, dict_to_key_value_list, safe_decode, enum_name
 import tosa_0_8
@@ -129,7 +129,7 @@ class TosaParser:
         self,
         block: TosaBasicBlockTType,
         tensor_map: Dict[str, Any],
-    ) -> gb.GraphNode | None:
+    ) -> Optional[gb.GraphNode]:
         """
         Build the GraphInputs node for this block if inputs exist.
 
