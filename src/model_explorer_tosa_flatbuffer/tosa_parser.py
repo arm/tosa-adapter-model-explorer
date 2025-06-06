@@ -153,7 +153,7 @@ class TosaParser:
         block: TosaBasicBlockTType,
         tensor_map: Dict[str, Any],
         tensor_producer_map: Dict[str, str],
-    ) -> gb.GraphNode | None:
+    ) -> Optional[gb.GraphNode]:
         """
         Build the GraphOutputs node for this block if outputs exist.
 
