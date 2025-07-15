@@ -7,7 +7,7 @@ class TosaFlatbufferAdapter(Adapter):
     metadata = AdapterMetadata(
         id="tosa_flatbuffer_adapter",
         name="TOSA Flatbuffer Adapter",
-        description="",
+        description="TOSA Flatbuffer adapter for Model Explorer",
         source_repo="https://github.com/Arm-Debug/model-explorer-tosa-flatbuffer",
         fileExts=["tosa"],
     )
