@@ -11,13 +11,13 @@ pip install -e .
 Set PYTHONPATH:
 
 ```
-PYTHONPATH="{absolute_path_to}/tosa-flatbuffer-model-explorer/src/model_explorer_tosa_flatbuffer
+PYTHONPATH="{absolute_path_to}/tosa-adapter-model-explorer/src/tosa_adapter_model_explorer
 ```
 
 Run:
 
 ```
-model-explorer --extensions=tosa_flatbuffer_model_explorer
+model-explorer --extensions=tosa_adapter_model_explorer
 ```
 
 ## Generating Flatbuffer Objects
