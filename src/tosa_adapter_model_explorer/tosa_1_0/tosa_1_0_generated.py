@@ -7221,6 +7221,234 @@ class TosaTensorT(object):
         return tosaTensor
 
 
+class TosaShape(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = TosaShape()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsTosaShape(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def TosaShapeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # TosaShape
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # TosaShape
+    def Name(self) -> Optional[str]:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.String(o + self._tab.Pos)
+        return None
+
+    # TosaShape
+    def Rank(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
+        return 0
+
+    # TosaShape
+    def Data(self, j: int):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            a = self._tab.Vector(o)
+            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+        return 0
+
+    # TosaShape
+    def DataAsNumpy(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Uint8Flags, o)
+        return 0
+
+    # TosaShape
+    def DataLength(self) -> int:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # TosaShape
+    def DataIsNone(self) -> bool:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        return o == 0
+
+def TosaShapeStart(builder: flatbuffers.Builder):
+    builder.StartObject(3)
+
+def TosaShapeAddName(builder: flatbuffers.Builder, name: int):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+
+def TosaShapeAddRank(builder: flatbuffers.Builder, rank: int):
+    builder.PrependUint32Slot(1, rank, 0)
+
+def TosaShapeAddData(builder: flatbuffers.Builder, data: int):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(data), 0)
+
+def TosaShapeStartDataVector(builder, numElems: int) -> int:
+    return builder.StartVector(1, numElems, 1)
+
+def TosaShapeEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+try:
+    from typing import List
+except:
+    pass
+
+class TosaShapeT(object):
+
+    # TosaShapeT
+    def __init__(self):
+        self.name = None  # type: str
+        self.rank = 0  # type: int
+        self.data = None  # type: List[int]
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        tosaShape = TosaShape()
+        tosaShape.Init(buf, pos)
+        return cls.InitFromObj(tosaShape)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, tosaShape):
+        x = TosaShapeT()
+        x._UnPack(tosaShape)
+        return x
+
+    # TosaShapeT
+    def _UnPack(self, tosaShape):
+        if tosaShape is None:
+            return
+        self.name = tosaShape.Name()
+        self.rank = tosaShape.Rank()
+        if not tosaShape.DataIsNone():
+            if np is None:
+                self.data = []
+                for i in range(tosaShape.DataLength()):
+                    self.data.append(tosaShape.Data(i))
+            else:
+                self.data = tosaShape.DataAsNumpy()
+
+    # TosaShapeT
+    def Pack(self, builder):
+        if self.name is not None:
+            name = builder.CreateString(self.name)
+        if self.data is not None:
+            if np is not None and type(self.data) is np.ndarray:
+                data = builder.CreateNumpyVector(self.data)
+            else:
+                TosaShapeStartDataVector(builder, len(self.data))
+                for i in reversed(range(len(self.data))):
+                    builder.PrependUint8(self.data[i])
+                data = builder.EndVector()
+        TosaShapeStart(builder)
+        if self.name is not None:
+            TosaShapeAddName(builder, name)
+        TosaShapeAddRank(builder, self.rank)
+        if self.data is not None:
+            TosaShapeAddData(builder, data)
+        tosaShape = TosaShapeEnd(builder)
+        return tosaShape
+
+
+class OpLocation(object):
+    __slots__ = ['_tab']
+
+    @classmethod
+    def GetRootAs(cls, buf, offset: int = 0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = OpLocation()
+        x.Init(buf, n + offset)
+        return x
+
+    @classmethod
+    def GetRootAsOpLocation(cls, buf, offset=0):
+        """This method is deprecated. Please switch to GetRootAs."""
+        return cls.GetRootAs(buf, offset)
+    @classmethod
+    def OpLocationBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
+        return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x54\x4F\x53\x41", size_prefixed=size_prefixed)
+
+    # OpLocation
+    def Init(self, buf: bytes, pos: int):
+        self._tab = flatbuffers.table.Table(buf, pos)
+
+    # OpLocation
+    def Text(self) -> Optional[str]:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.String(o + self._tab.Pos)
+        return None
+
+def OpLocationStart(builder: flatbuffers.Builder):
+    builder.StartObject(1)
+
+def OpLocationAddText(builder: flatbuffers.Builder, text: int):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(text), 0)
+
+def OpLocationEnd(builder: flatbuffers.Builder) -> int:
+    return builder.EndObject()
+
+
+
+class OpLocationT(object):
+
+    # OpLocationT
+    def __init__(self):
+        self.text = None  # type: str
+
+    @classmethod
+    def InitFromBuf(cls, buf, pos):
+        opLocation = OpLocation()
+        opLocation.Init(buf, pos)
+        return cls.InitFromObj(opLocation)
+
+    @classmethod
+    def InitFromPackedBuf(cls, buf, pos=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, pos)
+        return cls.InitFromBuf(buf, pos+n)
+
+    @classmethod
+    def InitFromObj(cls, opLocation):
+        x = OpLocationT()
+        x._UnPack(opLocation)
+        return x
+
+    # OpLocationT
+    def _UnPack(self, opLocation):
+        if opLocation is None:
+            return
+        self.text = opLocation.Text()
+
+    # OpLocationT
+    def Pack(self, builder):
+        if self.text is not None:
+            text = builder.CreateString(self.text)
+        OpLocationStart(builder)
+        if self.text is not None:
+            OpLocationAddText(builder, text)
+        opLocation = OpLocationEnd(builder)
+        return opLocation
+
+
 class TosaOperator(object):
     __slots__ = ['_tab']
 
@@ -7306,8 +7534,18 @@ class TosaOperator(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         return o == 0
 
+    # TosaOperator
+    def Location(self) -> Optional[OpLocation]:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
+        if o != 0:
+            x = self._tab.Indirect(o + self._tab.Pos)
+            obj = OpLocation()
+            obj.Init(self._tab.Bytes, x)
+            return obj
+        return None
+
 def TosaOperatorStart(builder: flatbuffers.Builder):
-    builder.StartObject(5)
+    builder.StartObject(6)
 
 def TosaOperatorAddOp(builder: flatbuffers.Builder, op: int):
     builder.PrependUint32Slot(0, op, 0)
@@ -7330,12 +7568,15 @@ def TosaOperatorAddOutputs(builder: flatbuffers.Builder, outputs: int):
 def TosaOperatorStartOutputsVector(builder, numElems: int) -> int:
     return builder.StartVector(4, numElems, 4)
 
+def TosaOperatorAddLocation(builder: flatbuffers.Builder, location: int):
+    builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(location), 0)
+
 def TosaOperatorEnd(builder: flatbuffers.Builder) -> int:
     return builder.EndObject()
 
 
 try:
-    from typing import List, Union
+    from typing import List, Optional, Union
 except:
     pass
 
@@ -7348,6 +7589,7 @@ class TosaOperatorT(object):
         self.attribute = None  # type: Union[None, ArgMaxAttributeT, AvgPool2dAttributeT, Conv2dAttributeT, Conv3dAttributeT, DepthwiseConv2dAttributeT, FFT2dAttributeT, MatMulAttributeT, MaxPool2dAttributeT, RFFT2dAttributeT, TransposeConv2dAttributeT, ClampAttributeT, ErfAttributeT, SigmoidAttributeT, TanhAttributeT, AddAttributeT, ArithmeticRightShiftAttributeT, BitwiseAndAttributeT, BitwiseOrAttributeT, BitwiseXorAttributeT, IntDivAttributeT, LogicalAndAttributeT, LogicalLeftShiftAttributeT, LogicalRightShiftAttributeT, LogicalOrAttributeT, LogicalXorAttributeT, MaximumAttributeT, MinimumAttributeT, MulAttributeT, PowAttributeT, SubAttributeT, TableAttributeT, AbsAttributeT, BitwiseNotAttributeT, CeilAttributeT, ClzAttributeT, CosAttributeT, ExpAttributeT, FloorAttributeT, LogAttributeT, LogicalNotAttributeT, NegateAttributeT, ReciprocalAttributeT, RsqrtAttributeT, SinAttributeT, SelectAttributeT, EqualAttributeT, GreaterAttributeT, GreaterEqualAttributeT, ReduceAllAttributeT, ReduceAnyAttributeT, ReduceMaxAttributeT, ReduceMinAttributeT, ReduceProductAttributeT, ReduceSumAttributeT, ConcatAttributeT, PadAttributeT, ReshapeAttributeT, ReverseAttributeT, SliceAttributeT, TileAttributeT, TransposeAttributeT, GatherAttributeT, ScatterAttributeT, ResizeAttributeT, CastAttributeT, RescaleAttributeT, ConstAttributeT, IdentityAttributeT, CustomAttributeT, CondIfAttributeT, WhileLoopAttributeT, VariableAttributeT, VariableWriteAttributeT, VariableReadAttributeT, ConstShapeAttributeT]
         self.inputs = None  # type: List[str]
         self.outputs = None  # type: List[str]
+        self.location = None  # type: Optional[OpLocationT]
 
     @classmethod
     def InitFromBuf(cls, buf, pos):
@@ -7381,6 +7623,8 @@ class TosaOperatorT(object):
             self.outputs = []
             for i in range(tosaOperator.OutputsLength()):
                 self.outputs.append(tosaOperator.Outputs(i))
+        if tosaOperator.Location() is not None:
+            self.location = OpLocationT.InitFromObj(tosaOperator.Location())
 
     # TosaOperatorT
     def Pack(self, builder):
@@ -7402,6 +7646,8 @@ class TosaOperatorT(object):
             for i in reversed(range(len(self.outputs))):
                 builder.PrependUOffsetTRelative(outputslist[i])
             outputs = builder.EndVector()
+        if self.location is not None:
+            location = self.location.Pack(builder)
         TosaOperatorStart(builder)
         TosaOperatorAddOp(builder, self.op)
         TosaOperatorAddAttributeType(builder, self.attributeType)
@@ -7411,6 +7657,8 @@ class TosaOperatorT(object):
             TosaOperatorAddInputs(builder, inputs)
         if self.outputs is not None:
             TosaOperatorAddOutputs(builder, outputs)
+        if self.location is not None:
+            TosaOperatorAddLocation(builder, location)
         tosaOperator = TosaOperatorEnd(builder)
         return tosaOperator
 
@@ -7532,8 +7780,32 @@ class TosaBasicBlock(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         return o == 0
 
+    # TosaBasicBlock
+    def Shapes(self, j: int) -> Optional[TosaShape]:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
+        if o != 0:
+            x = self._tab.Vector(o)
+            x += flatbuffers.number_types.UOffsetTFlags.py_type(j) * 4
+            x = self._tab.Indirect(x)
+            obj = TosaShape()
+            obj.Init(self._tab.Bytes, x)
+            return obj
+        return None
+
+    # TosaBasicBlock
+    def ShapesLength(self) -> int:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # TosaBasicBlock
+    def ShapesIsNone(self) -> bool:
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
+        return o == 0
+
 def TosaBasicBlockStart(builder: flatbuffers.Builder):
-    builder.StartObject(5)
+    builder.StartObject(6)
 
 def TosaBasicBlockAddName(builder: flatbuffers.Builder, name: int):
     builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
@@ -7562,6 +7834,12 @@ def TosaBasicBlockAddOutputs(builder: flatbuffers.Builder, outputs: int):
 def TosaBasicBlockStartOutputsVector(builder, numElems: int) -> int:
     return builder.StartVector(4, numElems, 4)
 
+def TosaBasicBlockAddShapes(builder: flatbuffers.Builder, shapes: int):
+    builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(shapes), 0)
+
+def TosaBasicBlockStartShapesVector(builder, numElems: int) -> int:
+    return builder.StartVector(4, numElems, 4)
+
 def TosaBasicBlockEnd(builder: flatbuffers.Builder) -> int:
     return builder.EndObject()
 
@@ -7580,6 +7858,7 @@ class TosaBasicBlockT(object):
         self.tensors = None  # type: List[TosaTensorT]
         self.inputs = None  # type: List[str]
         self.outputs = None  # type: List[str]
+        self.shapes = None  # type: List[TosaShapeT]
 
     @classmethod
     def InitFromBuf(cls, buf, pos):
@@ -7627,6 +7906,14 @@ class TosaBasicBlockT(object):
             self.outputs = []
             for i in range(tosaBasicBlock.OutputsLength()):
                 self.outputs.append(tosaBasicBlock.Outputs(i))
+        if not tosaBasicBlock.ShapesIsNone():
+            self.shapes = []
+            for i in range(tosaBasicBlock.ShapesLength()):
+                if tosaBasicBlock.Shapes(i) is None:
+                    self.shapes.append(None)
+                else:
+                    tosaShape_ = TosaShapeT.InitFromObj(tosaBasicBlock.Shapes(i))
+                    self.shapes.append(tosaShape_)
 
     # TosaBasicBlockT
     def Pack(self, builder):
@@ -7664,6 +7951,14 @@ class TosaBasicBlockT(object):
             for i in reversed(range(len(self.outputs))):
                 builder.PrependUOffsetTRelative(outputslist[i])
             outputs = builder.EndVector()
+        if self.shapes is not None:
+            shapeslist = []
+            for i in range(len(self.shapes)):
+                shapeslist.append(self.shapes[i].Pack(builder))
+            TosaBasicBlockStartShapesVector(builder, len(self.shapes))
+            for i in reversed(range(len(self.shapes))):
+                builder.PrependUOffsetTRelative(shapeslist[i])
+            shapes = builder.EndVector()
         TosaBasicBlockStart(builder)
         if self.name is not None:
             TosaBasicBlockAddName(builder, name)
@@ -7675,6 +7970,8 @@ class TosaBasicBlockT(object):
             TosaBasicBlockAddInputs(builder, inputs)
         if self.outputs is not None:
             TosaBasicBlockAddOutputs(builder, outputs)
+        if self.shapes is not None:
+            TosaBasicBlockAddShapes(builder, shapes)
         tosaBasicBlock = TosaBasicBlockEnd(builder)
         return tosaBasicBlock
 
