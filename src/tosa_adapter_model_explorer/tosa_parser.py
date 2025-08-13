@@ -338,35 +338,3 @@ class TosaParser:
             return {}
 
         return op.attribute.__dict__
-
-    def _collect_operator_metadata(
-        self,
-        block: TosaBasicBlockTType,
-        io_list: List[str],
-    ) -> List[gb.MetadataItem]:
-        """
-        Collect metadata items for specified tensor names within a block.
-
-        Args:
-            block: The BasicBlock containing tensor definitions.
-            io_list: List of tensor names whose metadata to gather.
-
-        Returns:
-            List of gb.MetadataItem with id and attributes per tensor.
-        """
-        items: List[gb.MetadataItem] = []
-
-        for io in io_list:
-            name = safe_decode(io)
-            for tensor in block.tensors:
-                if safe_decode(tensor.name) == name:
-                    items.append(
-                        gb.MetadataItem(
-                            id=name,
-                            attrs=dict_to_key_value_list(
-                                tensor.__dict__, self.tosa_module
-                            ),
-                        )
-                    )
-
-        return items
