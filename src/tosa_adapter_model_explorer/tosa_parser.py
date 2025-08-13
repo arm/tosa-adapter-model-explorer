@@ -337,4 +337,9 @@ class TosaParser:
         if not hasattr(op, "attribute") or op.attribute is None:
             return {}
 
-        return op.attribute.__dict__
+        attributes = op.attribute.__dict__
+        loc = getattr(op, "location", None)
+        if self.tosa_module is tosa_1_0 and loc is not None:
+            attributes['opLocation'] = safe_decode(loc.text)
+        return attributes
+
