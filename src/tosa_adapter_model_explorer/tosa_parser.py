@@ -99,14 +99,14 @@ class TosaParser:
     def _collect_metadata(
         self,
         io_list: List[Any],
-        tensor_map: Dict[str, Any],
+        op_input_map: Dict[str, Any],
     ) -> List[gb.MetadataItem]:
         """
         Collect metadata for a list of tensor names.
 
         Args:
             io_list: List of tensor names (bytes or FlatBuffer string).
-            tensor_map: Mapping from tensor name to tensor object.
+            op_input_map: Mapping from tensor or const_shape name to tensor object.
 
         Returns:
             List of MetadataItem with id and attribute list for each tensor.
@@ -114,7 +114,7 @@ class TosaParser:
         items: List[gb.MetadataItem] = []
         for io in io_list:
             name = safe_decode(io)
-            tensor = tensor_map.get(name)
+            tensor = op_input_map.get(name)
             if tensor is None:
                 continue
             items.append(
@@ -128,14 +128,14 @@ class TosaParser:
     def _build_input_node(
         self,
         block: TosaBasicBlockTType,
-        tensor_map: Dict[str, Any],
+        op_input_map: Dict[str, Any],
     ) -> Optional[gb.GraphNode]:
         """
         Build the GraphInputs node for this block if inputs exist.
 
         Args:
             block: The BasicBlock object containing input tensor references.
-            tensor_map: Lookup for tensor metadata.
+            op_input_map: Lookup for tensor or const_shape metadata.
 
         Returns:
             A GraphNode labeled "GraphInputs" or None if no inputs.
@@ -145,13 +145,13 @@ class TosaParser:
                 id=self.input_node_id,
                 label="GraphInputs",
                 namespace="GraphInputs",
-                outputsMetadata=self._collect_metadata(block.inputs, tensor_map),
+                outputsMetadata=self._collect_metadata(block.inputs, op_input_map),
             )
 
     def _build_output_node(
         self,
         block: TosaBasicBlockTType,
-        tensor_map: Dict[str, Any],
+        op_input_map: Dict[str, Any],
         tensor_producer_map: Dict[str, str],
     ) -> Optional[gb.GraphNode]:
         """
@@ -159,7 +159,7 @@ class TosaParser:
 
         Args:
             block: The BasicBlock object containing output tensor references.
-            tensor_map: Lookup for tensor metadata.
+            op_input_map: Lookup for tensor or const_shape metadata.
             tensor_producer_map: Mapping from tensor name to producer node ID.
 
         Returns:
@@ -170,7 +170,7 @@ class TosaParser:
                 id=self.output_node_id,
                 label="GraphOutputs",
                 namespace="GraphOutputs",
-                inputsMetadata=self._collect_metadata(block.outputs, tensor_map),
+                inputsMetadata=self._collect_metadata(block.outputs, op_input_map),
                 incomingEdges=[
                     gb.IncomingEdge(
                         sourceNodeId=tensor_producer_map.get(name, ""),
@@ -195,10 +195,13 @@ class TosaParser:
         Returns:
             A gb.Graph instance representing the block and its operators.
         """
-        tensor_map = {safe_decode(t.name): t for t in block.tensors}
+        op_input_map = {safe_decode(item.name): item for item in block.tensors}
+        shapes = getattr(block, "shapes", None) or []
+        op_input_map.update({safe_decode(item.name): item for item in shapes})
+
         producer_map = self._map_outputs(block, graph_id)
-        io_nodes = self._build_io_nodes(block, tensor_map, producer_map)
-        op_nodes = self._build_operator_nodes(block, graph_id, tensor_map, producer_map)
+        io_nodes = self._build_io_nodes(block, op_input_map, producer_map)
+        op_nodes = self._build_operator_nodes(block, graph_id, op_input_map, producer_map)
         return gb.Graph(id=graph_id, nodes=io_nodes + op_nodes)
 
     def _map_outputs(
@@ -279,17 +282,17 @@ class TosaParser:
     def _build_io_nodes(
         self,
         block: TosaBasicBlockTType,
-        tensor_map: Dict[str, Any],
+        op_input_map: Dict[str, Any],
         producer_map: Dict[str, str],
     ) -> List[gb.GraphNode]:
         """
         Build graph I/O nodes (inputs and outputs) for a block.
         """
         nodes: List[gb.GraphNode] = []
-        inp = self._build_input_node(block, tensor_map)
+        inp = self._build_input_node(block, op_input_map)
         if inp:
             nodes.append(inp)
-        out = self._build_output_node(block, tensor_map, producer_map)
+        out = self._build_output_node(block, op_input_map, producer_map)
         if out:
             nodes.append(out)
         return nodes
@@ -298,7 +301,7 @@ class TosaParser:
         self,
         block: TosaBasicBlockTType,
         graph_id: str,
-        tensor_map: Dict[str, Any],
+        op_input_map: Dict[str, Any],
         producer_map: Dict[str, str],
     ) -> List[gb.GraphNode]:
         """
@@ -314,8 +317,8 @@ class TosaParser:
                 attrs=dict_to_key_value_list(
                     self._collect_operator_attrs(op), self.tosa_module
                 ),
-                inputsMetadata=self._collect_metadata(op.inputs, tensor_map),
-                outputsMetadata=self._collect_metadata(op.outputs, tensor_map),
+                inputsMetadata=self._collect_metadata(op.inputs, op_input_map),
+                outputsMetadata=self._collect_metadata(op.outputs, op_input_map),
                 subgraphIds=self._extract_subgraph_ids(op),
             )
             nodes.append(node)
