@@ -1,3 +1,8 @@
+# SPDX-FileCopyrightText: Copyright 2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License v2.0
+# See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 from pathlib import Path
 from typing import List, Dict, Any, Union, Optional
 
@@ -345,4 +350,3 @@ class TosaParser:
         if self.tosa_module is tosa_1_0 and loc is not None:
             attributes['opLocation'] = safe_decode(loc.text)
         return attributes
-
