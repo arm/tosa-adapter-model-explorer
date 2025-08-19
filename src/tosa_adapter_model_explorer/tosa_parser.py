@@ -264,24 +264,29 @@ class TosaParser:
         return incoming_edges
 
     def _extract_subgraph_ids(self, op: TosaOperatorTType) -> List[str]:
-        """
-        Extract conditional subgraph IDs from a TOSA operator attribute.
-        """
-        subgraph_ids: List[str] = []
+        """Extract conditional subgraph IDs from a TOSA operator attribute."""
+        if not op.attribute:
+            return []
+
         attr_type = enum_name(op.attributeType, self.tosa_module.Attribute)
-        if attr_type == "CondIfAttribute" and op.attribute:
-            tg = getattr(op.attribute, "thenGraph", None) or getattr(
-                op.attribute, "thenBranch", None
-            )
-            eg = getattr(op.attribute, "elseGraph", None) or getattr(
-                op.attribute, "elseBranch", None
-            )
-            then_name = safe_decode(tg) if tg is not None else None
-            else_name = safe_decode(eg) if eg is not None else None
-            if then_name and then_name in self.region_id_map:
-                subgraph_ids.append(self.region_id_map[then_name])
-            if else_name and else_name in self.region_id_map:
-                subgraph_ids.append(self.region_id_map[else_name])
+
+        attr_mappings = {
+            "WhileLoopAttribute": ["cond", "body"],
+            "CondIfAttribute": ["then", "else"],
+        }
+
+        if attr_type not in attr_mappings:
+            return []
+
+        subgraph_ids = []
+        for base_name in attr_mappings[attr_type]:
+            suffix = "Graph" if self.tosa_module is tosa_1_0 else "Branch"
+            attr_name = f"{base_name}{suffix}"
+            graph_name = safe_decode(getattr(op.attribute, attr_name, None))
+
+            if graph_name and graph_name in self.region_id_map:
+                subgraph_ids.append(self.region_id_map[graph_name])
+
         return subgraph_ids
 
     def _build_io_nodes(
