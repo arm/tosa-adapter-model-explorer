@@ -1,30 +1,44 @@
 # TOSA Adapter for Model Explorer
 
-A TOSA adapter for Model Explorer plugin
+TOSA Adapter for [google-ai-edge/model-explorer](https://github.com/google-ai-edge/model-explorer) that enables visualization of [TOSA](https://www.mlplatform.org/tosa/) files.
 
-## Getting Started
+![](https://raw.githubusercontent.com/arm/tosa-adapter-model-explorer/main/screenshots/tosa-adapter-readme-screenshot.png)
 
-```
-pip install -e .
-```
+## Requirements
 
-Set PYTHONPATH:
+- Python >= 3.10
 
-```
-PYTHONPATH="{absolute_path_to}/tosa-adapter-model-explorer/src/tosa_adapter_model_explorer
-```
+## Installation
 
-Run:
+### pip + PyPI
+    pip install tosa-adapter-model-explorer
 
-```
-model-explorer --extensions=tosa_adapter_model_explorer
-```
+### GitHub
 
-## Generating Flatbuffer Objects
+    gh release download \
+    --repo arm/tosa-adapter-model-explorer \
+    --pattern "*.whl" &&
+    pip install *.whl
 
-Requires `flatc`. `flatc` 25.2.10 was used to generate the initial objects.
-Run sh script:
+Or through the [GitHub Releases](https://github.com/arm/tosa-adapter-model-explorer/releases) UI.
 
-```
-chmod +x scripts/flatbuffer-gen.sh && scripts/flatbuffer-gen.sh
-```
+## Usage
+
+Install Model Explorer:
+
+    pip install torch ai-edge-model-explorer
+
+Launch Model Explorer with the TOSA adapter enabled:
+
+    model-explorer --extensions=tosa_adapter_model_explorer
+
+See the [Model Explorer wiki](https://github.com/google-ai-edge/model-explorer/wiki) for more information.
+
+## Trademark notice
+
+Arm® is a registered trademark of Arm Limited (or its subsidiaries) in the US and/or elsewhere.
+
+## Contributions
+
+We are not accepting direct contributions at this time.
+If you have any feedback or feature requests, please use the repository issues section.
