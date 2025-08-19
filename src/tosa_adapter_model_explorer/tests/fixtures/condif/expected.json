@@ -1,0 +1,819 @@
+{
+    "label": "input",
+    "graphs": [
+        {
+            "id": "main",
+            "nodes": [
+                {
+                    "id": "0",
+                    "label": "GraphInputs",
+                    "namespace": "GraphInputs",
+                    "subgraphIds": [],
+                    "attrs": [],
+                    "incomingEdges": [],
+                    "outputsMetadata": [
+                        {
+                            "id": "TosaInput_0",
+                            "attrs": [
+                                {
+                                    "key": "name",
+                                    "value": "TosaInput_0"
+                                },
+                                {
+                                    "key": "shape",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "FP32"
+                                },
+                                {
+                                    "key": "data",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "variable",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "isUnranked",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "variableName",
+                                    "value": ""
+                                }
+                            ]
+                        },
+                        {
+                            "id": "TosaInput_1",
+                            "attrs": [
+                                {
+                                    "key": "name",
+                                    "value": "TosaInput_1"
+                                },
+                                {
+                                    "key": "shape",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "FP32"
+                                },
+                                {
+                                    "key": "data",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "variable",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "isUnranked",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "variableName",
+                                    "value": ""
+                                }
+                            ]
+                        },
+                        {
+                            "id": "TosaInput_2",
+                            "attrs": [
+                                {
+                                    "key": "name",
+                                    "value": "TosaInput_2"
+                                },
+                                {
+                                    "key": "shape",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "BOOL"
+                                },
+                                {
+                                    "key": "data",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "variable",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "isUnranked",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "variableName",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "inputsMetadata": [],
+                    "style": null,
+                    "config": null
+                },
+                {
+                    "id": "main/op0",
+                    "label": "COND_IF",
+                    "namespace": "main",
+                    "subgraphIds": [
+                        "tosa.cond_if_then_region",
+                        "tosa.cond_if_else_region"
+                    ],
+                    "attrs": [
+                        {
+                            "key": "thenGraph",
+                            "value": "tosa.cond_if_then_region"
+                        },
+                        {
+                            "key": "elseGraph",
+                            "value": "tosa.cond_if_else_region"
+                        }
+                    ],
+                    "incomingEdges": [
+                        {
+                            "sourceNodeId": "0",
+                            "sourceNodeOutputId": "TosaInput_2",
+                            "targetNodeInputId": "TosaInput_2"
+                        },
+                        {
+                            "sourceNodeId": "0",
+                            "sourceNodeOutputId": "TosaInput_0",
+                            "targetNodeInputId": "TosaInput_0"
+                        },
+                        {
+                            "sourceNodeId": "0",
+                            "sourceNodeOutputId": "TosaInput_1",
+                            "targetNodeInputId": "TosaInput_1"
+                        }
+                    ],
+                    "outputsMetadata": [
+                        {
+                            "id": "layer_0",
+                            "attrs": [
+                                {
+                                    "key": "name",
+                                    "value": "layer_0"
+                                },
+                                {
+                                    "key": "shape",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "FP32"
+                                },
+                                {
+                                    "key": "data",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "variable",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "isUnranked",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "variableName",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "inputsMetadata": [
+                        {
+                            "id": "TosaInput_2",
+                            "attrs": [
+                                {
+                                    "key": "name",
+                                    "value": "TosaInput_2"
+                                },
+                                {
+                                    "key": "shape",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "BOOL"
+                                },
+                                {
+                                    "key": "data",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "variable",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "isUnranked",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "variableName",
+                                    "value": ""
+                                }
+                            ]
+                        },
+                        {
+                            "id": "TosaInput_0",
+                            "attrs": [
+                                {
+                                    "key": "name",
+                                    "value": "TosaInput_0"
+                                },
+                                {
+                                    "key": "shape",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "FP32"
+                                },
+                                {
+                                    "key": "data",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "variable",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "isUnranked",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "variableName",
+                                    "value": ""
+                                }
+                            ]
+                        },
+                        {
+                            "id": "TosaInput_1",
+                            "attrs": [
+                                {
+                                    "key": "name",
+                                    "value": "TosaInput_1"
+                                },
+                                {
+                                    "key": "shape",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "FP32"
+                                },
+                                {
+                                    "key": "data",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "variable",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "isUnranked",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "variableName",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "style": null,
+                    "config": null
+                }
+            ],
+            "groupNodeAttributes": null
+        },
+        {
+            "id": "tosa.cond_if_then_region",
+            "nodes": [
+                {
+                    "id": "0",
+                    "label": "GraphInputs",
+                    "namespace": "GraphInputs",
+                    "subgraphIds": [],
+                    "attrs": [],
+                    "incomingEdges": [],
+                    "outputsMetadata": [
+                        {
+                            "id": "TosaInput_3",
+                            "attrs": [
+                                {
+                                    "key": "name",
+                                    "value": "TosaInput_3"
+                                },
+                                {
+                                    "key": "shape",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "FP32"
+                                },
+                                {
+                                    "key": "data",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "variable",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "isUnranked",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "variableName",
+                                    "value": ""
+                                }
+                            ]
+                        },
+                        {
+                            "id": "TosaInput_4",
+                            "attrs": [
+                                {
+                                    "key": "name",
+                                    "value": "TosaInput_4"
+                                },
+                                {
+                                    "key": "shape",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "FP32"
+                                },
+                                {
+                                    "key": "data",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "variable",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "isUnranked",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "variableName",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "inputsMetadata": [],
+                    "style": null,
+                    "config": null
+                },
+                {
+                    "id": "-1",
+                    "label": "GraphOutputs",
+                    "namespace": "GraphOutputs",
+                    "subgraphIds": [],
+                    "attrs": [],
+                    "incomingEdges": [
+                        {
+                            "sourceNodeId": "tosa.cond_if_then_region/op0",
+                            "sourceNodeOutputId": "TosaOutput_0",
+                            "targetNodeInputId": "0"
+                        }
+                    ],
+                    "outputsMetadata": [],
+                    "inputsMetadata": [
+                        {
+                            "id": "TosaOutput_0",
+                            "attrs": [
+                                {
+                                    "key": "name",
+                                    "value": "TosaOutput_0"
+                                },
+                                {
+                                    "key": "shape",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "FP32"
+                                },
+                                {
+                                    "key": "data",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "variable",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "isUnranked",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "variableName",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "style": null,
+                    "config": null
+                },
+                {
+                    "id": "tosa.cond_if_then_region/op0",
+                    "label": "ADD",
+                    "namespace": "tosa.cond_if_then_region",
+                    "subgraphIds": [],
+                    "attrs": [],
+                    "incomingEdges": [
+                        {
+                            "sourceNodeId": "0",
+                            "sourceNodeOutputId": "TosaInput_3",
+                            "targetNodeInputId": "TosaInput_3"
+                        },
+                        {
+                            "sourceNodeId": "0",
+                            "sourceNodeOutputId": "TosaInput_4",
+                            "targetNodeInputId": "TosaInput_4"
+                        }
+                    ],
+                    "outputsMetadata": [
+                        {
+                            "id": "TosaOutput_0",
+                            "attrs": [
+                                {
+                                    "key": "name",
+                                    "value": "TosaOutput_0"
+                                },
+                                {
+                                    "key": "shape",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "FP32"
+                                },
+                                {
+                                    "key": "data",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "variable",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "isUnranked",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "variableName",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "inputsMetadata": [
+                        {
+                            "id": "TosaInput_3",
+                            "attrs": [
+                                {
+                                    "key": "name",
+                                    "value": "TosaInput_3"
+                                },
+                                {
+                                    "key": "shape",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "FP32"
+                                },
+                                {
+                                    "key": "data",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "variable",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "isUnranked",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "variableName",
+                                    "value": ""
+                                }
+                            ]
+                        },
+                        {
+                            "id": "TosaInput_4",
+                            "attrs": [
+                                {
+                                    "key": "name",
+                                    "value": "TosaInput_4"
+                                },
+                                {
+                                    "key": "shape",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "FP32"
+                                },
+                                {
+                                    "key": "data",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "variable",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "isUnranked",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "variableName",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "style": null,
+                    "config": null
+                }
+            ],
+            "groupNodeAttributes": null
+        },
+        {
+            "id": "tosa.cond_if_else_region",
+            "nodes": [
+                {
+                    "id": "0",
+                    "label": "GraphInputs",
+                    "namespace": "GraphInputs",
+                    "subgraphIds": [],
+                    "attrs": [],
+                    "incomingEdges": [],
+                    "outputsMetadata": [
+                        {
+                            "id": "TosaInput_5",
+                            "attrs": [
+                                {
+                                    "key": "name",
+                                    "value": "TosaInput_5"
+                                },
+                                {
+                                    "key": "shape",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "FP32"
+                                },
+                                {
+                                    "key": "data",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "variable",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "isUnranked",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "variableName",
+                                    "value": ""
+                                }
+                            ]
+                        },
+                        {
+                            "id": "TosaInput_6",
+                            "attrs": [
+                                {
+                                    "key": "name",
+                                    "value": "TosaInput_6"
+                                },
+                                {
+                                    "key": "shape",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "FP32"
+                                },
+                                {
+                                    "key": "data",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "variable",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "isUnranked",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "variableName",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "inputsMetadata": [],
+                    "style": null,
+                    "config": null
+                },
+                {
+                    "id": "-1",
+                    "label": "GraphOutputs",
+                    "namespace": "GraphOutputs",
+                    "subgraphIds": [],
+                    "attrs": [],
+                    "incomingEdges": [
+                        {
+                            "sourceNodeId": "tosa.cond_if_else_region/op0",
+                            "sourceNodeOutputId": "TosaOutput_1",
+                            "targetNodeInputId": "0"
+                        }
+                    ],
+                    "outputsMetadata": [],
+                    "inputsMetadata": [
+                        {
+                            "id": "TosaOutput_1",
+                            "attrs": [
+                                {
+                                    "key": "name",
+                                    "value": "TosaOutput_1"
+                                },
+                                {
+                                    "key": "shape",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "FP32"
+                                },
+                                {
+                                    "key": "data",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "variable",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "isUnranked",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "variableName",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "style": null,
+                    "config": null
+                },
+                {
+                    "id": "tosa.cond_if_else_region/op0",
+                    "label": "SUB",
+                    "namespace": "tosa.cond_if_else_region",
+                    "subgraphIds": [],
+                    "attrs": [],
+                    "incomingEdges": [
+                        {
+                            "sourceNodeId": "0",
+                            "sourceNodeOutputId": "TosaInput_5",
+                            "targetNodeInputId": "TosaInput_5"
+                        },
+                        {
+                            "sourceNodeId": "0",
+                            "sourceNodeOutputId": "TosaInput_6",
+                            "targetNodeInputId": "TosaInput_6"
+                        }
+                    ],
+                    "outputsMetadata": [
+                        {
+                            "id": "TosaOutput_1",
+                            "attrs": [
+                                {
+                                    "key": "name",
+                                    "value": "TosaOutput_1"
+                                },
+                                {
+                                    "key": "shape",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "FP32"
+                                },
+                                {
+                                    "key": "data",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "variable",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "isUnranked",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "variableName",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "inputsMetadata": [
+                        {
+                            "id": "TosaInput_5",
+                            "attrs": [
+                                {
+                                    "key": "name",
+                                    "value": "TosaInput_5"
+                                },
+                                {
+                                    "key": "shape",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "FP32"
+                                },
+                                {
+                                    "key": "data",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "variable",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "isUnranked",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "variableName",
+                                    "value": ""
+                                }
+                            ]
+                        },
+                        {
+                            "id": "TosaInput_6",
+                            "attrs": [
+                                {
+                                    "key": "name",
+                                    "value": "TosaInput_6"
+                                },
+                                {
+                                    "key": "shape",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "FP32"
+                                },
+                                {
+                                    "key": "data",
+                                    "value": "[]"
+                                },
+                                {
+                                    "key": "variable",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "isUnranked",
+                                    "value": "False"
+                                },
+                                {
+                                    "key": "variableName",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "style": null,
+                    "config": null
+                }
+            ],
+            "groupNodeAttributes": null
+        }
+    ]
+}
