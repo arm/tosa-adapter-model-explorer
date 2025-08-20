@@ -89,8 +89,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:    
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Checkout facade repository
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          repository: arm/tosa-adapter-model-explorer
+          token: ${{ env.GH_TOKEN }}
+          path: facade-repo
+        env:
+          GH_TOKEN: ${{ secrets.ARM_ORG_TOKEN }}          
       - name: Test repository access
         run: |
           curl -H "Authorization: token $GH_TOKEN" https://api.github.com/repos/arm/tosa-adapter-model-explorer
