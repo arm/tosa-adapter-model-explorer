@@ -4,24 +4,33 @@
 # Licensed under the Apache License v2.0
 # See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 from pathlib import Path
-from typing import List, Dict, Any, Union, Optional
+from typing import List, Dict, Any, Optional
 
-from .util import read_file, operator_id, dict_to_key_value_list, safe_decode, enum_name
-import tosa_0_8
-import tosa_1_0
+from .util import (
+    read_file,
+    operator_id,
+    dict_to_key_value_list,
+    safe_decode,
+    enum_name,
+)
+from tosa_1_0 import (
+    TosaGraph,
+    TosaGraphT,
+    TosaBasicBlockT,
+    TosaOperatorT,
+    Op,
+    Attribute,
+)
 
 from model_explorer import graph_builder as gb
-
-TosaBasicBlockTType = Union[tosa_0_8.TosaBasicBlockT, tosa_1_0.TosaBasicBlockT]
-TosaOperatorTType = Union[tosa_0_8.TosaOperatorT, tosa_1_0.TosaOperatorT]
 
 
 class TosaParser:
     """
-    A parser for TOSA FlatBuffer files handling multiple schema versions (0.8 and 1.0).
+    A parser for TOSA FlatBuffer files.
 
-    This class reads a TOSA FlatBuffer file, determines its schema version,
-    and converts contained graphs, blocks, operators, and tensors into a
+    This class reads a TOSA FlatBuffer file, and converts contained graphs,
+    blocks, operators, and tensors into a
     GraphCollection for visualization.
     """
 
@@ -34,38 +43,31 @@ class TosaParser:
         """
         self.file_path = file_path
         self.buffer = read_file(file_path)
-        self.tosa_module = self._detect_version()
 
-        self.TosaGraph = getattr(self.tosa_module, "TosaGraph")
-        self.TosaGraphT = getattr(self.tosa_module, "TosaGraphT")
-
-        graph_obj = self.TosaGraph.GetRootAsTosaGraph(self.buffer, 0)
-        self.root_graph = self.TosaGraphT.InitFromObj(graph_obj)
+        graph_obj = TosaGraph.GetRootAsTosaGraph(self.buffer, 0)
+        self._check_version(graph_obj)
+        self.root_graph = TosaGraphT.InitFromObj(graph_obj)
 
         self.input_node_id = "0"
         self.output_node_id = "-1"
 
         self.region_id_map: Dict[str, str] = {}
 
-    def _detect_version(self):
+    def _check_version(self, tosa_graph: TosaGraph):
         """
-        Determine the TOSA schema version for this model buffer.
+        Check if the TOSA version is supported.
 
-        Reads the version field and selects the corresponding tosa_0_8 or
-        tosa_1_0 Python module for parsing.
-
-        Returns:
-            The tosa_x_x module matching the detected schema version.
+        Raises:
+            ValueError: If the TOSA version is less than 1.0.
         """
-        tosa_graph = tosa_1_0.TosaGraph.GetRootAsTosaGraph(self.buffer, 0)
         version_obj = tosa_graph.Version()
-        if not version_obj:
-            return tosa_1_0
+        if version_obj is None:
+            return 
+        if  version_obj._Major() < 1:
+            raise ValueError(
+                f"Unsupported TOSA version: {version_obj._Major()}.{version_obj._Minor()}. Expected >= 1.0."
+            )
 
-        tosa_version = (version_obj._Major(), version_obj._Minor())
-
-        tosa_module = tosa_0_8 if tosa_version[0] < 1 else tosa_1_0
-        return tosa_module
 
     def parse(self) -> gb.GraphCollection:
         """
@@ -125,14 +127,14 @@ class TosaParser:
             items.append(
                 gb.MetadataItem(
                     id=name,
-                    attrs=dict_to_key_value_list(tensor.__dict__, self.tosa_module),
+                    attrs=dict_to_key_value_list(tensor.__dict__),
                 )
             )
         return items
 
     def _build_input_node(
         self,
-        block: TosaBasicBlockTType,
+        block: TosaBasicBlockT,
         op_input_map: Dict[str, Any],
     ) -> Optional[gb.GraphNode]:
         """
@@ -155,7 +157,7 @@ class TosaParser:
 
     def _build_output_node(
         self,
-        block: TosaBasicBlockTType,
+        block: TosaBasicBlockT,
         op_input_map: Dict[str, Any],
         tensor_producer_map: Dict[str, str],
     ) -> Optional[gb.GraphNode]:
@@ -187,7 +189,7 @@ class TosaParser:
 
     def _build_graph(
         self,
-        block: TosaBasicBlockTType,
+        block: TosaBasicBlockT,
         graph_id: str,
     ) -> gb.Graph:
         """
@@ -210,7 +212,7 @@ class TosaParser:
         return gb.Graph(id=graph_id, nodes=io_nodes + op_nodes)
 
     def _map_outputs(
-        self, block: TosaBasicBlockTType, namespace: str
+        self, block: TosaBasicBlockT, namespace: str
     ) -> Dict[str, str]:
         """
         Map each tensor name to the ID of the node that produces it.
@@ -234,7 +236,7 @@ class TosaParser:
         return output_map
 
     def _add_incoming_edges(
-        self, operator: TosaOperatorTType, tensor_producer_map: Dict[str, str]
+        self, operator: TosaOperatorT, tensor_producer_map: Dict[str, str]
     ) -> List[gb.IncomingEdge]:
         """
         Generate list of IncomingEdge linking operator inputs to producers.
@@ -263,25 +265,23 @@ class TosaParser:
 
         return incoming_edges
 
-    def _extract_subgraph_ids(self, op: TosaOperatorTType) -> List[str]:
+    def _extract_subgraph_ids(self, op: TosaOperatorT) -> List[str]:
         """Extract conditional subgraph IDs from a TOSA operator attribute."""
         if not op.attribute:
             return []
 
-        attr_type = enum_name(op.attributeType, self.tosa_module.Attribute)
+        attr_type = enum_name(op.attributeType, Attribute)
 
         attr_mappings = {
-            "WhileLoopAttribute": ["cond", "body"],
-            "CondIfAttribute": ["then", "else"],
+            "WhileLoopAttribute": ["condGraph", "bodyGraph"],
+            "CondIfAttribute": ["thenGraph", "elseGraph"],
         }
 
         if attr_type not in attr_mappings:
             return []
 
         subgraph_ids = []
-        for base_name in attr_mappings[attr_type]:
-            suffix = "Graph" if self.tosa_module is tosa_1_0 else "Branch"
-            attr_name = f"{base_name}{suffix}"
+        for attr_name in attr_mappings[attr_type]:
             graph_name = safe_decode(getattr(op.attribute, attr_name, None))
 
             if graph_name and graph_name in self.region_id_map:
@@ -291,7 +291,7 @@ class TosaParser:
 
     def _build_io_nodes(
         self,
-        block: TosaBasicBlockTType,
+        block: TosaBasicBlockT,
         op_input_map: Dict[str, Any],
         producer_map: Dict[str, str],
     ) -> List[gb.GraphNode]:
@@ -309,7 +309,7 @@ class TosaParser:
 
     def _build_operator_nodes(
         self,
-        block: TosaBasicBlockTType,
+        block: TosaBasicBlockT,
         graph_id: str,
         op_input_map: Dict[str, Any],
         producer_map: Dict[str, str],
@@ -321,11 +321,11 @@ class TosaParser:
         for idx, op in enumerate(block.operators):
             node = gb.GraphNode(
                 id=operator_id(graph_id, idx),
-                label=enum_name(op.op, self.tosa_module.Op),
+                label=enum_name(op.op, Op),
                 namespace=graph_id,
                 incomingEdges=self._add_incoming_edges(op, producer_map),
                 attrs=dict_to_key_value_list(
-                    self._collect_operator_attrs(op), self.tosa_module
+                    self._collect_operator_attrs(op), 
                 ),
                 inputsMetadata=self._collect_metadata(op.inputs, op_input_map),
                 outputsMetadata=self._collect_metadata(op.outputs, op_input_map),
@@ -336,7 +336,7 @@ class TosaParser:
 
     def _collect_operator_attrs(
         self,
-        op: TosaOperatorTType,
+        op: TosaOperatorT,
     ) -> Dict[str, Any]:
         """
         Retrieve the raw attribute dictionary from a TOSA operator.
@@ -352,6 +352,6 @@ class TosaParser:
 
         attributes = op.attribute.__dict__
         loc = getattr(op, "location", None)
-        if self.tosa_module is tosa_1_0 and loc is not None:
+        if loc is not None:
             attributes['opLocation'] = safe_decode(loc.text)
         return attributes

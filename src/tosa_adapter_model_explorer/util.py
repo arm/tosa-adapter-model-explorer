@@ -4,9 +4,8 @@
 # Licensed under the Apache License v2.0
 # See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 from typing import Any, List, Dict, Iterable
-from types import ModuleType
 from model_explorer import graph_builder as gb
-
+import tosa_1_0
 
 def read_file(file_path: str) -> bytes:
     """Read a binary file into bytes.
@@ -42,14 +41,14 @@ def enum_name(enum_int: int, enum: Any) -> str:
 
 
 def dict_to_key_value_list(
-    dict: Dict[str, Any], tosa_module: ModuleType
+    dict: Dict[str, Any]
 ) -> List[gb.KeyValue]:
     """Convert a dictionary to a list of key-value pairs."""
     result = []
     for key, value in dict.items():
         enum_type_name = field_to_enum_map.get(key)
-        if enum_type_name and hasattr(tosa_module, enum_type_name):
-            enum_type = getattr(tosa_module, enum_type_name)
+        if enum_type_name and hasattr(tosa_1_0, enum_type_name):
+            enum_type = getattr(tosa_1_0, enum_type_name)
             v_str = enum_name(value, enum_type)
         elif isinstance(value, str):
             v_str = value
