@@ -1,0 +1,1552 @@
+{
+  "label": "input",
+  "graphs": [
+    {
+      "id": "main",
+      "nodes": [
+        {
+          "id": "0",
+          "label": "GraphInputs",
+          "namespace": "GraphInputs",
+          "subgraphIds": [],
+          "attrs": [],
+          "incomingEdges": [],
+          "outputsMetadata": [
+            {
+              "id": "TosaInput_0",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaInput_0"
+                },
+                {
+                  "key": "shape",
+                  "value": "[10]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            },
+            {
+              "id": "TosaInput_1",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaInput_1"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [],
+          "style": null,
+          "config": null
+        },
+        {
+          "id": "main/op0",
+          "label": "CONST",
+          "namespace": "main",
+          "subgraphIds": [],
+          "attrs": [],
+          "incomingEdges": [],
+          "outputsMetadata": [
+            {
+              "id": "layer_0",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer_0"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[0, 0, 0, 0, 0, 0, 0, 0]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [],
+          "style": null,
+          "config": null
+        },
+        {
+          "id": "main/op1",
+          "label": "WHILE_LOOP",
+          "namespace": "main",
+          "subgraphIds": [
+            "tosa.while_loop_cond_region",
+            "tosa.while_loop_body_region"
+          ],
+          "attrs": [
+            {
+              "key": "condGraph",
+              "value": "tosa.while_loop_cond_region"
+            },
+            {
+              "key": "bodyGraph",
+              "value": "tosa.while_loop_body_region"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "sourceNodeId": "main/op0",
+              "sourceNodeOutputId": "layer_0",
+              "targetNodeInputId": "layer_0"
+            },
+            {
+              "sourceNodeId": "main/op0",
+              "sourceNodeOutputId": "layer_0",
+              "targetNodeInputId": "layer_0"
+            },
+            {
+              "sourceNodeId": "0",
+              "sourceNodeOutputId": "TosaInput_0",
+              "targetNodeInputId": "TosaInput_0"
+            }
+          ],
+          "outputsMetadata": [
+            {
+              "id": "layer_1",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer_1"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            },
+            {
+              "id": "layer_2",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer_2"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            },
+            {
+              "id": "layer_3",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer_3"
+                },
+                {
+                  "key": "shape",
+                  "value": "[10]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [
+            {
+              "id": "layer_0",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer_0"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[0, 0, 0, 0, 0, 0, 0, 0]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            },
+            {
+              "id": "layer_0",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer_0"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[0, 0, 0, 0, 0, 0, 0, 0]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            },
+            {
+              "id": "TosaInput_0",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaInput_0"
+                },
+                {
+                  "key": "shape",
+                  "value": "[10]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "style": null,
+          "config": null
+        }
+      ],
+      "groupNodeAttributes": null
+    },
+    {
+      "id": "tosa.while_loop_cond_region",
+      "nodes": [
+        {
+          "id": "0",
+          "label": "GraphInputs",
+          "namespace": "GraphInputs",
+          "subgraphIds": [],
+          "attrs": [],
+          "incomingEdges": [],
+          "outputsMetadata": [
+            {
+              "id": "TosaInput_2",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaInput_2"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            },
+            {
+              "id": "TosaInput_3",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaInput_3"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            },
+            {
+              "id": "TosaInput_4",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaInput_4"
+                },
+                {
+                  "key": "shape",
+                  "value": "[10]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [],
+          "style": null,
+          "config": null
+        },
+        {
+          "id": "-1",
+          "label": "GraphOutputs",
+          "namespace": "GraphOutputs",
+          "subgraphIds": [],
+          "attrs": [],
+          "incomingEdges": [
+            {
+              "sourceNodeId": "tosa.while_loop_cond_region/op1",
+              "sourceNodeOutputId": "TosaOutput_0",
+              "targetNodeInputId": "0"
+            }
+          ],
+          "outputsMetadata": [],
+          "inputsMetadata": [
+            {
+              "id": "TosaOutput_0",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaOutput_0"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "BOOL"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "style": null,
+          "config": null
+        },
+        {
+          "id": "tosa.while_loop_cond_region/op0",
+          "label": "GREATER_EQUAL",
+          "namespace": "tosa.while_loop_cond_region",
+          "subgraphIds": [],
+          "attrs": [],
+          "incomingEdges": [
+            {
+              "sourceNodeId": "0",
+              "sourceNodeOutputId": "TosaInput_3",
+              "targetNodeInputId": "TosaInput_3"
+            }
+          ],
+          "outputsMetadata": [
+            {
+              "id": "layer_4",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer_4"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "BOOL"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [
+            {
+              "id": "TosaInput_3",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaInput_3"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "style": null,
+          "config": null
+        },
+        {
+          "id": "tosa.while_loop_cond_region/op1",
+          "label": "LOGICAL_NOT",
+          "namespace": "tosa.while_loop_cond_region",
+          "subgraphIds": [],
+          "attrs": [],
+          "incomingEdges": [
+            {
+              "sourceNodeId": "tosa.while_loop_cond_region/op0",
+              "sourceNodeOutputId": "layer_4",
+              "targetNodeInputId": "layer_4"
+            }
+          ],
+          "outputsMetadata": [
+            {
+              "id": "TosaOutput_0",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaOutput_0"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "BOOL"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [
+            {
+              "id": "layer_4",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer_4"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "BOOL"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "style": null,
+          "config": null
+        }
+      ],
+      "groupNodeAttributes": null
+    },
+    {
+      "id": "tosa.while_loop_body_region",
+      "nodes": [
+        {
+          "id": "0",
+          "label": "GraphInputs",
+          "namespace": "GraphInputs",
+          "subgraphIds": [],
+          "attrs": [],
+          "incomingEdges": [],
+          "outputsMetadata": [
+            {
+              "id": "TosaInput_5",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaInput_5"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            },
+            {
+              "id": "TosaInput_6",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaInput_6"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            },
+            {
+              "id": "TosaInput_7",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaInput_7"
+                },
+                {
+                  "key": "shape",
+                  "value": "[10]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [],
+          "style": null,
+          "config": null
+        },
+        {
+          "id": "-1",
+          "label": "GraphOutputs",
+          "namespace": "GraphOutputs",
+          "subgraphIds": [],
+          "attrs": [],
+          "incomingEdges": [
+            {
+              "sourceNodeId": "tosa.while_loop_body_region/op5",
+              "sourceNodeOutputId": "TosaOutput_1",
+              "targetNodeInputId": "0"
+            },
+            {
+              "sourceNodeId": "tosa.while_loop_body_region/op1",
+              "sourceNodeOutputId": "TosaOutput_2",
+              "targetNodeInputId": "0"
+            },
+            {
+              "sourceNodeId": "tosa.while_loop_body_region/op4",
+              "sourceNodeOutputId": "TosaOutput_3",
+              "targetNodeInputId": "0"
+            }
+          ],
+          "outputsMetadata": [],
+          "inputsMetadata": [
+            {
+              "id": "TosaOutput_1",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaOutput_1"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            },
+            {
+              "id": "TosaOutput_2",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaOutput_2"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            },
+            {
+              "id": "TosaOutput_3",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaOutput_3"
+                },
+                {
+                  "key": "shape",
+                  "value": "[10]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "style": null,
+          "config": null
+        },
+        {
+          "id": "tosa.while_loop_body_region/op0",
+          "label": "CONST",
+          "namespace": "tosa.while_loop_body_region",
+          "subgraphIds": [],
+          "attrs": [],
+          "incomingEdges": [],
+          "outputsMetadata": [
+            {
+              "id": "layer_6",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer_6"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[1, 0, 0, 0, 0, 0, 0, 0]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [],
+          "style": null,
+          "config": null
+        },
+        {
+          "id": "tosa.while_loop_body_region/op1",
+          "label": "ADD",
+          "namespace": "tosa.while_loop_body_region",
+          "subgraphIds": [],
+          "attrs": [],
+          "incomingEdges": [
+            {
+              "sourceNodeId": "0",
+              "sourceNodeOutputId": "TosaInput_6",
+              "targetNodeInputId": "TosaInput_6"
+            },
+            {
+              "sourceNodeId": "tosa.while_loop_body_region/op0",
+              "sourceNodeOutputId": "layer_6",
+              "targetNodeInputId": "layer_6"
+            }
+          ],
+          "outputsMetadata": [
+            {
+              "id": "TosaOutput_2",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaOutput_2"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [
+            {
+              "id": "TosaInput_6",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaInput_6"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            },
+            {
+              "id": "layer_6",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer_6"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[1, 0, 0, 0, 0, 0, 0, 0]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "style": null,
+          "config": null
+        },
+        {
+          "id": "tosa.while_loop_body_region/op2",
+          "label": "CONST_SHAPE",
+          "namespace": "tosa.while_loop_body_region",
+          "subgraphIds": [],
+          "attrs": [],
+          "incomingEdges": [],
+          "outputsMetadata": [
+            {
+              "id": "layer_8",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer_8"
+                },
+                {
+                  "key": "shape",
+                  "value": "[1]"
+                },
+                {
+                  "key": "type",
+                  "value": "SHAPE"
+                },
+                {
+                  "key": "data",
+                  "value": "[1, 0, 0, 0, 0, 0, 0, 0]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [],
+          "style": null,
+          "config": null
+        },
+        {
+          "id": "tosa.while_loop_body_region/op3",
+          "label": "RESHAPE",
+          "namespace": "tosa.while_loop_body_region",
+          "subgraphIds": [],
+          "attrs": [],
+          "incomingEdges": [
+            {
+              "sourceNodeId": "tosa.while_loop_body_region/op0",
+              "sourceNodeOutputId": "layer_6",
+              "targetNodeInputId": "layer_6"
+            },
+            {
+              "sourceNodeId": "tosa.while_loop_body_region/op2",
+              "sourceNodeOutputId": "layer_8",
+              "targetNodeInputId": "layer_8"
+            }
+          ],
+          "outputsMetadata": [
+            {
+              "id": "layer_9",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer_9"
+                },
+                {
+                  "key": "shape",
+                  "value": "[1]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [
+            {
+              "id": "layer_6",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer_6"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[1, 0, 0, 0, 0, 0, 0, 0]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            },
+            {
+              "id": "layer_8",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer_8"
+                },
+                {
+                  "key": "shape",
+                  "value": "[1]"
+                },
+                {
+                  "key": "type",
+                  "value": "SHAPE"
+                },
+                {
+                  "key": "data",
+                  "value": "[1, 0, 0, 0, 0, 0, 0, 0]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "style": null,
+          "config": null
+        },
+        {
+          "id": "tosa.while_loop_body_region/op4",
+          "label": "ADD",
+          "namespace": "tosa.while_loop_body_region",
+          "subgraphIds": [],
+          "attrs": [],
+          "incomingEdges": [
+            {
+              "sourceNodeId": "0",
+              "sourceNodeOutputId": "TosaInput_7",
+              "targetNodeInputId": "TosaInput_7"
+            },
+            {
+              "sourceNodeId": "tosa.while_loop_body_region/op3",
+              "sourceNodeOutputId": "layer_9",
+              "targetNodeInputId": "layer_9"
+            }
+          ],
+          "outputsMetadata": [
+            {
+              "id": "TosaOutput_3",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaOutput_3"
+                },
+                {
+                  "key": "shape",
+                  "value": "[10]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [
+            {
+              "id": "TosaInput_7",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaInput_7"
+                },
+                {
+                  "key": "shape",
+                  "value": "[10]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            },
+            {
+              "id": "layer_9",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer_9"
+                },
+                {
+                  "key": "shape",
+                  "value": "[1]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "style": null,
+          "config": null
+        },
+        {
+          "id": "tosa.while_loop_body_region/op5",
+          "label": "ADD",
+          "namespace": "tosa.while_loop_body_region",
+          "subgraphIds": [],
+          "attrs": [],
+          "incomingEdges": [
+            {
+              "sourceNodeId": "0",
+              "sourceNodeOutputId": "TosaInput_5",
+              "targetNodeInputId": "TosaInput_5"
+            },
+            {
+              "sourceNodeId": "tosa.while_loop_body_region/op0",
+              "sourceNodeOutputId": "layer_6",
+              "targetNodeInputId": "layer_6"
+            }
+          ],
+          "outputsMetadata": [
+            {
+              "id": "TosaOutput_1",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaOutput_1"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [
+            {
+              "id": "TosaInput_5",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "TosaInput_5"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            },
+            {
+              "id": "layer_6",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer_6"
+                },
+                {
+                  "key": "shape",
+                  "value": "[]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[1, 0, 0, 0, 0, 0, 0, 0]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "style": null,
+          "config": null
+        }
+      ],
+      "groupNodeAttributes": null
+    }
+  ]
+}
