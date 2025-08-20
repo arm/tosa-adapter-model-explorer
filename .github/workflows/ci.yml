@@ -82,7 +82,6 @@ jobs:
           body_path: CHANGELOG.md
           token: ${{ steps.get_app_token.outputs.token }}
           
-
   sync-to-public-repo:
     name: Sync to public repo
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository_owner != 'arm'
@@ -101,6 +100,12 @@ jobs:
         run: |
           curl -H "Authorization: token $GH_TOKEN" https://api.github.com/user
           curl -H "Authorization: token $GH_TOKEN" https://api.github.com/user/orgs
+        env:
+          GH_TOKEN: ${{ secrets.ARM_ORG_TOKEN }}
+      - name: Test remote URL accessibility
+        run: |
+          # Test if we can access the repo via git
+          git ls-remote https://$GH_TOKEN@github.com/arm/tosa-adapter-model-explorer.git
         env:
           GH_TOKEN: ${{ secrets.ARM_ORG_TOKEN }}          
       - name: Push to public repo
