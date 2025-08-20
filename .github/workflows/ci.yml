@@ -81,19 +81,31 @@ jobs:
           name: ${{ github.ref_name }}
           body_path: CHANGELOG.md
           token: ${{ steps.get_app_token.outputs.token }}
+          
 
   sync-to-public-repo:
     name: Sync to public repo
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository_owner != 'arm'
     needs: build
     runs-on: ubuntu-latest
-    steps:
+    steps:    
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
+      - name: Test repository access
+        run: |
+          curl -H "Authorization: token $GH_TOKEN" https://api.github.com/repos/arm/tosa-adapter-model-explorer
+        env:
+          GH_TOKEN: ${{ secrets.ARM_ORG_TOKEN }}     
+      - name: Debug token permissions
+        run: |
+          curl -H "Authorization: token $GH_TOKEN" https://api.github.com/user
+          curl -H "Authorization: token $GH_TOKEN" https://api.github.com/user/orgs
+        env:
+          GH_TOKEN: ${{ secrets.ARM_ORG_TOKEN }}          
       - name: Push to public repo
         run: |
-          git remote add upstream https://x-access-token:$GH_TOKEN@github.com/arm/tosa-adapter-model-explorer.git
+          git remote add upstream https://$GH_TOKEN@github.com/arm/tosa-adapter-model-explorer.git
           git push upstream main:main
         env:
           GH_TOKEN: ${{ secrets.ARM_ORG_TOKEN }}
