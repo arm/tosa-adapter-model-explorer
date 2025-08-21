@@ -5,8 +5,9 @@
 # See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 from typing import Any, Dict, Iterable, List
 
-import tosa_1_0
 from model_explorer import graph_builder as gb
+
+from . import tosa_1_0
 
 
 def read_file(file_path: str) -> bytes:

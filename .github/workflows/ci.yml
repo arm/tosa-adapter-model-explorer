@@ -30,17 +30,21 @@ jobs:
 
       - name: Checkout plugin repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          path: tosa-adapter-model-explorer
 
       - name: Install plugin Python packages
         run: |
+          cd tosa-adapter-model-explorer
           python -m venv .venv
           source .venv/bin/activate
           python -m pip install .[test]
 
-      # - name: Run plugin tests
-      #   run: |
-      #     source .venv/bin/activate
-      #     pytest --tb=short -v
+      - name: Run plugin tests
+        run: |
+          cd tosa-adapter-model-explorer
+          source .venv/bin/activate
+          pytest --tb=short -v
 
   release:
     name: Release

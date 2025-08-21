@@ -370,7 +370,9 @@
           "config": null
         }
       ],
-      "groupNodeAttributes": null
+      "groupNodeAttributes": null,
+      "tasksData": null,
+      "layoutConfigs": null
     },
     {
       "id": "tosa.while_loop_cond_region",
@@ -712,7 +714,9 @@
           "config": null
         }
       ],
-      "groupNodeAttributes": null
+      "groupNodeAttributes": null,
+      "tasksData": null,
+      "layoutConfigs": null
     },
     {
       "id": "tosa.while_loop_body_region",
@@ -1546,7 +1550,9 @@
           "config": null
         }
       ],
-      "groupNodeAttributes": null
+      "groupNodeAttributes": null,
+      "tasksData": null,
+      "layoutConfigs": null
     }
   ]
 }

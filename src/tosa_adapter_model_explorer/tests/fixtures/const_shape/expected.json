@@ -718,7 +718,9 @@
           "config": null
         }
       ],
-      "groupNodeAttributes": null
+      "groupNodeAttributes": null,
+      "tasksData": null,
+      "layoutConfigs": null
     }
   ]
 }

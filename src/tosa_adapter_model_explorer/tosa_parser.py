@@ -7,7 +7,8 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from model_explorer import graph_builder as gb
-from tosa_1_0 import (
+
+from .tosa_1_0 import (
     Attribute,
     Op,
     TosaBasicBlockT,
@@ -15,7 +16,6 @@ from tosa_1_0 import (
     TosaGraphT,
     TosaOperatorT,
 )
-
 from .util import (
     dict_to_key_value_list,
     enum_name,
