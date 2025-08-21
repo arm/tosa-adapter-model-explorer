@@ -26,7 +26,7 @@ Or through the [GitHub Releases](https://github.com/arm/tosa-adapter-model-explo
 
 Install Model Explorer:
 
-    pip install torch ai-edge-model-explorer
+    pip install torch ai-edge-model-explorer==0.1.24
 
 Launch Model Explorer with the TOSA adapter enabled:
 
