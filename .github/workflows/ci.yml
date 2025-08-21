@@ -48,6 +48,11 @@ jobs:
     needs:
       - build
     runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/tosa-adapter-model-explorer
+    permissions:
+      id-token: write
 
     steps:
       - uses: getsentry/action-github-app-token@a0061014b82a6a5d6aeeb3b824aced47e3c3a7ef
@@ -71,6 +76,9 @@ jobs:
           OUTPUT: CHANGELOG.md
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPO: ${{ github.repository }}
+
+      - name: Publish distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@76f52bc884231f62b9a034ebfe128415bbaabdfc # v1.12.4
 
       - name: Publish GitHub release
         uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2.3.2
