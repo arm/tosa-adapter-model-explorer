@@ -13,8 +13,6 @@ jobs:
       fail-fast: false
       matrix:
         runner: [ubuntu-latest]
-        platform: [linux_x86_64, arm64]
-        arch: [x64]
         python-version: ["3.12", "3.11", "3.10"]
     runs-on: ${{ matrix.runner }}
     steps:
