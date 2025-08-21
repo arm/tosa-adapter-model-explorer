@@ -3,9 +3,11 @@
 #
 # Licensed under the Apache License v2.0
 # See http://www.apache.org/licenses/LICENSE-2.0 for license information.
-from typing import Any, List, Dict, Iterable
-from model_explorer import graph_builder as gb
+from typing import Any, Dict, Iterable, List
+
 import tosa_1_0
+from model_explorer import graph_builder as gb
+
 
 def read_file(file_path: str) -> bytes:
     """Read a binary file into bytes.
@@ -40,9 +42,7 @@ def enum_name(enum_int: int, enum: Any) -> str:
     return f"UNKNOWN({enum_int})"
 
 
-def dict_to_key_value_list(
-    dict: Dict[str, Any]
-) -> List[gb.KeyValue]:
+def dict_to_key_value_list(dict: Dict[str, Any]) -> List[gb.KeyValue]:
     """Convert a dictionary to a list of key-value pairs."""
     result = []
     for key, value in dict.items():

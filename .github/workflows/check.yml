@@ -12,9 +12,9 @@ jobs:
       - name: Install ruff
         run: |
           python -m pip install .[format]
-      # - name: Check ruff lint
-      #   run: |
-      #     ruff check .
-      # - name: Check ruff format
-      #   run: |
-      #     ruff format --check .
+      - name: Check ruff lint
+        run: |
+          ruff check .
+      - name: Check ruff format
+        run: |
+          ruff format --check .

@@ -4,25 +4,25 @@
 # Licensed under the Apache License v2.0
 # See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 from pathlib import Path
-from typing import List, Dict, Any, Optional
-
-from .util import (
-    read_file,
-    operator_id,
-    dict_to_key_value_list,
-    safe_decode,
-    enum_name,
-)
-from tosa_1_0 import (
-    TosaGraph,
-    TosaGraphT,
-    TosaBasicBlockT,
-    TosaOperatorT,
-    Op,
-    Attribute,
-)
+from typing import Any, Dict, List, Optional
 
 from model_explorer import graph_builder as gb
+from tosa_1_0 import (
+    Attribute,
+    Op,
+    TosaBasicBlockT,
+    TosaGraph,
+    TosaGraphT,
+    TosaOperatorT,
+)
+
+from .util import (
+    dict_to_key_value_list,
+    enum_name,
+    operator_id,
+    read_file,
+    safe_decode,
+)
 
 
 class TosaParser:
@@ -62,12 +62,11 @@ class TosaParser:
         """
         version_obj = tosa_graph.Version()
         if version_obj is None:
-            return 
-        if  version_obj._Major() < 1:
+            return
+        if version_obj._Major() < 1:
             raise ValueError(
                 f"Unsupported TOSA version: {version_obj._Major()}.{version_obj._Minor()}. Expected >= 1.0."
             )
-
 
     def parse(self) -> gb.GraphCollection:
         """
@@ -88,7 +87,9 @@ class TosaParser:
                 region_name = safe_decode(region.name)
                 graphs.append(self._build_graph(block, region_name))
 
-        return gb.GraphCollection(label=Path(self.file_path).stem, graphs=graphs)
+        return gb.GraphCollection(
+            label=Path(self.file_path).stem, graphs=graphs
+        )
 
     def _identify_regions(self):
         """
@@ -152,7 +153,9 @@ class TosaParser:
                 id=self.input_node_id,
                 label="GraphInputs",
                 namespace="GraphInputs",
-                outputsMetadata=self._collect_metadata(block.inputs, op_input_map),
+                outputsMetadata=self._collect_metadata(
+                    block.inputs, op_input_map
+                ),
             )
 
     def _build_output_node(
@@ -177,7 +180,9 @@ class TosaParser:
                 id=self.output_node_id,
                 label="GraphOutputs",
                 namespace="GraphOutputs",
-                inputsMetadata=self._collect_metadata(block.outputs, op_input_map),
+                inputsMetadata=self._collect_metadata(
+                    block.outputs, op_input_map
+                ),
                 incomingEdges=[
                     gb.IncomingEdge(
                         sourceNodeId=tensor_producer_map.get(name, ""),
@@ -208,7 +213,9 @@ class TosaParser:
 
         producer_map = self._map_outputs(block, graph_id)
         io_nodes = self._build_io_nodes(block, op_input_map, producer_map)
-        op_nodes = self._build_operator_nodes(block, graph_id, op_input_map, producer_map)
+        op_nodes = self._build_operator_nodes(
+            block, graph_id, op_input_map, producer_map
+        )
         return gb.Graph(id=graph_id, nodes=io_nodes + op_nodes)
 
     def _map_outputs(
@@ -325,10 +332,12 @@ class TosaParser:
                 namespace=graph_id,
                 incomingEdges=self._add_incoming_edges(op, producer_map),
                 attrs=dict_to_key_value_list(
-                    self._collect_operator_attrs(op), 
+                    self._collect_operator_attrs(op),
                 ),
                 inputsMetadata=self._collect_metadata(op.inputs, op_input_map),
-                outputsMetadata=self._collect_metadata(op.outputs, op_input_map),
+                outputsMetadata=self._collect_metadata(
+                    op.outputs, op_input_map
+                ),
                 subgraphIds=self._extract_subgraph_ids(op),
             )
             nodes.append(node)
@@ -353,5 +362,5 @@ class TosaParser:
         attributes = op.attribute.__dict__
         loc = getattr(op, "location", None)
         if loc is not None:
-            attributes['opLocation'] = safe_decode(loc.text)
+            attributes["opLocation"] = safe_decode(loc.text)
         return attributes

@@ -4,7 +4,9 @@
 # Licensed under the Apache License v2.0
 # See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 from typing import Dict
+
 from model_explorer import Adapter, AdapterMetadata, ModelExplorerGraphs
+
 from .tosa_parser import TosaParser
 
 

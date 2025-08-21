@@ -56,6 +56,9 @@ testpaths = ["src/tosa_adapter_model_explorer/tests"]
 [tool.ruff]
 line-length = 79
 target-version = "py312"
+exclude = [
+    "src/tosa_adapter_model_explorer/tosa_1_0",
+]
 
 [tool.ruff.lint]
 # https://docs.astral.sh/ruff/rules/

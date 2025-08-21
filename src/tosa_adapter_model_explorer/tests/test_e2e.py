@@ -2,8 +2,10 @@ import glob
 import json
 import os
 from dataclasses import asdict
-from ..tosa_parser import TosaParser
+
 import pytest
+
+from ..tosa_parser import TosaParser
 
 FIXTURES_ROOT = os.path.join(os.path.dirname(__file__), "fixtures")
 
@@ -26,12 +28,9 @@ def test_e2e(case_dir):
 
     got = asdict(graph_collection)
 
-
     with open(expected_json) as f:
         expected = json.load(f)
 
     assert (
         got == expected
     ), f"Test failed for {input_tosa}. Expected and actual output differ."
-
-
