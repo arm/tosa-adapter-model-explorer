@@ -5,7 +5,7 @@ from dataclasses import asdict
 
 import pytest
 
-from ..tosa_parser import TosaParser
+from ..builder import TosaGraphBuilder
 
 FIXTURES_ROOT = os.path.join(os.path.dirname(__file__), "fixtures")
 
@@ -23,8 +23,7 @@ def test_e2e(case_dir):
     input_tosa = os.path.join(case_dir, "input.tosa")
     expected_json = os.path.join(case_dir, "expected.json")
 
-    parser = TosaParser(input_tosa)
-    graph_collection = parser.parse()
+    graph_collection = TosaGraphBuilder(input_tosa).graph_collection
 
     got = asdict(graph_collection)
 

@@ -7,7 +7,7 @@ from typing import Dict
 
 from model_explorer import Adapter, AdapterMetadata, ModelExplorerGraphs
 
-from .tosa_parser import TosaParser
+from .builder import TosaGraphBuilder
 
 
 class TosaFlatbufferAdapter(Adapter):
@@ -20,7 +20,4 @@ class TosaFlatbufferAdapter(Adapter):
     )
 
     def convert(self, model_path: str, settings: Dict) -> ModelExplorerGraphs:
-        parser = TosaParser(model_path)
-        graph_collection = parser.parse()
-
-        return {"graphs": graph_collection.graphs}
+        return {"graphs": TosaGraphBuilder(model_path).graph_collection.graphs}
