@@ -22,3 +22,4 @@ jobs:
           subjectPatternError: 'PR title must not start with a capital letter. Got: "${subject}"'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

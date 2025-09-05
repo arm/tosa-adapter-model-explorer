@@ -1,10 +1,17 @@
 name: Trigger Release
 
+# Release flow:
+# - Run *this* workflow from the internal repository.
+# - This will create and push a version bump commit and tag it.
+# - ci.yml's sync job will trigger and sync both the commit and tag to the external repository.
+# - The tag push will trigger the external repository's release job.
+
 on:
   workflow_dispatch:
 
 jobs:
   tag-new-release:
+    if: github.repository_owner != 'arm'
     runs-on: ubuntu-latest
     steps:
       # We want our tag push at the end to trigger a workflow. We can't do that using repository's GITHUB_TOKEN.
@@ -12,8 +19,8 @@ jobs:
       - uses: getsentry/action-github-app-token@d4b5da6c5e37703f8c3b3e43abb5705b46e159cc # v3.0.0
         id: get_app_token
         with:
-          app_id: ${{ secrets.ML_REPO_ACCESS_APP_ID }}
-          private_key: ${{ secrets.ML_REPO_ACCESS_PRIVATE_KEY }}
+          app_id: ${{ secrets.ME_REPO_ACCESS_APP_ID }}
+          private_key: ${{ secrets.ME_REPO_ACCESS_PRIVATE_KEY }}
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -21,8 +28,8 @@ jobs:
           token: ${{ steps.get_app_token.outputs.token }}
       - name: Set git config for ML Repo bot
         run: |
-          git config --global user.email "1142615+ml-repo-access[bot]@users.noreply.github.com"
-          git config --global user.name "ml-repo-access[bot]"
+          git config --global user.email "1736931+model-explorer-plugins-repo-access[bot]@users.noreply.github.com"
+          git config --global user.name "model-explorer-plugins-repo-access[bot]"
       - name: Calculate new version
         uses: orhun/git-cliff-action@4a4a951bc43fafe41cd2348d181853f52356bee7 # v4.4.2
         id: git-cliff
