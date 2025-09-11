@@ -1,0 +1,726 @@
+{
+  "label": "input",
+  "graphs": [
+    {
+      "id": "main",
+      "nodes": [
+        {
+          "id": "0",
+          "label": "GraphInputs",
+          "namespace": "GraphInputs",
+          "subgraphIds": [],
+          "attrs": [],
+          "incomingEdges": [],
+          "outputsMetadata": [
+            {
+              "id": "aten_add_tensor",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "aten_add_tensor"
+                },
+                {
+                  "key": "shape",
+                  "value": "[1, 20, 48, 1]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT8"
+                },
+                {
+                  "key": "data",
+                  "value": "None"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": "None"
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [],
+          "style": null,
+          "config": null
+        },
+        {
+          "id": "-1",
+          "label": "GraphOutputs",
+          "namespace": "GraphOutputs",
+          "subgraphIds": [],
+          "attrs": [],
+          "incomingEdges": [
+            {
+              "sourceNodeId": "main/op6",
+              "sourceNodeOutputId": "layer-10",
+              "targetNodeInputId": "0"
+            }
+          ],
+          "outputsMetadata": [],
+          "inputsMetadata": [
+            {
+              "id": "layer-10",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer-10"
+                },
+                {
+                  "key": "shape",
+                  "value": "[1, 20, 48, 16]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "None"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": "None"
+                }
+              ]
+            }
+          ],
+          "style": null,
+          "config": null
+        },
+        {
+          "id": "main/op0",
+          "label": "CONST",
+          "namespace": "main",
+          "subgraphIds": [],
+          "attrs": [
+            {
+              "key": "opLocation",
+              "value": ""
+            }
+          ],
+          "incomingEdges": [],
+          "outputsMetadata": [
+            {
+              "id": "b__frozen_param5_common",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "b__frozen_param5_common"
+                },
+                {
+                  "key": "shape",
+                  "value": "[3, 3, 16, 1]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT8"
+                },
+                {
+                  "key": "data",
+                  "value": "[229, 96, 238, 177, 25, 15, 14, 184, 100, 2]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": "None"
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [],
+          "style": null,
+          "config": null
+        },
+        {
+          "id": "main/op1",
+          "label": "CONST",
+          "namespace": "main",
+          "subgraphIds": [],
+          "attrs": [
+            {
+              "key": "opLocation",
+              "value": ""
+            }
+          ],
+          "incomingEdges": [],
+          "outputsMetadata": [
+            {
+              "id": "b__frozen_param6",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "b__frozen_param6"
+                },
+                {
+                  "key": "shape",
+                  "value": "[16]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[10, 100, 0, 0, 1]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": "None"
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [],
+          "style": null,
+          "config": null
+        },
+        {
+          "id": "main/op2",
+          "label": "CONST",
+          "namespace": "main",
+          "subgraphIds": [],
+          "attrs": [
+            {
+              "key": "opLocation",
+              "value": ""
+            }
+          ],
+          "incomingEdges": [],
+          "outputsMetadata": [
+            {
+              "id": "layer-10_input_zp",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer-10_input_zp"
+                },
+                {
+                  "key": "shape",
+                  "value": "[1]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT8"
+                },
+                {
+                  "key": "data",
+                  "value": "[129]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": "None"
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [],
+          "style": null,
+          "config": null
+        },
+        {
+          "id": "main/op3",
+          "label": "CONST",
+          "namespace": "main",
+          "subgraphIds": [],
+          "attrs": [
+            {
+              "key": "opLocation",
+              "value": ""
+            }
+          ],
+          "incomingEdges": [],
+          "outputsMetadata": [
+            {
+              "id": "layer-10_weight_zp",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer-10_weight_zp"
+                },
+                {
+                  "key": "shape",
+                  "value": "[1]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT8"
+                },
+                {
+                  "key": "data",
+                  "value": "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": "None"
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [],
+          "style": null,
+          "config": null
+        },
+        {
+          "id": "main/op4",
+          "label": "CONST_SHAPE",
+          "namespace": "main",
+          "subgraphIds": [],
+          "attrs": [
+            {
+              "key": "opLocation",
+              "value": ""
+            }
+          ],
+          "incomingEdges": [],
+          "outputsMetadata": [
+            {
+              "id": "layer-11_shape",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer-11_shape"
+                },
+                {
+                  "key": "rank",
+                  "value": "4"
+                },
+                {
+                  "key": "data",
+                  "value": "[3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]"
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [],
+          "style": null,
+          "config": null
+        },
+        {
+          "id": "main/op5",
+          "label": "RESHAPE",
+          "namespace": "main",
+          "subgraphIds": [],
+          "attrs": [
+            {
+              "key": "opLocation",
+              "value": ""
+            }
+          ],
+          "incomingEdges": [
+            {
+              "sourceNodeId": "main/op0",
+              "sourceNodeOutputId": "b__frozen_param5_common",
+              "targetNodeInputId": "b__frozen_param5_common"
+            },
+            {
+              "sourceNodeId": "main/op4",
+              "sourceNodeOutputId": "layer-11_shape",
+              "targetNodeInputId": "layer-11_shape"
+            }
+          ],
+          "outputsMetadata": [
+            {
+              "id": "layer-11",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer-11"
+                },
+                {
+                  "key": "shape",
+                  "value": "[3, 3, 1, 16]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT8"
+                },
+                {
+                  "key": "data",
+                  "value": "None"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": "None"
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [
+            {
+              "id": "b__frozen_param5_common",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "b__frozen_param5_common"
+                },
+                {
+                  "key": "shape",
+                  "value": "[3, 3, 16, 1]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT8"
+                },
+                {
+                  "key": "data",
+                  "value": "[229, 96, 238, 177, 25, 15, 14, 184, 100, 2]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": "None"
+                }
+              ]
+            },
+            {
+              "id": "layer-11_shape",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer-11_shape"
+                },
+                {
+                  "key": "rank",
+                  "value": "4"
+                },
+                {
+                  "key": "data",
+                  "value": "[3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]"
+                }
+              ]
+            }
+          ],
+          "style": null,
+          "config": null
+        },
+        {
+          "id": "main/op6",
+          "label": "DEPTHWISE_CONV2D",
+          "namespace": "main",
+          "subgraphIds": [],
+          "attrs": [
+            {
+              "key": "pad",
+              "value": "[1, 1, 1, 1]"
+            },
+            {
+              "key": "stride",
+              "value": "[1, 1]"
+            },
+            {
+              "key": "dilation",
+              "value": "[1, 1]"
+            },
+            {
+              "key": "localBound",
+              "value": "False"
+            },
+            {
+              "key": "accType",
+              "value": "INT32"
+            },
+            {
+              "key": "opLocation",
+              "value": ""
+            }
+          ],
+          "incomingEdges": [
+            {
+              "sourceNodeId": "0",
+              "sourceNodeOutputId": "aten_add_tensor",
+              "targetNodeInputId": "aten_add_tensor"
+            },
+            {
+              "sourceNodeId": "main/op5",
+              "sourceNodeOutputId": "layer-11",
+              "targetNodeInputId": "layer-11"
+            },
+            {
+              "sourceNodeId": "main/op1",
+              "sourceNodeOutputId": "b__frozen_param6",
+              "targetNodeInputId": "b__frozen_param6"
+            },
+            {
+              "sourceNodeId": "main/op2",
+              "sourceNodeOutputId": "layer-10_input_zp",
+              "targetNodeInputId": "layer-10_input_zp"
+            },
+            {
+              "sourceNodeId": "main/op3",
+              "sourceNodeOutputId": "layer-10_weight_zp",
+              "targetNodeInputId": "layer-10_weight_zp"
+            }
+          ],
+          "outputsMetadata": [
+            {
+              "id": "layer-10",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer-10"
+                },
+                {
+                  "key": "shape",
+                  "value": "[1, 20, 48, 16]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "None"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": "None"
+                }
+              ]
+            }
+          ],
+          "inputsMetadata": [
+            {
+              "id": "aten_add_tensor",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "aten_add_tensor"
+                },
+                {
+                  "key": "shape",
+                  "value": "[1, 20, 48, 1]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT8"
+                },
+                {
+                  "key": "data",
+                  "value": "None"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": "None"
+                }
+              ]
+            },
+            {
+              "id": "layer-11",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer-11"
+                },
+                {
+                  "key": "shape",
+                  "value": "[3, 3, 1, 16]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT8"
+                },
+                {
+                  "key": "data",
+                  "value": "None"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": "None"
+                }
+              ]
+            },
+            {
+              "id": "b__frozen_param6",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "b__frozen_param6"
+                },
+                {
+                  "key": "shape",
+                  "value": "[16]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT32"
+                },
+                {
+                  "key": "data",
+                  "value": "[10, 100, 0, 0, 1]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": "None"
+                }
+              ]
+            },
+            {
+              "id": "layer-10_input_zp",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer-10_input_zp"
+                },
+                {
+                  "key": "shape",
+                  "value": "[1]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT8"
+                },
+                {
+                  "key": "data",
+                  "value": "[129]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": "None"
+                }
+              ]
+            },
+            {
+              "id": "layer-10_weight_zp",
+              "attrs": [
+                {
+                  "key": "name",
+                  "value": "layer-10_weight_zp"
+                },
+                {
+                  "key": "shape",
+                  "value": "[1]"
+                },
+                {
+                  "key": "type",
+                  "value": "INT8"
+                },
+                {
+                  "key": "data",
+                  "value": "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]"
+                },
+                {
+                  "key": "variable",
+                  "value": "False"
+                },
+                {
+                  "key": "isUnranked",
+                  "value": "False"
+                },
+                {
+                  "key": "variableName",
+                  "value": "None"
+                }
+              ]
+            }
+          ],
+          "style": null,
+          "config": null
+        }
+      ],
+      "groupNodeAttributes": null,
+      "tasksData": null,
+      "layoutConfigs": null
+    }
+  ]
+}
