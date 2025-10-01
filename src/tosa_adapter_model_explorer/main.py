@@ -19,5 +19,8 @@ class TosaFlatbufferAdapter(Adapter):
         fileExts=["tosa"],
     )
 
+    def __init__(self):
+        super().__init__()
+
     def convert(self, model_path: str, settings: Dict) -> ModelExplorerGraphs:
         return {"graphs": TosaGraphBuilder(model_path).graph_collection.graphs}
