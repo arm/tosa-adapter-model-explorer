@@ -36,12 +36,23 @@ jobs:
           python -m venv .venv
           source .venv/bin/activate
           python -m pip install .[test]
+          if [ "${{ github.repository_owner }}" != "arm" ]; then
+            python -m pip install .[coverage]
+          fi
 
       - name: Run plugin tests
         run: |
           cd tosa-adapter-model-explorer
           source .venv/bin/activate
-          pytest --tb=short -v
+          pytest --tb=short -v ${{ github.repository_owner != 'arm' && '--cov=tosa_adapter_model_explorer --cov-report=lcov:reports/lcov.info' || '' }}
+
+      - name: Upload coverage to Qlty
+        if: github.repository_owner != 'arm'
+        uses: qltysh/qlty-action/coverage@9e8e09dfc3d82a968f4034f5265eaf3c142881f7 # v2.0.0
+        working-directory: tosa-adapter-model-explorer
+        with:
+          token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
+          files: reports/lcov.info
 
   build:
     needs: test
