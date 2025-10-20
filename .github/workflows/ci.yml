@@ -27,12 +27,9 @@ jobs:
 
       - name: Checkout plugin repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-        with:
-          path: tosa-adapter-model-explorer
 
       - name: Install plugin Python packages
         run: |
-          cd tosa-adapter-model-explorer
           python -m venv .venv
           source .venv/bin/activate
           python -m pip install .[test]
@@ -42,14 +39,12 @@ jobs:
 
       - name: Run plugin tests
         run: |
-          cd tosa-adapter-model-explorer
           source .venv/bin/activate
           pytest --tb=short -v ${{ github.repository_owner != 'arm' && '--cov=tosa_adapter_model_explorer --cov-report=lcov:reports/lcov.info' || '' }}
 
       - name: Upload coverage to Qlty
         if: github.repository_owner != 'arm'
         uses: qltysh/qlty-action/coverage@9e8e09dfc3d82a968f4034f5265eaf3c142881f7 # v2.0.0
-        working-directory: tosa-adapter-model-explorer
         with:
           token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
           files: reports/lcov.info
@@ -65,19 +60,15 @@ jobs:
 
       - name: Checkout plugin repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-        with:
-          path: tosa-adapter-model-explorer
 
       - name: Install plugin Python packages
         run: |
-          cd tosa-adapter-model-explorer
           python -m venv .venv
           source .venv/bin/activate
           python -m pip install .[build]
 
       - name: Build plugin package
         run: |
-          cd tosa-adapter-model-explorer
           source .venv/bin/activate
           python -m build
 
@@ -85,7 +76,7 @@ jobs:
         uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
         with:
           name: dist
-          path: tosa-adapter-model-explorer/dist
+          path: dist
 
   release:
     name: Release
