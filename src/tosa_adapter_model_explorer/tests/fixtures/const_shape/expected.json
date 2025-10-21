@@ -3,6 +3,8 @@
   "graphs": [
     {
       "id": "main",
+      "groupNodeConfigs": null,
+      "nodeLabelsToHide": null,
       "nodes": [
         {
           "id": "0",

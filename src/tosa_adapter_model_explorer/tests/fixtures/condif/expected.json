@@ -3,6 +3,8 @@
   "graphs": [
     {
       "id": "main",
+      "groupNodeConfigs": null,
+      "nodeLabelsToHide": null,
       "nodes": [
         {
           "id": "0",
@@ -297,6 +299,8 @@
     },
     {
       "id": "tosa.cond_if_then_region",
+      "groupNodeConfigs": null,
+      "nodeLabelsToHide": null,
       "nodes": [
         {
           "id": "0",
@@ -560,6 +564,8 @@
     },
     {
       "id": "tosa.cond_if_else_region",
+      "groupNodeConfigs": null,
+      "nodeLabelsToHide": null,
       "nodes": [
         {
           "id": "0",

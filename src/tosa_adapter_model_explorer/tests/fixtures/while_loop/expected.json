@@ -3,6 +3,8 @@
   "graphs": [
     {
       "id": "main",
+      "groupNodeConfigs": null,
+      "nodeLabelsToHide": null,
       "nodes": [
         {
           "id": "0",
@@ -376,6 +378,8 @@
     },
     {
       "id": "tosa.while_loop_cond_region",
+      "groupNodeConfigs": null,
+      "nodeLabelsToHide": null,
       "nodes": [
         {
           "id": "0",
@@ -720,6 +724,8 @@
     },
     {
       "id": "tosa.while_loop_body_region",
+      "groupNodeConfigs": null,
+      "nodeLabelsToHide": null,
       "nodes": [
         {
           "id": "0",

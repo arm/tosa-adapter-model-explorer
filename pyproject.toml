@@ -25,7 +25,7 @@ classifiers = [
 ]
 
 dependencies = [
-  "ai-edge-model-explorer>=0.1.25,<0.2.0",
+  "ai-edge-model-explorer>=0.1.26,<0.2.0",
   "flatbuffers",
 ]
 
