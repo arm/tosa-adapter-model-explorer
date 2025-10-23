@@ -36,9 +36,6 @@ Repository = "https://github.com/arm/tosa-adapter-model-explorer"
 test = [
     "pytest"
 ]
-format = [
-  "ruff==0.5.2"
-]
 coverage = [
   "pytest-cov"
 ]
