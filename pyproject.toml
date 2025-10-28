@@ -34,7 +34,8 @@ Repository = "https://github.com/arm/tosa-adapter-model-explorer"
 
 [project.optional-dependencies]
 test = [
-    "pytest"
+    "pytest",
+    "ai-edge-model-explorer==0.1.28"
 ]
 coverage = [
   "pytest-cov"
