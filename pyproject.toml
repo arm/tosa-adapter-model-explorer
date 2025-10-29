@@ -35,6 +35,7 @@ Repository = "https://github.com/arm/tosa-adapter-model-explorer"
 [project.optional-dependencies]
 test = [
     "pytest",
+    "pytest-timeout",
     "ai-edge-model-explorer==0.1.28"
 ]
 coverage = [
