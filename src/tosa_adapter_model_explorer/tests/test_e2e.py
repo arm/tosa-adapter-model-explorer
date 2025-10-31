@@ -36,6 +36,6 @@ def test_e2e(case_dir):
     with open(expected_json) as f:
         expected = json.load(f)
 
-    assert (
-        got == expected
-    ), f"Test failed for {input_tosa}. Expected and actual output differ."
+    assert got == expected, (
+        f"Test failed for {input_tosa}. Expected and actual output differ."
+    )
