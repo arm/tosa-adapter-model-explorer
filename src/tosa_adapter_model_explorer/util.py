@@ -56,11 +56,25 @@ def dict_to_key_value_list(dict: Dict[str, Any]) -> List[gb.KeyValue]:
         elif isinstance(value, bytes):
             v_str = safe_decode(value)
         elif isinstance(value, Iterable):
-            v_str = f"[{', '.join(str(v) for v in value)}]"
+            v_str = _stringify_array(value)
         else:
             v_str = str(value)
         result.append(gb.KeyValue(key=key, value=v_str))
     return result
+
+
+def _stringify_array(value: Iterable[Any]) -> str:
+    max_data_elements = 16
+    value_list = list(value)
+    n = len(value_list)
+
+    if n <= max_data_elements:
+        return f"[{', '.join(map(str, value_list))}]"
+
+    half = max_data_elements // 2
+    first = ", ".join(map(str, value_list[:half]))
+    last = ", ".join(map(str, value_list[-half:]))
+    return f"[{first}, ... ({n} elements) ..., {last}]"
 
 
 def safe_decode(value: Any, default: str = "") -> str:
