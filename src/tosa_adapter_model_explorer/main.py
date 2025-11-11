@@ -3,7 +3,7 @@
 #
 # Licensed under the Apache License v2.0
 # See http://www.apache.org/licenses/LICENSE-2.0 for license information.
-from typing import Dict
+from typing import Dict, Optional
 
 from model_explorer import Adapter, AdapterMetadata, ModelExplorerGraphs
 
@@ -23,4 +23,4 @@ class TosaFlatbufferAdapter(Adapter):
         super().__init__()
 
     def convert(self, model_path: str, settings: Dict) -> ModelExplorerGraphs:
-        return {"graphs": TosaGraphBuilder(model_path).graph_collection.graphs}
+        return {"graphs": TosaGraphBuilder(model_path, settings).graph_collection.graphs}

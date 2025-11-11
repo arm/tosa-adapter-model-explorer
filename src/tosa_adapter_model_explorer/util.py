@@ -43,7 +43,7 @@ def enum_name(enum_int: int, enum: Any) -> str:
     return f"UNKNOWN({enum_int})"
 
 
-def dict_to_key_value_list(dict: Dict[str, Any]) -> List[gb.KeyValue]:
+def dict_to_key_value_list(dict: Dict[str, Any], max_array_elements: int) -> List[gb.KeyValue]:
     """Convert a dictionary to a list of key-value pairs."""
     result = []
     for key, value in dict.items():
@@ -56,25 +56,23 @@ def dict_to_key_value_list(dict: Dict[str, Any]) -> List[gb.KeyValue]:
         elif isinstance(value, bytes):
             v_str = safe_decode(value)
         elif isinstance(value, Iterable):
-            v_str = _stringify_array(value)
+            v_str = _stringify_array(value, max_array_elements)
         else:
             v_str = str(value)
         result.append(gb.KeyValue(key=key, value=v_str))
     return result
 
 
-def _stringify_array(value: Iterable[Any]) -> str:
-    max_data_elements = 16
+def _stringify_array(value: Iterable[Any], max_array_elements: int) -> str:
+    """Convert an iterable to a compact string representation, truncating if necessary."""
     value_list = list(value)
     n = len(value_list)
 
-    if n <= max_data_elements:
+    if n <= max_array_elements:
         return f"[{', '.join(map(str, value_list))}]"
 
-    half = max_data_elements // 2
-    first = ", ".join(map(str, value_list[:half]))
-    last = ", ".join(map(str, value_list[-half:]))
-    return f"[{first}, ... ({n} elements) ..., {last}]"
+    elements = ", ".join(map(str, value_list[:max_array_elements]))
+    return f"(showing {max_array_elements} out of {n} elements)\n[{elements}...]"
 
 
 def safe_decode(value: Any, default: str = "") -> str:

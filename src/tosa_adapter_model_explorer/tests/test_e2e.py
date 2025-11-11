@@ -11,7 +11,7 @@ from dataclasses import asdict
 
 import pytest
 
-from ..builder import TosaGraphBuilder
+from ..builder import TosaGraphBuilder, DEFAULT_ELEMENT_COUNT
 
 FIXTURES_ROOT = os.path.join(os.path.dirname(__file__), "fixtures")
 
@@ -29,7 +29,8 @@ def test_e2e(case_dir):
     input_tosa = os.path.join(case_dir, "input.tosa")
     expected_json = os.path.join(case_dir, "expected.json")
 
-    graph_collection = TosaGraphBuilder(input_tosa).graph_collection
+    settings = {"const_element_count_limit": DEFAULT_ELEMENT_COUNT}
+    graph_collection = TosaGraphBuilder(input_tosa, settings).graph_collection
 
     got = asdict(graph_collection)
 

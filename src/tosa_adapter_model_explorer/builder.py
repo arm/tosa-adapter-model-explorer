@@ -25,6 +25,7 @@ from .util import (
     safe_decode,
 )
 
+DEFAULT_ELEMENT_COUNT = 16
 
 class TosaGraphBuilder:
     """
@@ -35,18 +36,21 @@ class TosaGraphBuilder:
     GraphCollection for visualization.
     """
 
-    def __init__(self, file_path: str):
+    def __init__(self, file_path: str, settings: Dict):
         """
         Initialize the parser for a given FlatBuffer file.
 
         Args:
             file_path: Path to the TOSA FlatBuffer file to parse.
+            settings: Settings dictionary from Model Explorer.
         """
         tosa_graph = TosaGraph.GetRootAsTosaGraph(read_file(file_path), 0)
         self._check_version(tosa_graph)
 
         self._input_node_id = "0"
         self._output_node_id = "-1"
+
+        self._const_element_count_limit = settings.get('const_element_count_limit', DEFAULT_ELEMENT_COUNT) if settings else DEFAULT_ELEMENT_COUNT
 
         self._region_id_map: Dict[str, str] = {}
         regions = TosaGraphT.InitFromObj(tosa_graph).regions
@@ -251,6 +255,7 @@ class TosaGraphBuilder:
                 incomingEdges=self._add_incoming_edges(op, producer_map),
                 attrs=dict_to_key_value_list(
                     self._collect_operator_attrs(op),
+                    self._const_element_count_limit
                 ),
                 inputsMetadata=self._collect_metadata(op.inputs, op_input_map),
                 outputsMetadata=self._collect_metadata(
@@ -315,7 +320,7 @@ class TosaGraphBuilder:
             items.append(
                 gb.MetadataItem(
                     id=name,
-                    attrs=dict_to_key_value_list(tensor.__dict__),
+                    attrs=dict_to_key_value_list(tensor.__dict__, self._const_element_count_limit),
                 )
             )
         return items
