@@ -8,7 +8,7 @@
 
 [project]
 name = "tosa-adapter-model-explorer"
-version = "0.0.1"
+version = "0.1.0"
 description = "Adapter for ai-edge-model-explorer to support TOSA files"
 readme = "README.md"
 requires-python = ">=3.10, <3.13"
