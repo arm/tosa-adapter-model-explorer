@@ -22,7 +22,7 @@ jobs:
           app_id: ${{ secrets.ME_REPO_ACCESS_APP_ID }}
           private_key: ${{ secrets.ME_REPO_ACCESS_PRIVATE_KEY }}
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
           token: ${{ steps.get_app_token.outputs.token }}
