@@ -27,6 +27,7 @@ from .util import (
 
 DEFAULT_ELEMENT_COUNT = 16
 
+
 class TosaGraphBuilder:
     """
     A parser for TOSA FlatBuffer files.
@@ -50,9 +51,14 @@ class TosaGraphBuilder:
         self._input_node_id = "0"
         self._output_node_id = "-1"
 
-        self._const_element_count_limit = settings.get('const_element_count_limit', DEFAULT_ELEMENT_COUNT) if settings else DEFAULT_ELEMENT_COUNT
+        self._const_element_count_limit = (
+            settings.get("const_element_count_limit", DEFAULT_ELEMENT_COUNT)
+            if settings
+            else DEFAULT_ELEMENT_COUNT
+        )
 
         self._region_id_map: Dict[str, str] = {}
+        self._decode_cache: Dict[Any, str] = {}
         regions = TosaGraphT.InitFromObj(tosa_graph).regions
         self.graph_collection = self._build_graph_collection(
             file_path, regions
@@ -91,7 +97,7 @@ class TosaGraphBuilder:
 
         for region in regions:
             for block in region.blocks:
-                region_name = safe_decode(region.name)
+                region_name = self._decode(region.name)
                 graphs.append(self._build_graph(block, region_name))
 
         return gb.GraphCollection(label=Path(file_path).stem, graphs=graphs)
@@ -104,10 +110,17 @@ class TosaGraphBuilder:
         no explicit name is provided in the FlatBuffer.
         """
         for idx, region in enumerate(regions):
-            region_name = safe_decode(region.name)
+            region_name = self._decode(region.name)
             if not region_name:
                 region_name = f"region{idx}"
             self._region_id_map[region_name] = region_name
+
+    def _decode(self, value: Any) -> Any:
+        """Memoized decode of bytes to string."""
+        if value not in self._decode_cache:
+            self._decode_cache[value] = safe_decode(value)
+
+        return self._decode_cache[value]
 
     def _build_graph(
         self,
@@ -124,9 +137,11 @@ class TosaGraphBuilder:
         Returns:
             A gb.Graph instance representing the block and its operators.
         """
-        op_input_map = {safe_decode(item.name): item for item in block.tensors}
+        op_input_map = {
+            self._decode(item.name): item for item in block.tensors
+        }
         shapes = getattr(block, "shapes", None) or []
-        op_input_map.update({safe_decode(item.name): item for item in shapes})
+        op_input_map.update({self._decode(item.name): item for item in shapes})
 
         producer_map = self._map_outputs(block, graph_id)
         io_nodes = self._build_io_nodes(block, op_input_map, producer_map)
@@ -151,11 +166,11 @@ class TosaGraphBuilder:
         output_map: Dict[str, str] = {}
 
         for input in block.inputs:
-            output_map[safe_decode(input)] = self._input_node_id
+            output_map[self._decode(input)] = self._input_node_id
 
         for idx, op in enumerate(block.operators):
             for output in op.outputs:
-                output_map[safe_decode(output)] = operator_id(namespace, idx)
+                output_map[self._decode(output)] = operator_id(namespace, idx)
 
         return output_map
 
@@ -232,7 +247,7 @@ class TosaGraphBuilder:
                         sourceNodeId=tensor_producer_map.get(name, ""),
                         sourceNodeOutputId=name,
                     )
-                    for name in (safe_decode(o) for o in block.outputs)
+                    for name in (self._decode(o) for o in block.outputs)
                 ],
             )
 
@@ -255,7 +270,7 @@ class TosaGraphBuilder:
                 incomingEdges=self._add_incoming_edges(op, producer_map),
                 attrs=dict_to_key_value_list(
                     self._collect_operator_attrs(op),
-                    self._const_element_count_limit
+                    self._const_element_count_limit,
                 ),
                 inputsMetadata=self._collect_metadata(op.inputs, op_input_map),
                 outputsMetadata=self._collect_metadata(
@@ -282,7 +297,7 @@ class TosaGraphBuilder:
         incoming_edges: List[gb.IncomingEdge] = []
 
         for input in operator.inputs:
-            input_tensor_name = safe_decode(input)
+            input_tensor_name = self._decode(input)
             source_node_id = tensor_producer_map.get(input_tensor_name)
 
             if source_node_id:
@@ -313,14 +328,16 @@ class TosaGraphBuilder:
         """
         items: List[gb.MetadataItem] = []
         for io in io_list:
-            name = safe_decode(io)
+            name = self._decode(io)
             tensor = op_input_map.get(name)
             if tensor is None:
                 continue
             items.append(
                 gb.MetadataItem(
                     id=name,
-                    attrs=dict_to_key_value_list(tensor.__dict__, self._const_element_count_limit),
+                    attrs=dict_to_key_value_list(
+                        tensor.__dict__, self._const_element_count_limit
+                    ),
                 )
             )
         return items
@@ -344,7 +361,7 @@ class TosaGraphBuilder:
         attributes = op.attribute.__dict__
         loc = getattr(op, "location", None)
         if loc is not None:
-            attributes["opLocation"] = safe_decode(loc.text)
+            attributes["opLocation"] = self._decode(loc.text)
         return attributes
 
     def _extract_subgraph_ids(self, op: TosaOperatorT) -> List[str]:
@@ -364,7 +381,7 @@ class TosaGraphBuilder:
 
         subgraph_ids = []
         for attr_name in attr_mappings[attr_type]:
-            graph_name = safe_decode(getattr(op.attribute, attr_name, None))
+            graph_name = self._decode(getattr(op.attribute, attr_name, None))
 
             if graph_name and graph_name in self._region_id_map:
                 subgraph_ids.append(self._region_id_map[graph_name])

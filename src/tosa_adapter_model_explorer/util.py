@@ -3,11 +3,26 @@
 #
 # Licensed under the Apache License v2.0
 # See http://www.apache.org/licenses/LICENSE-2.0 for license information.
-from typing import Any, Dict, Iterable, List
+from itertools import islice
+from typing import Any, Dict, Iterable, List, Sized
 
 from model_explorer import graph_builder as gb
 
 from . import tosa_1_0
+
+# Pre-built reverse lookup tables for enum classes (built once at module load)
+_ENUM_LOOKUPS: Dict[Any, Dict[int, str]] = {}
+
+
+def _get_enum_lookup(enum_class: Any) -> Dict[int, str]:
+    """Build reverse lookup table for an enum class (cached)."""
+    if enum_class not in _ENUM_LOOKUPS:
+        _ENUM_LOOKUPS[enum_class] = {
+            v: k
+            for k, v in vars(enum_class).items()
+            if isinstance(v, int) and not k.startswith("_")
+        }
+    return _ENUM_LOOKUPS[enum_class]
 
 
 def read_file(file_path: str) -> bytes:
@@ -37,13 +52,14 @@ def operator_id(namespace: str, index: int) -> str:
 
 
 def enum_name(enum_int: int, enum: Any) -> str:
-    for name in dir(enum):
-        if getattr(enum, name) == enum_int:
-            return name
-    return f"UNKNOWN({enum_int})"
+    """Get the name of an enum value using cached reverse lookup."""
+    lookup = _get_enum_lookup(enum)
+    return lookup.get(enum_int, f"UNKNOWN({enum_int})")
 
 
-def dict_to_key_value_list(dict: Dict[str, Any], max_array_elements: int) -> List[gb.KeyValue]:
+def dict_to_key_value_list(
+    dict: Dict[str, Any], max_array_elements: int
+) -> List[gb.KeyValue]:
     """Convert a dictionary to a list of key-value pairs."""
     result = []
     for key, value in dict.items():
@@ -64,15 +80,17 @@ def dict_to_key_value_list(dict: Dict[str, Any], max_array_elements: int) -> Lis
 
 
 def _stringify_array(value: Iterable[Any], max_array_elements: int) -> str:
-    """Convert an iterable to a compact string representation, truncating if necessary."""
-    value_list = list(value)
-    n = len(value_list)
+    """Convert an iterable to a compact string, truncating without full copies."""
+    n = len(value) if isinstance(value, Sized) else None
+    value_list = list(islice(value, max_array_elements + 1))
+    preview = value_list[:max_array_elements]
+    preview_str = ", ".join(map(str, preview))
 
-    if n <= max_array_elements:
-        return f"[{', '.join(map(str, value_list))}]"
+    if n is None or n > max_array_elements:
+        n_str = str(n) if n is not None else "unknown number of"
+        return f"(showing {max_array_elements} out of {n_str} elements)\n[{preview_str}...]"
 
-    elements = ", ".join(map(str, value_list[:max_array_elements]))
-    return f"(showing {max_array_elements} out of {n} elements)\n[{elements}...]"
+    return f"[{preview_str}]"
 
 
 def safe_decode(value: Any, default: str = "") -> str:
