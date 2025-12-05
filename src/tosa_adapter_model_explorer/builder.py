@@ -15,9 +15,7 @@ from .tosa_1_0 import (
     TosaBasicBlock,
     TosaGraph,
     TosaOperator,
-    TosaShape,
     TosaShapeT,
-    TosaTensor,
     TosaTensorT,
 )
 from .util import (
@@ -144,14 +142,13 @@ class TosaGraphBuilder:
         Returns:
             A gb.Graph instance representing the block and its operators.
         """
-        op_input_map: Dict[str, TosaTensor | TosaShape] = {
-            self._decode(item.Name()): item
+        op_input_map: Dict[str, TosaShapeT | TosaTensorT] = {
+            self._decode(item.Name()): TosaTensorT.InitFromObj(item)
             for item in iter_vector(block.Tensors, block.TensorsLength())
+        } | {
+            self._decode(item.Name()): TosaShapeT.InitFromObj(item)
+            for item in iter_vector(block.Shapes, block.ShapesLength())
         }
-        shapes = iter_vector(block.Shapes, block.ShapesLength()) or []
-        op_input_map.update(
-            {self._decode(item.Name()): item for item in shapes}
-        )
 
         producer_map = self._map_outputs(block, graph_id)
         io_nodes = self._build_io_nodes(block, op_input_map, producer_map)
@@ -189,7 +186,7 @@ class TosaGraphBuilder:
     def _build_io_nodes(
         self,
         block: TosaBasicBlock,
-        op_input_map: Dict[str, TosaTensor | TosaShape],
+        op_input_map: Dict[str, TosaShapeT | TosaTensorT],
         producer_map: Dict[str, str],
     ) -> List[gb.GraphNode]:
         """
@@ -207,7 +204,7 @@ class TosaGraphBuilder:
     def _build_input_node(
         self,
         block: TosaBasicBlock,
-        op_input_map: Dict[str, TosaTensor | TosaShape],
+        op_input_map: Dict[str, TosaShapeT | TosaTensorT],
     ) -> Optional[gb.GraphNode]:
         """
         Build the GraphInputs node for this block if inputs exist.
@@ -233,7 +230,7 @@ class TosaGraphBuilder:
     def _build_output_node(
         self,
         block: TosaBasicBlock,
-        op_input_map: Dict[str, TosaTensor | TosaShape],
+        op_input_map: Dict[str, TosaShapeT | TosaTensorT],
         tensor_producer_map: Dict[str, str],
     ) -> Optional[gb.GraphNode]:
         """
@@ -256,25 +253,18 @@ class TosaGraphBuilder:
                     iter_vector(block.Outputs, block.OutputsLength()),
                     op_input_map,
                 ),
-                incomingEdges=[
-                    gb.IncomingEdge(
-                        sourceNodeId=tensor_producer_map.get(name, ""),
-                        sourceNodeOutputId=name,
-                    )
-                    for name in (
-                        self._decode(o)
-                        for o in iter_vector(
-                            block.Outputs, block.OutputsLength()
-                        )
-                    )
-                ],
+                incomingEdges=self._add_incoming_edges(
+                    iter_vector(block.Outputs, block.OutputsLength()),
+                    tensor_producer_map,
+                    set_target=False,
+                ),
             )
 
     def _build_operator_nodes(
         self,
         block: TosaBasicBlock,
         graph_id: str,
-        op_input_map: Dict[str, TosaTensor | TosaShape],
+        op_input_map: Dict[str, TosaShapeT | TosaTensorT],
         producer_map: Dict[str, str],
     ) -> List[gb.GraphNode]:
         """
@@ -284,14 +274,16 @@ class TosaGraphBuilder:
         for idx, op in enumerate(
             iter_vector(block.Operators, block.OperatorsLength())
         ):
+            op_attrs = self._collect_operator_attrs(op)
             node = gb.GraphNode(
                 id=operator_id(graph_id, idx),
                 label=enum_name(op.Op(), Op),
                 namespace=graph_id,
-                incomingEdges=self._add_incoming_edges(op, producer_map),
+                incomingEdges=self._add_incoming_edges(
+                    iter_vector(op.Inputs, op.InputsLength()), producer_map
+                ),
                 attrs=dict_to_key_value_list(
-                    self._collect_operator_attrs(op),
-                    self._const_element_count_limit,
+                    op_attrs, self._const_element_count_limit
                 ),
                 inputsMetadata=self._collect_metadata(
                     iter_vector(op.Inputs, op.InputsLength()), op_input_map
@@ -299,19 +291,25 @@ class TosaGraphBuilder:
                 outputsMetadata=self._collect_metadata(
                     iter_vector(op.Outputs, op.OutputsLength()), op_input_map
                 ),
-                subgraphIds=self._extract_subgraph_ids(op),
+                subgraphIds=self._extract_subgraph_ids(
+                    op.AttributeType(), op_attrs
+                ),
             )
             nodes.append(node)
         return nodes
 
     def _add_incoming_edges(
-        self, operator: TosaOperator, tensor_producer_map: Dict[str, str]
+        self,
+        tensors: Iterable[str],
+        tensor_producer_map: Dict[str, str],
+        set_target: bool = True,
     ) -> List[gb.IncomingEdge]:
         """
         Generate list of IncomingEdge linking operator inputs to producers.
 
         Args:
             operator: The TOSA operator object.
+            tensors: Iterable of tensor names.
             tensor_producer_map: Map from tensor name to source node ID.
 
         Returns:
@@ -319,16 +317,16 @@ class TosaGraphBuilder:
         """
         incoming_edges: List[gb.IncomingEdge] = []
 
-        for input in iter_vector(operator.Inputs, operator.InputsLength()):
-            input_tensor_name = self._decode(input)
-            source_node_id = tensor_producer_map.get(input_tensor_name)
+        for tensor in tensors:
+            name = self._decode(tensor)
+            source_node_id = tensor_producer_map.get(name)
 
             if source_node_id:
                 incoming_edges.append(
                     gb.IncomingEdge(
                         sourceNodeId=source_node_id,
-                        sourceNodeOutputId=input_tensor_name,
-                        targetNodeInputId=input_tensor_name,
+                        sourceNodeOutputId=name,
+                        targetNodeInputId=name if set_target else "0",
                     )
                 )
 
@@ -337,7 +335,7 @@ class TosaGraphBuilder:
     def _collect_metadata(
         self,
         io_list: Iterable[str],
-        op_input_map: Dict[str, TosaTensor | TosaShape],
+        op_input_map: Dict[str, TosaShapeT | TosaTensorT],
     ) -> List[gb.MetadataItem]:
         """
         Collect metadata for a list of tensor names.
@@ -355,17 +353,11 @@ class TosaGraphBuilder:
             tensor = op_input_map.get(name)
             if tensor is None:
                 continue
-            metadata_source = {}
-            if isinstance(tensor, TosaTensor):
-                metadata_source = TosaTensorT.InitFromObj(tensor).__dict__
-            elif isinstance(tensor, TosaShape):
-                metadata_source = TosaShapeT.InitFromObj(tensor).__dict__
             items.append(
                 gb.MetadataItem(
                     id=name,
                     attrs=dict_to_key_value_list(
-                        metadata_source,
-                        self._const_element_count_limit,
+                        tensor.__dict__, self._const_element_count_limit
                     ),
                 )
             )
@@ -388,41 +380,30 @@ class TosaGraphBuilder:
         if attribute_table is None:
             return {}
 
-        attr_type_value = op.AttributeType()
-
-        attributes = AttributeCreator(
-            attr_type_value, attribute_table
-        ).__dict__
+        attr_type = op.AttributeType()
+        attributes = AttributeCreator(attr_type, attribute_table).__dict__
         loc = op.Location()
         if loc is not None:
             attributes["opLocation"] = self._decode(loc.Text())
         return attributes
 
-    def _extract_subgraph_ids(self, op: TosaOperator) -> List[str]:
+    def _extract_subgraph_ids(
+        self,
+        attr_type: int,
+        op_attrs: Dict[str, Any],
+    ) -> List[str]:
         """Extract conditional subgraph IDs from a TOSA operator attribute."""
-        attribute_table = op.Attribute()
-        if not attribute_table:
-            return []
-
-        attr_type_value = op.AttributeType()
-        attr_type = enum_name(attr_type_value, Attribute)
-
         attr_mappings = {
-            "WhileLoopAttribute": ["condGraph", "bodyGraph"],
-            "CondIfAttribute": ["thenGraph", "elseGraph"],
+            Attribute.WhileLoopAttribute: ["condGraph", "bodyGraph"],
+            Attribute.CondIfAttribute: ["thenGraph", "elseGraph"],
         }
 
         if attr_type not in attr_mappings:
             return []
 
-        attribute = AttributeCreator(attr_type_value, attribute_table)
-        if not attribute:
-            return []
-
         subgraph_ids = []
         for attr_name in attr_mappings[attr_type]:
-            graph_name = self._decode(getattr(attribute, attr_name, None))
-
+            graph_name = self._decode(op_attrs.get(attr_name))
             if graph_name and graph_name in self._region_id_map:
                 subgraph_ids.append(self._region_id_map[graph_name])
 
