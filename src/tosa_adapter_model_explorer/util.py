@@ -4,7 +4,7 @@
 # Licensed under the Apache License v2.0
 # See http://www.apache.org/licenses/LICENSE-2.0 for license information.
 from itertools import islice
-from typing import Any, Dict, Iterable, List, Sized
+from typing import Any, Callable, Dict, Iterable, List, Sized, TypeVar
 
 from model_explorer import graph_builder as gb
 
@@ -119,3 +119,13 @@ field_to_enum_map = {
     "mode": "ResizeMode",
     "nanMode": "NanPropagationMode",
 }
+
+T = TypeVar("T")
+
+
+def iter_vector(getter: Callable[[int], T | None], length: int) -> Iterable[T]:
+    """Iterate over elements in a FlatBuffers vector."""
+    for idx in range(length):
+        item = getter(idx)
+        if item:
+            yield item
