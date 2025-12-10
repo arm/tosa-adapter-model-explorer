@@ -11,7 +11,7 @@ name = "tosa-adapter-model-explorer"
 version = "0.1.0"
 description = "Adapter for ai-edge-model-explorer to support TOSA files"
 readme = "README.md"
-requires-python = ">=3.10, <3.13"
+requires-python = ">=3.10, <3.14"
 keywords = ["model-explorer", "tosa", "visualization"]
 license = "Apache-2.0"
 

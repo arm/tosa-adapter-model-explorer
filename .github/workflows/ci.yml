@@ -8,7 +8,7 @@ on:
     branches: ["main"]
   workflow_dispatch:
 env:
-  BUILD_PYTHON_VERSION: "3.12"
+  BUILD_PYTHON_VERSION: "3.13"
   ME_REPO_ACCESS_APP_ID: ${{ secrets.ME_REPO_ACCESS_APP_ID }}
   ME_REPO_ACCESS_PRIVATE_KEY: ${{ secrets.ME_REPO_ACCESS_PRIVATE_KEY }}
 
@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.12", "3.11", "3.10"]
+        python-version: ["3.13", "3.12", "3.11", "3.10"]
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python environment
