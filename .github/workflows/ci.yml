@@ -32,10 +32,22 @@ jobs:
         run: |
           python -m venv .venv
           source .venv/bin/activate
-          python -m pip install .[test]
+          python -m pip install --upgrade pip
+          python -m pip install . --group dev
           if [ "${{ github.repository_owner }}" != "arm" ]; then
-            python -m pip install .[coverage]
+            python -m pip install --group coverage
           fi
+
+      - name: Lint and Format Check
+        run: |
+          source .venv/bin/activate
+          ruff check --output-format=github
+          ruff format --check
+
+      - name: Type Check
+        run: |
+          source .venv/bin/activate
+          pyright
 
       - name: Run plugin tests
         run: |
@@ -65,7 +77,7 @@ jobs:
         run: |
           python -m venv .venv
           source .venv/bin/activate
-          python -m pip install .[build]
+          python -m pip install --group build
 
       - name: Build plugin package
         run: |

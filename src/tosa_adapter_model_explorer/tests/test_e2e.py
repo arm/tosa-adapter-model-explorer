@@ -11,7 +11,7 @@ from dataclasses import asdict
 
 import pytest
 
-from ..builder import TosaGraphBuilder, DEFAULT_ELEMENT_COUNT
+from ..builder import DEFAULT_ELEMENT_COUNT, TosaGraphBuilder
 
 FIXTURES_ROOT = os.path.join(os.path.dirname(__file__), "fixtures")
 
