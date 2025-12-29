@@ -30,28 +30,23 @@ jobs:
 
       - name: Install plugin Python packages
         run: |
-          python -m venv .venv
-          source .venv/bin/activate
-          python -m pip install --upgrade pip
-          python -m pip install . --group dev
+          pip install --upgrade pip
+          pip install . --group dev
           if [ "${{ github.repository_owner }}" != "arm" ]; then
-            python -m pip install --group coverage
+            pip install --group coverage
           fi
 
       - name: Lint and Format Check
         run: |
-          source .venv/bin/activate
           ruff check --output-format=github
           ruff format --check
 
       - name: Type Check
         run: |
-          source .venv/bin/activate
           pyright
 
       - name: Run plugin tests
         run: |
-          source .venv/bin/activate
           pytest --tb=short -v ${{ github.repository_owner != 'arm' && '--cov=tosa_adapter_model_explorer --cov-report=lcov:reports/lcov.info' || '' }}
 
       - name: Upload coverage to Qlty
@@ -75,13 +70,10 @@ jobs:
 
       - name: Install plugin Python packages
         run: |
-          python -m venv .venv
-          source .venv/bin/activate
-          python -m pip install --group build
+          pip install --group build
 
       - name: Build plugin package
         run: |
-          source .venv/bin/activate
           python -m build
 
       - name: Upload plugin package artifact
