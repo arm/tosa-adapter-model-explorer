@@ -3,8 +3,6 @@
   "graphs": [
     {
       "id": "main",
-      "groupNodeConfigs": null,
-      "nodeLabelsToHide": null,
       "nodes": [
         {
           "id": "0",
@@ -134,7 +132,7 @@
                 },
                 {
                   "key": "data",
-                  "value": "[229, 96, 238, 177, 25, 15, 14, 184, 100, 2]"
+                  "value": "[-27, 96, -18, -79, 25, 15, 14, -72, 100, 2]"
                 },
                 {
                   "key": "variable",
@@ -185,7 +183,7 @@
                 },
                 {
                   "key": "data",
-                  "value": "[10, 100, 0, 0, 1]"
+                  "value": "[25610]"
                 },
                 {
                   "key": "variable",
@@ -236,7 +234,7 @@
                 },
                 {
                   "key": "data",
-                  "value": "[129]"
+                  "value": "[-127]"
                 },
                 {
                   "key": "variable",
@@ -334,7 +332,7 @@
                 },
                 {
                   "key": "data",
-                  "value": "(showing 16 out of 25 elements)\n[3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0...]"
+                  "value": "[3, 0, 0]"
                 }
               ]
             }
@@ -419,7 +417,7 @@
                 },
                 {
                   "key": "data",
-                  "value": "[229, 96, 238, 177, 25, 15, 14, 184, 100, 2]"
+                  "value": "[-27, 96, -18, -79, 25, 15, 14, -72, 100, 2]"
                 },
                 {
                   "key": "variable",
@@ -448,7 +446,7 @@
                 },
                 {
                   "key": "data",
-                  "value": "(showing 16 out of 25 elements)\n[3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0...]"
+                  "value": "[3, 0, 0]"
                 }
               ]
             }
@@ -633,7 +631,7 @@
                 },
                 {
                   "key": "data",
-                  "value": "[10, 100, 0, 0, 1]"
+                  "value": "[25610]"
                 },
                 {
                   "key": "variable",
@@ -666,7 +664,7 @@
                 },
                 {
                   "key": "data",
-                  "value": "[129]"
+                  "value": "[-127]"
                 },
                 {
                   "key": "variable",
@@ -721,6 +719,11 @@
         }
       ],
       "groupNodeAttributes": null,
+      "groupNodeConfigs": null,
+      "nodeLabelsToHide": [
+        "CONST",
+        "CONST_SHAPE"
+      ],
       "tasksData": null,
       "layoutConfigs": null
     }

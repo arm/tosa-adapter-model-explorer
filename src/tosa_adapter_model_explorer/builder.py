@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright 2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+# SPDX-FileCopyrightText: Copyright 2025-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 # SPDX-License-Identifier: Apache-2.0
 #
 # Licensed under the Apache License v2.0
@@ -28,6 +28,7 @@ from .util import (
 )
 
 DEFAULT_ELEMENT_COUNT = 16
+CONST_NODE_LABELS_TO_HIDE = ["CONST", "CONST_SHAPE"]
 
 
 class TosaGraphBuilder:
@@ -61,6 +62,7 @@ class TosaGraphBuilder:
 
         self._region_id_map: Dict[str, str] = {}
         self._decode_cache: Dict[Any, str] = {}
+        self._metadata_cache: Dict[str, gb.MetadataItem] = {}
         self.graph_collection = self._build_graph_collection(
             file_path, tosa_graph
         )
@@ -155,7 +157,11 @@ class TosaGraphBuilder:
         op_nodes = self._build_operator_nodes(
             block, graph_id, op_input_map, producer_map
         )
-        return gb.Graph(id=graph_id, nodes=io_nodes + op_nodes)
+        return gb.Graph(
+            id=graph_id,
+            nodes=io_nodes + op_nodes,
+            nodeLabelsToHide=CONST_NODE_LABELS_TO_HIDE.copy(),
+        )
 
     def _map_outputs(
         self, block: TosaBasicBlock, namespace: str
@@ -353,15 +359,26 @@ class TosaGraphBuilder:
             tensor = op_input_map.get(name)
             if tensor is None:
                 continue
-            items.append(
-                gb.MetadataItem(
-                    id=name,
-                    attrs=dict_to_key_value_list(
-                        tensor.__dict__, self._const_element_count_limit
-                    ),
-                )
-            )
+            metadata = self._metadata_cache.get(name)
+            if metadata is None:
+                metadata = self._build_metadata_item(name, tensor)
+                self._metadata_cache[name] = metadata
+            items.append(metadata)
         return items
+
+    def _build_metadata_item(
+        self, name: str, tensor: TosaShapeT | TosaTensorT
+    ) -> gb.MetadataItem:
+        """Build display metadata for one tensor or shape."""
+        is_shape = isinstance(tensor, TosaShapeT)
+        return gb.MetadataItem(
+            id=name,
+            attrs=dict_to_key_value_list(
+                tensor.__dict__,
+                self._const_element_count_limit,
+                is_shape=is_shape,
+            ),
+        )
 
     def _collect_operator_attrs(
         self,

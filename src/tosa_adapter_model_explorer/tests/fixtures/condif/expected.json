@@ -3,8 +3,6 @@
   "graphs": [
     {
       "id": "main",
-      "groupNodeConfigs": null,
-      "nodeLabelsToHide": null,
       "nodes": [
         {
           "id": "0",
@@ -294,13 +292,16 @@
         }
       ],
       "groupNodeAttributes": null,
+      "groupNodeConfigs": null,
+      "nodeLabelsToHide": [
+        "CONST",
+        "CONST_SHAPE"
+      ],
       "tasksData": null,
       "layoutConfigs": null
     },
     {
       "id": "tosa.cond_if_then_region",
-      "groupNodeConfigs": null,
-      "nodeLabelsToHide": null,
       "nodes": [
         {
           "id": "0",
@@ -559,13 +560,16 @@
         }
       ],
       "groupNodeAttributes": null,
+      "groupNodeConfigs": null,
+      "nodeLabelsToHide": [
+        "CONST",
+        "CONST_SHAPE"
+      ],
       "tasksData": null,
       "layoutConfigs": null
     },
     {
       "id": "tosa.cond_if_else_region",
-      "groupNodeConfigs": null,
-      "nodeLabelsToHide": null,
       "nodes": [
         {
           "id": "0",
@@ -824,6 +828,11 @@
         }
       ],
       "groupNodeAttributes": null,
+      "groupNodeConfigs": null,
+      "nodeLabelsToHide": [
+        "CONST",
+        "CONST_SHAPE"
+      ],
       "tasksData": null,
       "layoutConfigs": null
     }

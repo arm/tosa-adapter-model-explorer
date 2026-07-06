@@ -3,8 +3,6 @@
   "graphs": [
     {
       "id": "main",
-      "groupNodeConfigs": null,
-      "nodeLabelsToHide": null,
       "nodes": [
         {
           "id": "0",
@@ -110,7 +108,7 @@
                 },
                 {
                   "key": "data",
-                  "value": "[0, 0, 0, 0, 0, 0, 0, 0]"
+                  "value": "[0, 0]"
                 },
                 {
                   "key": "variable",
@@ -285,7 +283,7 @@
                 },
                 {
                   "key": "data",
-                  "value": "[0, 0, 0, 0, 0, 0, 0, 0]"
+                  "value": "[0, 0]"
                 },
                 {
                   "key": "variable",
@@ -318,7 +316,7 @@
                 },
                 {
                   "key": "data",
-                  "value": "[0, 0, 0, 0, 0, 0, 0, 0]"
+                  "value": "[0, 0]"
                 },
                 {
                   "key": "variable",
@@ -373,13 +371,16 @@
         }
       ],
       "groupNodeAttributes": null,
+      "groupNodeConfigs": null,
+      "nodeLabelsToHide": [
+        "CONST",
+        "CONST_SHAPE"
+      ],
       "tasksData": null,
       "layoutConfigs": null
     },
     {
       "id": "tosa.while_loop_cond_region",
-      "groupNodeConfigs": null,
-      "nodeLabelsToHide": null,
       "nodes": [
         {
           "id": "0",
@@ -719,13 +720,16 @@
         }
       ],
       "groupNodeAttributes": null,
+      "groupNodeConfigs": null,
+      "nodeLabelsToHide": [
+        "CONST",
+        "CONST_SHAPE"
+      ],
       "tasksData": null,
       "layoutConfigs": null
     },
     {
       "id": "tosa.while_loop_body_region",
-      "groupNodeConfigs": null,
-      "nodeLabelsToHide": null,
       "nodes": [
         {
           "id": "0",
@@ -992,7 +996,7 @@
                 },
                 {
                   "key": "data",
-                  "value": "[1, 0, 0, 0, 0, 0, 0, 0]"
+                  "value": "[1, 0]"
                 },
                 {
                   "key": "variable",
@@ -1117,7 +1121,7 @@
                 },
                 {
                   "key": "data",
-                  "value": "[1, 0, 0, 0, 0, 0, 0, 0]"
+                  "value": "[1, 0]"
                 },
                 {
                   "key": "variable",
@@ -1162,7 +1166,7 @@
                 },
                 {
                   "key": "data",
-                  "value": "[1, 0, 0, 0, 0, 0, 0, 0]"
+                  "value": "[1]"
                 },
                 {
                   "key": "variable",
@@ -1254,7 +1258,7 @@
                 },
                 {
                   "key": "data",
-                  "value": "[1, 0, 0, 0, 0, 0, 0, 0]"
+                  "value": "[1, 0]"
                 },
                 {
                   "key": "variable",
@@ -1287,7 +1291,7 @@
                 },
                 {
                   "key": "data",
-                  "value": "[1, 0, 0, 0, 0, 0, 0, 0]"
+                  "value": "[1]"
                 },
                 {
                   "key": "variable",
@@ -1535,7 +1539,7 @@
                 },
                 {
                   "key": "data",
-                  "value": "[1, 0, 0, 0, 0, 0, 0, 0]"
+                  "value": "[1, 0]"
                 },
                 {
                   "key": "variable",
@@ -1557,6 +1561,11 @@
         }
       ],
       "groupNodeAttributes": null,
+      "groupNodeConfigs": null,
+      "nodeLabelsToHide": [
+        "CONST",
+        "CONST_SHAPE"
+      ],
       "tasksData": null,
       "layoutConfigs": null
     }
