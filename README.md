@@ -6,7 +6,7 @@ TOSA Adapter for [google-ai-edge/model-explorer](https://github.com/google-ai-ed
 
 ## Requirements
 
-- Python >= 3.10
+- Python >=3.10, <3.13
 
 ## Installation
 
