@@ -1,17 +1,24 @@
 name: Trigger Release
 
 # Release flow:
-# - Run *this* workflow from the internal repository.
-# - This will create and push a version bump commit and tag it.
-# - ci.yml's sync job will trigger and sync both the commit and tag to the external repository.
-# - The tag push will trigger the external repository's release job.
+# - Run this workflow on internal main to commit the version and create its tag.
+# - Internal CI tests, builds and publishes to Artifactory.
+# - Main commits still sync publicly; release tags do not.
+# - Run sync-release-tag.yml manually to start public CI and PyPI publishing.
 
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: trigger-release
+  cancel-in-progress: false
+
 jobs:
   tag-new-release:
-    if: github.repository_owner != 'arm'
+    if: github.repository_owner != 'arm' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       # We want our tag push at the end to trigger a workflow. We can't do that using repository's GITHUB_TOKEN.
@@ -26,6 +33,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ steps.get_app_token.outputs.token }}
+          persist-credentials: false
       - name: Set git config for ML Repo bot
         run: |
           git config --global user.email "1736931+model-explorer-plugins-repo-access[bot]@users.noreply.github.com"
@@ -39,31 +47,41 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Check if there's anything to release
+        env:
+          BUMPED_TAG: ${{ steps.git-cliff.outputs.version }}
         run: |
-          BUMPED_TAG=${{ steps.git-cliff.outputs.version }}
           LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo 'v0.0.0')
           if [[ "$BUMPED_TAG" == "null" || -z "$BUMPED_TAG" ]]; then
             exit 1
-            fi
+          fi
           if [[ "$BUMPED_TAG" == "$LATEST_TAG" ]]; then
             echo "Bumped tag is the same as latest: $BUMPED_TAG. Nothing to release."
             exit 1
           fi
       - name: Trim the v from version tag
         id: strip-v-from-version-tag
+        env:
+          RELEASE_VERSION: ${{ steps.git-cliff.outputs.version }}
         run: |
-          RELEASE_VERSION=${{ steps.git-cliff.outputs.version }}
           RELEASE_VERSION_WITHOUT_V="${RELEASE_VERSION#v}"
           echo "version=$RELEASE_VERSION_WITHOUT_V" >> "$GITHUB_OUTPUT"
       - name: Update pyproject version
+        env:
+          APP_TOKEN: ${{ steps.get_app_token.outputs.token }}
+          REPOSITORY: ${{ github.repository }}
+          VERSION: ${{ steps.strip-v-from-version-tag.outputs.version }}
         run: |
-          VERSION=${{ steps.strip-v-from-version-tag.outputs.version }}
           sed -i "s/^version = \".*\"/version = \"$VERSION\"/" pyproject.toml
           git add pyproject.toml
-          git commit -m "Update pyproject version to v$VERSION"
-          git push
+          if ! git diff --cached --quiet -- pyproject.toml; then
+            git commit -m "Update pyproject version to v$VERSION"
+            git push "https://x-access-token:${APP_TOKEN}@github.com/${REPOSITORY}.git" HEAD:main
+          fi
       - name: Tag new release
+        env:
+          APP_TOKEN: ${{ steps.get_app_token.outputs.token }}
+          REPOSITORY: ${{ github.repository }}
+          VERSION: ${{ steps.git-cliff.outputs.version }}
         run: |
-          VERSION=${{ steps.git-cliff.outputs.version }}
-          git tag $VERSION
-          git push origin tag $VERSION
+          git tag "$VERSION"
+          git push "https://x-access-token:${APP_TOKEN}@github.com/${REPOSITORY}.git" "refs/tags/$VERSION"
