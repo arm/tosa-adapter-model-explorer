@@ -89,7 +89,7 @@ jobs:
             kv/data/MLIA/CI?version=${{ vars.VAULT_CI_SECRET_VERSION || '0' }} PUBLISH_PYPI_USERNAME | AUDIT_USERNAME ;
             kv/data/MLIA/CI?version=${{ vars.VAULT_CI_SECRET_VERSION || '0' }} PUBLISH_PYPI_PASSWORD | AUDIT_PASSWORD
       - name: Archive evidence
-        uses: Arm-Debug/github-workflow-wizardry/.github/actions/archive-workflow-run@e6b44c5aff50ddabfd7d1703eba492650d726360
+        uses: Arm-Debug/github-workflow-wizardry/.github/actions/archive-workflow-run@4abb097114ba009b2a4847769eda1b620e97411f
         with:
           run-id: ${{ inputs.run-id || format('{0}', github.event.workflow_run.id) }}
           run-attempt: ${{ needs.check-release-tag.outputs.run-attempt }}
