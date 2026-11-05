@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 name: Sync release tag to public repo
+run-name: Sync ${{ inputs.release-tag }} to public repo
 
 on:
   workflow_dispatch:
