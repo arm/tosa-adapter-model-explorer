@@ -7,12 +7,15 @@
 #
 
 [build-system]
-requires = ["hatchling"]
+requires = [
+    "hatchling>=1.27.0",
+    "uv-dynamic-versioning>=0.8.2,<0.9.0",
+]
 build-backend = "hatchling.build"
 
 [project]
 name = "tosa-adapter-model-explorer"
-version = "0.2.0"
+dynamic = ["version"]
 description = "Adapter for Model Explorer to support TOSA files"
 readme = "README.md"
 requires-python = ">=3.10, <3.15"
@@ -51,6 +54,16 @@ coverage = [
 build = [
     "build==1.3.0"
 ]
+
+[tool.hatch.version]
+source = "uv-dynamic-versioning"
+
+[tool.uv-dynamic-versioning]
+vcs = "git"
+style = "pep440"
+pattern = "default"
+bump = true
+fallback-version = "0.0.0.dev0"
 
 [tool.pyright]
 include = [
