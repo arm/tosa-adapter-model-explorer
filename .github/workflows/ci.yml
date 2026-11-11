@@ -91,7 +91,6 @@ jobs:
       - uses: ./.github/actions/build-wheel
         with:
           python-version: ${{ env.BUILD_PYTHON_VERSION }}
-          internal-dev-version: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository_owner != 'arm' }}
 
       - name: Create SBOM output directory
         run: mkdir -p sbom
